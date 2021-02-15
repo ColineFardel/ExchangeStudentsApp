@@ -24,22 +24,47 @@ export function DrawerContent(props) {
     //     });
     // }, [])
 
+    //Icons
+    //For forum -> forum
+    //For event -> calendar-blank
+    //For courses -> book
+    //For tip -> lightbulb outline
+
     return (
         <View style={{ flex: 1 }}>
             <DrawerContentScrollView {...props}>
                 <View style={styles.drawerContent}>
                     <View style={styles.userInfoSection}>
                         <View style={{ marginLeft: 15 }}>
-                            <Title style={styles.title}>Email</Title>
+                            <Title style={styles.title}>Coline Fardel</Title>
+                            <Text>Email</Text>
                         </View>
                     </View>
                     <Drawer.Section style={styles.drawerSection}>
+                        <DrawerItem
+                            label="Home"
+                            onPress={() => { }}
+                            icon={() => (
+                                <Icon
+                                    name="home"
+                                    color="black"
+                                    size={20} />
+                            )} />
                         <DrawerItem
                             label="FAQ"
                             onPress={() => { props.navigation.navigate('FAQ') }}
                             icon={() => (
                                 <Icon
-                                    name="home-outline"
+                                    name="comment-question"
+                                    color="black"
+                                    size={20} />
+                            )} />
+                        <DrawerItem
+                            label="Forum"
+                            onPress={() => { }}
+                            icon={() => (
+                                <Icon
+                                    name="forum"
                                     color="black"
                                     size={20} />
                             )} />
@@ -48,7 +73,34 @@ export function DrawerContent(props) {
                             onPress={() => { props.navigation.navigate('Market') }}
                             icon={() => (
                                 <Icon
-                                    name="bookmark-outline"
+                                    name="shopping-outline"
+                                    color="black"
+                                    size={20} />
+                            )} />
+                        <DrawerItem
+                            label="Events"
+                            onPress={() => { }}
+                            icon={() => (
+                                <Icon
+                                    name="calendar-blank"
+                                    color="black"
+                                    size={20} />
+                            )} />
+                        <DrawerItem
+                            label="Tips"
+                            onPress={() => { }}
+                            icon={() => (
+                                <Icon
+                                    name="lightbulb-outline"
+                                    color="black"
+                                    size={20} />
+                            )} />
+                        <DrawerItem
+                            label="Courses"
+                            onPress={() => { }}
+                            icon={() => (
+                                <Icon
+                                    name="book"
                                     color="black"
                                     size={20} />
                             )} />

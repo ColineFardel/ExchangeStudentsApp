@@ -11,7 +11,7 @@ const FAQStackNavigation = ({navigation}) => {
         <Stack.Navigator
             screenOptions={{
                 headerStyle: {
-                    backgroundColor: 'red',
+                    backgroundColor: '#6DD07D',
                 },
                 headerTintColor: 'white',
                 headerTitleStyle: {
@@ -26,7 +26,7 @@ const FAQStackNavigation = ({navigation}) => {
                     headerLeft: () => (
                         <Icon.Button name="ios-menu"
                             size={25}
-                            backgroundColor="red"
+                            backgroundColor="#6DD07D"
                             onPress={() => { navigation.openDrawer() }} />
                     )
                 }} />

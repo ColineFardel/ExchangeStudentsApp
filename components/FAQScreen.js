@@ -1,7 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, Alert, TouchableOpacity } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import { useFonts } from 'expo-font';
+import * as Font from 'expo-font';
+import { AppLoading } from 'expo-app-loading';
+
 
 export default function FAQScreen() {
+
+    const [loaded] = useFonts({
+        Montserrat: require('../assets/myfonts/Montserrat-Regular.ttf'),
+        MontserratBold: require('../assets/myfonts/Montserrat-Bold.ttf'),
+    });
+
+    // async loadFonts(){
+    //     await Font.loadAsync({
+    //         Montserrat: require('../assets/myfonts/Montserrat-Regular.ttf'),
+    //     });
+    // };
+
+    // const [fontLoaded, setFontLoaded] = useState(false);
+
+    // const loadFonts = () => {
+    //     return Font.loadAsync({
+    //         Montserrat: require('../assets/myfonts/Montserrat-Regular.ttf'),
+    //     })
+    // }
+
 
     const [faqs, setFAQs] = useState([]);
 
@@ -31,14 +56,14 @@ export default function FAQScreen() {
                     key={data.question}
                     onPress={() => { setCurrentIndex(index) }}
                     style={{
-                        width: "100%", backgroundColor: 'yellow', alignItems: 'center'
+                        width: "100%", alignItems: 'center',
                     }}
                 >
                     <View style={styles.card}>
-                        <Text>{data.question}</Text>
+                        <Text style={{ fontFamily: "MontserratBold", fontSize: 20, color: "black" }}>{data.question}</Text>
                         {index === currentIndex && (
                             <View>
-                                <Text>{data.answer}</Text>
+                                <Text style={{ fontFamily: "Montserrat", fontSize: 18, color: "black" }}>{data.answer}</Text>
                             </View>
                         )}
                     </View>
@@ -47,28 +72,69 @@ export default function FAQScreen() {
         })
     }
 
-    return (
-        <View style={styles.container}>
-            <Text>This is faq screen</Text>
+    if (!loaded) {
+        return (
+            <View style={styles.container}>
+                <Text>Loading...</Text>
+            </View>
+        )
+    }
+    else {
+        return (
+            <View style={styles.container}>
+                <View style={styles.content}>
+                    {showFAQs()}
+                </View>
 
-            {showFAQs()}
-        </View>
-    )
+                <View style={styles.foot}>
+                    <View style={{ flex: 4, alignItems: "center", justifyContent: "center" }}>
+                        <Text style={styles.text}>Those questions did'nt help you?</Text>
+                        <Text style={styles.text}>No problem! Ask your question here</Text>
+                    </View>
+                    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+                        <Icon.Button name="question-circle"
+                            size={50}
+                            color="white"
+                            backgroundColor="#6DD07D"
+                            onPress={() => { }} />
+                    </View>
+
+                </View>
+            </View>
+        )
+    }
+
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: 'blue',
+        backgroundColor: 'white',
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         width: '100%',
     },
     card: {
-        backgroundColor: 'red',
+        backgroundColor: '#6DD07D',
+        opacity: 0.5,
         borderRadius: 10,
         width: '90%',
         padding: 10,
         margin: 10,
+    },
+    foot: {
+        flex: 1,
+        backgroundColor: '#6DD07D',
+        width: '100%',
+        flexDirection: 'row',
+    },
+    content: {
+        flex: 10,
+        width: '100%',
+    },
+    text: {
+        fontFamily: 'MontserratBold',
+        fontSize: 16,
+        color: 'white',
     }
 });
