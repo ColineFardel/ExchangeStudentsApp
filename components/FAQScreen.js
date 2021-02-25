@@ -6,7 +6,7 @@ import * as Font from 'expo-font';
 import { AppLoading } from 'expo-app-loading';
 
 
-export default function FAQScreen() {
+export default function FAQScreen({navigation}) {
 
     const [loaded] = useFonts({
         Montserrat: require('../assets/myfonts/Montserrat-Regular.ttf'),
@@ -96,7 +96,7 @@ export default function FAQScreen() {
                             size={50}
                             color="white"
                             backgroundColor="#6DD07D"
-                            onPress={() => { }} />
+                            onPress={() => { navigation.navigate('AddFAQ', getFAQs) }} />
                     </View>
 
                 </View>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import FAQ from '../components/FAQScreen';
+import AddFAQ from '../components/AddFAQScreen';
 import Market from '../components/MarketScreen';
 import Icon from 'react-native-vector-icons/Ionicons';
 
@@ -30,6 +31,7 @@ const FAQStackNavigation = ({navigation}) => {
                             onPress={() => { navigation.openDrawer() }} />
                     )
                 }} />
+                <Stack.Screen name="AddFAQ" component={AddFAQ} options={{ headerShown : false}}/>
         </Stack.Navigator>
     )
 }
