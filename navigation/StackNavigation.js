@@ -4,6 +4,7 @@ import FAQ from '../components/FAQScreen';
 import AddFAQ from '../components/AddFAQScreen';
 import Market from '../components/MarketScreen';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { ScreenStackHeaderRightView } from 'react-native-screens';
 
 const Stack = createStackNavigator();
 
@@ -30,6 +31,7 @@ const FAQStackNavigation = ({navigation}) => {
                             backgroundColor="#6DD07D"
                             onPress={() => { navigation.openDrawer() }} />
                     )
+                    
                 }} />
                 <Stack.Screen name="AddFAQ" component={AddFAQ} options={{ headerShown : false}}/>
         </Stack.Navigator>

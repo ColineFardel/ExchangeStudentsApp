@@ -1,15 +1,19 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import FAQScreen from './components/FAQScreen';
+import { StyleSheet } from 'react-native';
 import DrawerNavigation from './navigation/DrawerNavigation';
 import { NavigationContainer } from '@react-navigation/native';
+import { Provider } from 'react-redux';
+import configureStore from './redux/store';
+
+const store = configureStore();
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <DrawerNavigation />
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <DrawerNavigation />
+      </NavigationContainer>
+    </Provider>
   );
 }
 

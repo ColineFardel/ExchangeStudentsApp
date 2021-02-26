@@ -1,12 +1,18 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useFonts } from 'expo-font';
-import { StyleSheet, Text, View, TextInput } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { Input, Button } from 'react-native-elements';
+
+import { addFaq } from '../redux/actions/faq';
+import { useDispatch } from 'react-redux';
 
 export default function AddFAQScreen({ route, navigation }) {
 
     const [question, setQuestion] = useState('');
+    const dispatch = useDispatch();
+
+    const addFAQ = (faq) => dispatch(addFaq(faq));
 
     const [loaded] = useFonts({
         Montserrat: require('../assets/myfonts/Montserrat-Regular.ttf'),
@@ -14,28 +20,14 @@ export default function AddFAQScreen({ route, navigation }) {
     });
 
     const saveQuestion = () => {
-        const url = 'https://exchangestudentsapp-fardel.herokuapp.com/addfaq';
-        const newQuestion = {question : question, status:'sent', answer:'Not answered yet'};
-        console.log(newQuestion);
-        fetch(url, {
-            method: 'POST',
-            headers: { 'Content-type': 'application/json' },
-            body: JSON.stringify(newQuestion)
-        })
-            .then(_ => {
-                console.log("Question added");
-                navigation.goBack();
-            })
-            .catch((error) => {
-                Alert.alert('Error', error);
-            });
+        const newQuestion = { question: question, status: 'sent', answer: 'Not answered yet' };
+        addFAQ(newQuestion);
+        navigation.goBack();
     }
 
     return (
         <View style={styles.container}>
-
             <Text style={styles.title}>Ask a question</Text>
-
             <Input
                 placeholder="Type your question here"
                 style={styles.input}
@@ -46,7 +38,6 @@ export default function AddFAQScreen({ route, navigation }) {
                 multiline={true}
                 autoFocus={true}
             />
-
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', width: '90%' }}>
                 <Button
                     buttonStyle={{ backgroundColor: 'red', borderRadius: 10 }}
