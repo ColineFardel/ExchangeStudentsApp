@@ -9,11 +9,12 @@ import { useDispatch } from 'react-redux';
 
 export default function AddFAQScreen({ route, navigation }) {
 
+    //Constants
     const [question, setQuestion] = useState('');
     const dispatch = useDispatch();
-
     const addFAQ = (faq) => dispatch(addFaq(faq));
 
+    //Loading fonts
     const [loaded] = useFonts({
         Montserrat: require('../assets/myfonts/Montserrat-Regular.ttf'),
         MontserratBold: require('../assets/myfonts/Montserrat-Bold.ttf'),
@@ -31,21 +32,21 @@ export default function AddFAQScreen({ route, navigation }) {
             <Input
                 placeholder="Type your question here"
                 style={styles.input}
-                inputStyle={{ color: 'black', fontFamily: 'MontserratBold', padding: 10, margin: 10 }}
+                inputStyle={styles.inputStyle}
                 placeholderTextColor='black'
                 inputContainerStyle={{ color: 'green', borderBottomWidth: 0 }}
                 onChangeText={value => setQuestion(value)}
                 multiline={true}
                 autoFocus={true}
             />
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', width: '90%' }}>
+            <View style={styles.buttonContainer}>
                 <Button
-                    buttonStyle={{ backgroundColor: 'red', borderRadius: 10 }}
+                    buttonStyle={styles.cancelButton}
                     titleStyle={{ color: 'white', fontFamily: 'MontserratBold', fontSize: 24 }}
                     onPress={() => navigation.goBack()}
                     title="CANCEL" />
                 <Button
-                    buttonStyle={{ backgroundColor: 'white', borderWidth: 1, borderColor: '#6DD07D', borderRadius: 10 }}
+                    buttonStyle={styles.sendButton}
                     titleStyle={{ color: '#6DD07D', fontFamily: 'MontserratBold', fontSize: 24 }}
                     onPress={() => saveQuestion()}
                     title="SEND" />
@@ -74,5 +75,27 @@ const styles = StyleSheet.create({
         width: '90%',
         backgroundColor: '#6DD07D',
         opacity: 0.5,
+    },
+    inputStyle: {
+        color: 'black',
+        fontFamily: 'MontserratBold',
+        padding: 10,
+        margin: 10
+    },
+    cancelButton: {
+        backgroundColor: 'red',
+        borderRadius: 10
+    },
+    sendButton: {
+        backgroundColor: 'white',
+        borderWidth: 1,
+        borderColor: '#6DD07D',
+        borderRadius: 10
+    },
+    buttonContainer: {
+        flexDirection: 'row', 
+        justifyContent: 'space-between', 
+        alignItems: 'center', 
+        width: '90%'
     },
 });

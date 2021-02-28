@@ -2,13 +2,14 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import FAQ from '../components/FAQScreen';
 import AddFAQ from '../components/AddFAQScreen';
+import ModifyFAQ from '../components/ModifyFAQScreen';
 import Market from '../components/MarketScreen';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { ScreenStackHeaderRightView } from 'react-native-screens';
 
 const Stack = createStackNavigator();
 
-const FAQStackNavigation = ({navigation}) => {
+const FAQStackNavigation = ({ navigation }) => {
     return (
         <Stack.Navigator
             screenOptions={{
@@ -31,14 +32,15 @@ const FAQStackNavigation = ({navigation}) => {
                             backgroundColor="#6DD07D"
                             onPress={() => { navigation.openDrawer() }} />
                     )
-                    
+
                 }} />
-                <Stack.Screen name="AddFAQ" component={AddFAQ} options={{ headerShown : false}}/>
+            <Stack.Screen name="AddFAQ" component={AddFAQ} options={{ headerShown: false }} />
+            <Stack.Screen name="ModifyFAQ" component={ModifyFAQ} />
         </Stack.Navigator>
     )
 }
 
-const MarketStackNavigation = ({navigation}) => {
+const MarketStackNavigation = ({ navigation }) => {
     return (
         <Stack.Navigator
             screenOptions={{

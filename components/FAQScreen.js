@@ -1,3 +1,4 @@
+import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, Alert, TouchableOpacity, ScrollView, TextInput } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -7,21 +8,12 @@ import { useDispatch, useSelector } from 'react-redux';
 
 export default function FAQScreen({ navigation }) {
 
-    const [search, setSearch] = useState('');
-    const [searchOpen, setSearchOpen] = useState(false);
-    const [faqsFiltered, setFaqsFiltered] = useState([]);
-
-    const updateSearch = (text) => {
-        setSearch(text);
-        setFaqsFiltered(faqs.filter((item) => item.question.toLowerCase().includes(text.toLowerCase())));
-        console.log('updating search');
-    }
-
+    //Header
     React.useLayoutEffect(() => {
         navigation.setOptions({
             headerRight: () => (
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    <Icon.Button name={searchOpen ? 'times':'search'}
+                <View style={styles.header}>
+                    <Icon.Button name={searchOpen ? 'times' : 'search'}
                         size={20}
                         color="white"
                         backgroundColor="#6DD07D"
@@ -29,7 +21,7 @@ export default function FAQScreen({ navigation }) {
                     {searchOpen && (
                         <TextInput
                             placeholder="Search..."
-                            style={{ backgroundColor: 'white', borderRadius: 20, paddingLeft: 10, paddingRight: 10, marginRight: 15 }}
+                            style={styles.searchBar}
                             value={search}
                             onChangeText={text => updateSearch(text)}
                         />
@@ -39,37 +31,44 @@ export default function FAQScreen({ navigation }) {
         })
     })
 
+    //Loading the fonts
     const [loaded] = useFonts({
         Montserrat: require('../assets/myfonts/Montserrat-Regular.ttf'),
         MontserratBold: require('../assets/myfonts/Montserrat-Bold.ttf'),
     });
 
-    // async loadFonts(){
-    //     await Font.loadAsync({
-    //         Montserrat: require('../assets/myfonts/Montserrat-Regular.ttf'),
-    //     });
-    // };
-
-    // const [fontLoaded, setFontLoaded] = useState(false);
-
-    // const loadFonts = () => {
-    //     return Font.loadAsync({
-    //         Montserrat: require('../assets/myfonts/Montserrat-Regular.ttf'),
-    //     })
-    // }
+    //Constants
+    const [search, setSearch] = useState('');
+    const [searchOpen, setSearchOpen] = useState(false);
+    const [faqsFiltered, setFaqsFiltered] = useState([]);
+    const [currentIndex, setCurrentIndex] = React.useState(null);
 
     const faqs = useSelector(state => state.faqReducer.faqs);
     const faqLoaded = useSelector(state => state.faqReducer.faqLoaded);
     const dispatch = useDispatch();
-
     const fetchFaqs = () => dispatch(getFAQs());
+
+    const updateSearch = (text) => {
+        setSearch(text);
+        setFaqsFiltered(faqs.filter((item) => item.question.toLowerCase().includes(text.toLowerCase())));
+        console.log('updating search');
+    }
 
     useEffect(() => {
         fetchFaqs();
-        setFaqsFiltered(faqs);
-    }, [!faqLoaded])
 
-    const [currentIndex, setCurrentIndex] = React.useState(null);
+        setFaqsFiltered(faqs.sort((a, b) => {
+            if (a.tag < b.tag)
+                return -1;
+            if (a.tag > b.tag)
+                return 1;
+            if (a.tag === null)
+                return 1;
+            if (b.tag === null)
+                return -1;
+            return 0;
+        }));
+    }, [!faqLoaded])
 
     const showFAQs = () => {
         return faqsFiltered.map((data, index) => {
@@ -80,7 +79,7 @@ export default function FAQScreen({ navigation }) {
                 <TouchableOpacity
                     key={data.question}
                     onPress={() => { setCurrentIndex(index) }}
-                    onLongPress={() => console.log('long press')}
+                    onLongPress={() => navigation.navigate('ModifyFAQ', data)}
                     style={{
                         width: "100%", alignItems: 'center',
                     }}
@@ -93,10 +92,14 @@ export default function FAQScreen({ navigation }) {
                                 color="black" />
                         </View>
 
+                        {data.tag && (
+                            <Text style={styles.cardText}>{data.tag}</Text>
+                        )}
 
                         {!closed && (
                             <View>
-                                <Text style={{ fontFamily: "Montserrat", fontSize: 18, color: "black" }}>{data.answer}</Text>
+                                <Text style={styles.cardText}>{data.answer}</Text>
+
                             </View>
                         )}
                     </View>
@@ -120,7 +123,6 @@ export default function FAQScreen({ navigation }) {
                     <ScrollView style={{ width: '100%' }}>
                         {showFAQs()}
                     </ScrollView>
-
                 </View>
 
                 <View style={styles.foot}>
@@ -135,8 +137,8 @@ export default function FAQScreen({ navigation }) {
                             backgroundColor="#6DD07D"
                             onPress={() => { navigation.navigate('AddFAQ', getFAQs) }} />
                     </View>
-
                 </View>
+                <StatusBar style="auto" />
             </View>
         )
     }
@@ -149,6 +151,17 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'flex-start',
         width: '100%',
+    },
+    header: {
+        flexDirection: 'row',
+        alignItems: 'center'
+    },
+    searchBar: {
+        backgroundColor: 'white',
+        borderRadius: 20,
+        paddingLeft: 10,
+        paddingRight: 10,
+        marginRight: 15
     },
     card: {
         backgroundColor: '#6DD07D',
@@ -172,6 +185,11 @@ const styles = StyleSheet.create({
         fontFamily: 'MontserratBold',
         fontSize: 16,
         color: 'white',
+    },
+    cardText:{
+        fontFamily: "Montserrat", 
+        fontSize: 18, 
+        color: "black"
     },
     input: {
         borderWidth: 0,
