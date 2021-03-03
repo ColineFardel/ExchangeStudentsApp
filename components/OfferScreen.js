@@ -1,11 +1,15 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet } from 'react-native';
-import TabNavigation from '../navigation/TabNavigation';
+import { StyleSheet, Text, View } from 'react-native';
 
-export default function MarketScreen() {
+export default function OfferScreen() {
   return (
-    <TabNavigation />
+    <View style={styles.container}>
+      
+        <Text>This is offer</Text>
+
+      <StatusBar style="auto" />
+    </View>
   );
 }
 

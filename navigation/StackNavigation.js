@@ -5,7 +5,8 @@ import AddFAQ from '../components/AddFAQScreen';
 import ModifyFAQ from '../components/ModifyFAQScreen';
 import Market from '../components/MarketScreen';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { ScreenStackHeaderRightView } from 'react-native-screens';
+import Request from '../components/RequestScreen';
+import Offer from '../components/OfferScreen';
 
 const Stack = createStackNavigator();
 
@@ -68,4 +69,59 @@ const MarketStackNavigation = ({ navigation }) => {
     )
 }
 
-export { FAQStackNavigation, MarketStackNavigation };
+const RequestStackNavigation = ({ navigation }) => {
+    return (
+        <Stack.Navigator
+            screenOptions={{
+                headerStyle: {
+                    backgroundColor: 'red',
+                },
+                headerTintColor: 'white',
+                headerTitleStyle: {
+                    fontWeight: 'bold',
+                }
+            }}>
+            <Stack.Screen
+                name="Request"
+                component={Request}
+                options={{
+                    title: 'Request',
+                    headerLeft: () => (
+                        <Icon.Button name="ios-menu"
+                            size={25}
+                            backgroundColor="red"
+                            onPress={() => { navigation.openDrawer() }} />
+                    )
+                }} />
+        </Stack.Navigator>
+    )
+}
+const OfferStackNavigation = ({ navigation }) => {
+    return (
+        <Stack.Navigator
+            screenOptions={{
+                headerStyle: {
+                    backgroundColor: 'red',
+                },
+                headerTintColor: 'white',
+                headerTitleStyle: {
+                    fontWeight: 'bold',
+                }
+            }}>
+            <Stack.Screen
+                name="Offer"
+                component={Offer}
+                options={{
+                    title: 'Offer',
+                    headerLeft: () => (
+                        <Icon.Button name="ios-menu"
+                            size={25}
+                            backgroundColor="red"
+                            onPress={() => { navigation.openDrawer() }} />
+                    )
+                }} />
+        </Stack.Navigator>
+    )
+}
+
+export { FAQStackNavigation, MarketStackNavigation, RequestStackNavigation, OfferStackNavigation };

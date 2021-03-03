@@ -17,7 +17,7 @@ export default function FAQScreen({ navigation }) {
                         size={20}
                         color="white"
                         backgroundColor="#6DD07D"
-                        onPress={() => { setSearchOpen(!searchOpen) }} />
+                        onPress={() => { setSearchOpen(!searchOpen); updateSearch(''); }} />
                     {searchOpen && (
                         <TextInput
                             placeholder="Search..."
