@@ -7,6 +7,7 @@ import Market from '../components/MarketScreen';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Request from '../components/RequestScreen';
 import Offer from '../components/OfferScreen';
+import AddRequest from '../components/AddRequestScreen';
 
 const Stack = createStackNavigator();
 
@@ -93,6 +94,7 @@ const RequestStackNavigation = ({ navigation }) => {
                             onPress={() => { navigation.openDrawer() }} />
                     )
                 }} />
+                <Stack.Screen name="AddRequest" component={AddRequest} options={{ headerShown: false }} />
         </Stack.Navigator>
     )
 }

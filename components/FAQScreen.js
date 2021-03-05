@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { useFonts } from 'expo-font';
 import { getFAQs } from '../redux/actions/faq';
 import { useDispatch, useSelector } from 'react-redux';
+import theme from '../constants/theme';
 
 export default function FAQScreen({ navigation }) {
 
@@ -16,7 +17,7 @@ export default function FAQScreen({ navigation }) {
                     <Icon.Button name={searchOpen ? 'times' : 'search'}
                         size={20}
                         color="white"
-                        backgroundColor="#6DD07D"
+                        backgroundColor={theme.colors.faqColor}
                         onPress={() => { setSearchOpen(!searchOpen); updateSearch(''); }} />
                     {searchOpen && (
                         <TextInput
@@ -48,6 +49,7 @@ export default function FAQScreen({ navigation }) {
     const dispatch = useDispatch();
     const fetchFaqs = () => dispatch(getFAQs());
 
+    //Search bar function
     const updateSearch = (text) => {
         setSearch(text);
         setFaqsFiltered(faqs.filter((item) => item.question.toLowerCase().includes(text.toLowerCase())));
@@ -86,7 +88,7 @@ export default function FAQScreen({ navigation }) {
                 >
                     <View style={styles.card}>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                            <Text style={{ maxWidth: '90%', fontFamily: "MontserratBold", fontSize: 20, color: "black" }}>{data.question}</Text>
+                            <Text style={styles.cardTitle}>{data.question}</Text>
                             <Icon name={closed ? "chevron-right" : "chevron-down"}
                                 size={20}
                                 color="black" />
@@ -182,13 +184,13 @@ const styles = StyleSheet.create({
         width: '100%',
     },
     text: {
-        fontFamily: 'MontserratBold',
-        fontSize: 16,
-        color: 'white',
+        fontFamily: theme.fonts.bold,
+        fontSize: theme.fontSizes.footText,
+        color: theme.colors.footTextColor,
     },
     cardText:{
-        fontFamily: "Montserrat", 
-        fontSize: 18, 
+        fontFamily: theme.fonts.regular, 
+        fontSize: theme.fontSizes.cardText, 
         color: "black"
     },
     input: {
@@ -196,4 +198,10 @@ const styles = StyleSheet.create({
         width: '50%',
         backgroundColor: '#6DD07D',
     },
+    cardTitle:{
+        maxWidth: '90%', 
+        fontFamily: theme.fonts.bold, 
+        fontSize: theme.fontSizes.cardTitle, 
+        color: "black"
+    }
 });
