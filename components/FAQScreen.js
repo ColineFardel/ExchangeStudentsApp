@@ -17,7 +17,7 @@ export default function FAQScreen({ navigation }) {
                     <Icon.Button name={searchOpen ? 'times' : 'search'}
                         size={20}
                         color="white"
-                        backgroundColor={theme.colors.faqColor}
+                        backgroundColor={theme.colors.green}
                         onPress={() => { setSearchOpen(!searchOpen); updateSearch(''); }} />
                     {searchOpen && (
                         <TextInput
@@ -136,7 +136,7 @@ export default function FAQScreen({ navigation }) {
                         <Icon.Button name="question-circle"
                             size={50}
                             color="white"
-                            backgroundColor="#6DD07D"
+                            backgroundColor={theme.colors.green}
                             onPress={() => { navigation.navigate('AddFAQ', getFAQs) }} />
                     </View>
                 </View>
@@ -166,15 +166,14 @@ const styles = StyleSheet.create({
         marginRight: 15
     },
     card: {
-        backgroundColor: '#6DD07D',
-        opacity: 0.5,
+        backgroundColor: theme.colors.lightGreen,
         borderRadius: 10,
         width: '90%',
         padding: 10,
         margin: 10,
     },
     foot: {
-        backgroundColor: '#6DD07D',
+        backgroundColor: theme.colors.green,
         width: '100%',
         flexDirection: 'row',
         minHeight: 50,
@@ -196,7 +195,7 @@ const styles = StyleSheet.create({
     input: {
         borderWidth: 0,
         width: '50%',
-        backgroundColor: '#6DD07D',
+        backgroundColor: theme.colors.green,
     },
     cardTitle:{
         maxWidth: '90%', 

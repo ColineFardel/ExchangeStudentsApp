@@ -1,39 +1,45 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, Button, Image, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, Button, Image, ScrollView, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { getRequests } from '../redux/actions/market';
+import { useDispatch, useSelector } from 'react-redux';
+import theme from '../constants/theme';
 
 
 export default function RequestScreen({ navigation }) {
 
-  const [requests, setRequests] = useState([]);
+  const requests = useSelector(state => state.marketReducer.requests);
+  const requestLoaded = useSelector(state => state.marketReducer.requestLoaded);
+  const dispatch = useDispatch();
+  const fetchRequests = () => dispatch(getRequests());
+
 
   useEffect(() => {
-    getRequests();
-  }, [])
-
-  const getRequests = () => {
-    fetch('https://exchangestudentsapp-fardel.herokuapp.com/allimg')
-      .then(response => {
-        //console.log(response);
-        //console.log(response);
-        //setRequests(response);
-        // response.map((request, index) => {
-        //   console.log(request);
-        // })
-      })
-  }
+    fetchRequests();
+  }, [!requestLoaded])
 
   const showRequests = () => {
-    
-    return (
-      <Image style={{ width: 140, height: 140 }} source={{ uri: 'https://exchangestudentsapp-fardel.herokuapp.com/img/7' }} />
-    )
-    // requests.map((request) => {
-    //   return (
-    //     <Text>Prout</Text>
-    //   )
-    // })
+
+    //console.log(requests);
+
+    return requests.map((request, index) => {
+      let uri = 'https://exchangestudentsapp-fardel.herokuapp.com/img/' + request.imgId
+      return (
+
+        <TouchableOpacity style={{ width: "100%", alignItems: 'center', }}>
+          <View style={styles.card}>
+            <Image style={styles.image} source={{ uri: uri }} />
+            <View style={{margin:10}}>
+              <Text style={styles.cardTitle}>{request.name}</Text>
+              <Text style={styles.cardText}>{request.description}</Text>
+            </View>
+
+          </View>
+        </TouchableOpacity>
+
+      )
+    })
   }
 
 
@@ -79,14 +85,37 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   foot: {
-    backgroundColor: 'red',
+    backgroundColor: theme.colors.red,
     width: '100%',
     flexDirection: 'row',
     minHeight: 50,
   },
   text: {
-    fontFamily: 'MontserratBold',
-    fontSize: 16,
+    fontFamily: theme.fonts.bold,
+    fontSize: theme.fontSizes.footText,
     color: 'white',
   },
+  card: {
+    backgroundColor: theme.colors.lightRed,
+    borderRadius: theme.borderRadius.card,
+    width: '90%',
+    margin: 10,
+  },
+  image: {
+    width: '100%',
+    height: 140,
+    borderTopLeftRadius: theme.borderRadius.card,
+    borderTopRightRadius: theme.borderRadius.card,
+  },
+  cardTitle: {
+    maxWidth: '90%',
+    fontFamily: theme.fonts.bold,
+    fontSize: theme.fontSizes.cardTitle,
+    color: "black"
+  },
+  cardText: {
+    fontFamily: theme.fonts.regular,
+    fontSize: theme.fontSizes.cardText,
+    color: "black"
+  }
 });
