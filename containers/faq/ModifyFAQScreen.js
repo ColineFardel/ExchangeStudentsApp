@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, TextInput } from 'react-native';
 import { Input, Button } from 'react-native-elements';
-import { deleteFaq, modifyFaq } from '../redux/actions/faq';
+import { deleteFaq, modifyFaq } from '../../redux/actions/faq';
 import { useDispatch, useSelector } from 'react-redux';
 
 export default function ModifyFAQScreen({ navigation, route }) {

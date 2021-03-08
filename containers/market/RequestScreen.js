@@ -2,9 +2,10 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, Button, Image, ScrollView, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { getRequests } from '../redux/actions/market';
+import { getRequests } from '../../redux/actions/market';
 import { useDispatch, useSelector } from 'react-redux';
-import theme from '../constants/theme';
+import theme from '../../constants/theme';
+import Card from '../../components/card';
 
 
 export default function RequestScreen({ navigation }) {
@@ -24,19 +25,29 @@ export default function RequestScreen({ navigation }) {
     //console.log(requests);
 
     return requests.map((request, index) => {
-      let uri = 'https://exchangestudentsapp-fardel.herokuapp.com/img/' + request.imgId
+      let uri = 'https://exchangestudentsapp-fardel.herokuapp.com/img/' + request.imgId;
       return (
 
-        <TouchableOpacity style={{ width: "100%", alignItems: 'center', }}>
-          <View style={styles.card}>
-            <Image style={styles.image} source={{ uri: uri }} />
-            <View style={{margin:10}}>
-              <Text style={styles.cardTitle}>{request.name}</Text>
-              <Text style={styles.cardText}>{request.description}</Text>
-            </View>
+        <Card
+          key={request.id}
+          action={() => navigation.navigate("RequestDetails", request)}
+          title={request.name}
+          subtitle={request.description}
+          uri={uri}
+        />
 
-          </View>
-        </TouchableOpacity>
+        // <TouchableOpacity style={{ width: "100%", alignItems: 'center', }}
+        //   onPress={() => { navigation.navigate("RequestDetails", request) }}
+        // >
+        //   <View style={styles.card}>
+        //     <Image style={styles.image} source={{ uri: uri }} />
+        //     <View style={{ margin: 10 }}>
+        //       <Text style={styles.cardTitle}>{request.name}</Text>
+        //       <Text style={styles.cardText}>{request.description}</Text>
+        //     </View>
+
+        //   </View>
+        // </TouchableOpacity>
 
       )
     })
@@ -62,7 +73,7 @@ export default function RequestScreen({ navigation }) {
           <Icon.Button name="plus-circle"
             size={50}
             color="white"
-            backgroundColor="red"
+            backgroundColor={theme.colors.red}
             onPress={() => { navigation.navigate('AddRequest') }} />
         </View>
       </View>

@@ -4,7 +4,7 @@ import { useFonts } from 'expo-font';
 import { StyleSheet, Text, View } from 'react-native';
 import { Input, Button } from 'react-native-elements';
 
-import { addFaq } from '../redux/actions/faq';
+import { addFaq } from '../../redux/actions/faq';
 import { useDispatch } from 'react-redux';
 
 export default function AddFAQScreen({ route, navigation }) {
@@ -14,11 +14,11 @@ export default function AddFAQScreen({ route, navigation }) {
     const dispatch = useDispatch();
     const addFAQ = (faq) => dispatch(addFaq(faq));
 
-    //Loading fonts
-    const [loaded] = useFonts({
-        Montserrat: require('../assets/myfonts/Montserrat-Regular.ttf'),
-        MontserratBold: require('../assets/myfonts/Montserrat-Bold.ttf'),
-    });
+    // //Loading fonts
+    // const [loaded] = useFonts({
+    //     Montserrat: require('../assets/myfonts/Montserrat-Regular.ttf'),
+    //     MontserratBold: require('../assets/myfonts/Montserrat-Bold.ttf'),
+    // });
 
     const saveQuestion = () => {
         const newQuestion = { question: question, status: 'sent', answer: 'Not answered yet' };

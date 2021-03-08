@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, Image, TouchableOpacity, Alert } from 'react-na
 import { Input, Button } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import * as ImagePicker from 'expo-image-picker';
-import theme from '../constants/theme';
+import theme from '../../constants/theme';
 
 export default function AddRequestScreen({ route, navigation }) {
     const [photo, setPhoto] = useState(null);

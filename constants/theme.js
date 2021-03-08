@@ -2,27 +2,29 @@ const theme = {
     colors: {
         faqColor: '#6DD07D',
         marketColor: '#FC2B38',
-        footTextColor:'white',
+        footTextColor: 'white',
 
-        red:'#FC2B38',
-        lightRed:'#ff9999',
+        red: 'red',
+        lightRed: '#ff9999',
 
-        green:'#6DD07D',
-        lightGreen:'#9fe0aa',
+        green: '#6DD07D',
+        lightGreen: '#9fe0aa',
+
+        cyan: '#6DD0D0',
     },
     fontSizes: {
-        footText:16,
-        buttonText:24,
-        cardTitle:20,
-        cardText:18,
-        screenTitle:36,
+        footText: 16,
+        buttonText: 24,
+        cardTitle: 20,
+        cardText: 18,
+        screenTitle: 36,
     },
     fonts: {
         regular: 'Montserrat',
-        bold:'MontserratBold',
+        bold: 'MontserratBold',
     },
-    borderRadius:{
-        card:10,
+    borderRadius: {
+        card: 10,
     }
 };
 

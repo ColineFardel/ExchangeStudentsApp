@@ -3,9 +3,9 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, Alert, TouchableOpacity, ScrollView, TextInput } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useFonts } from 'expo-font';
-import { getFAQs } from '../redux/actions/faq';
+import { getFAQs } from '../../redux/actions/faq';
 import { useDispatch, useSelector } from 'react-redux';
-import theme from '../constants/theme';
+import theme from '../../constants/theme';
 
 export default function FAQScreen({ navigation }) {
 
@@ -32,11 +32,11 @@ export default function FAQScreen({ navigation }) {
         })
     })
 
-    //Loading the fonts
-    const [loaded] = useFonts({
-        Montserrat: require('../assets/myfonts/Montserrat-Regular.ttf'),
-        MontserratBold: require('../assets/myfonts/Montserrat-Bold.ttf'),
-    });
+    // //Loading the fonts
+    // const [loaded] = useFonts({
+    //     Montserrat: require('../assets/myfonts/Montserrat-Regular.ttf'),
+    //     MontserratBold: require('../assets/myfonts/Montserrat-Bold.ttf'),
+    // });
 
     //Constants
     const [search, setSearch] = useState('');
@@ -110,41 +110,33 @@ export default function FAQScreen({ navigation }) {
         })
     }
 
-    if (!loaded) {
-        return (
-            <View style={styles.container}>
-                <Text>Loading...</Text>
-            </View>
-        )
-    }
-    else {
-        return (
-            <View style={styles.container}>
+    return (
+        <View style={styles.container}>
 
-                <View style={styles.content}>
-                    <ScrollView style={{ width: '100%' }}>
-                        {showFAQs()}
-                    </ScrollView>
-                </View>
-
-                <View style={styles.foot}>
-                    <View style={{ flex: 4, alignItems: "center", justifyContent: "center" }}>
-                        <Text style={styles.text}>Those questions did'nt help you?</Text>
-                        <Text style={styles.text}>No problem! Ask your question here</Text>
-                    </View>
-                    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-                        <Icon.Button name="question-circle"
-                            size={50}
-                            color="white"
-                            backgroundColor={theme.colors.green}
-                            onPress={() => { navigation.navigate('AddFAQ', getFAQs) }} />
-                    </View>
-                </View>
-                <StatusBar style="auto" />
+            <View style={styles.content}>
+                <ScrollView style={{ width: '100%' }}>
+                    {showFAQs()}
+                </ScrollView>
             </View>
-        )
-    }
+
+            <View style={styles.foot}>
+                <View style={{ flex: 4, alignItems: "center", justifyContent: "center" }}>
+                    <Text style={styles.text}>Those questions did'nt help you?</Text>
+                    <Text style={styles.text}>No problem! Ask your question here</Text>
+                </View>
+                <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+                    <Icon.Button name="question-circle"
+                        size={50}
+                        color="white"
+                        backgroundColor={theme.colors.green}
+                        onPress={() => { navigation.navigate('AddFAQ', getFAQs) }} />
+                </View>
+            </View>
+            <StatusBar style="auto" />
+        </View>
+    )
 }
+
 
 const styles = StyleSheet.create({
     container: {
@@ -187,9 +179,9 @@ const styles = StyleSheet.create({
         fontSize: theme.fontSizes.footText,
         color: theme.colors.footTextColor,
     },
-    cardText:{
-        fontFamily: theme.fonts.regular, 
-        fontSize: theme.fontSizes.cardText, 
+    cardText: {
+        fontFamily: theme.fonts.regular,
+        fontSize: theme.fontSizes.cardText,
         color: "black"
     },
     input: {
@@ -197,10 +189,10 @@ const styles = StyleSheet.create({
         width: '50%',
         backgroundColor: theme.colors.green,
     },
-    cardTitle:{
-        maxWidth: '90%', 
-        fontFamily: theme.fonts.bold, 
-        fontSize: theme.fontSizes.cardTitle, 
+    cardTitle: {
+        maxWidth: '90%',
+        fontFamily: theme.fonts.bold,
+        fontSize: theme.fontSizes.cardTitle,
         color: "black"
     }
 });
