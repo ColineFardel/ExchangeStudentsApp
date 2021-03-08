@@ -25,7 +25,6 @@ export default function AddOfferScreen({ route, navigation }) {
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
             allowsEditing: true,
-            aspect: [4, 3],
             quality: 1,
             fileName: true,
         });
@@ -106,7 +105,7 @@ export default function AddOfferScreen({ route, navigation }) {
                     {photo && (
                         <Image
                             source={{ uri: photo.uri }}
-                            style={{ width: 300, height: 300 }}
+                            style={{ width: '100%', height: 500 }}
                         />
                     )}
                 </ScrollView>

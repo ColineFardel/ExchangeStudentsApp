@@ -14,7 +14,7 @@ export default function HomeScreen() {
                 <Text style={styles.text}>Fow now only the FAQ and the Market are available</Text>
                 <Text style={styles.text}>Play with it and give me a feedback here :)</Text>
                 <Text style={{ color: 'blue', fontSize: 20, fontFamily: theme.fonts.regular, textAlign: 'center' }}
-                    onPress={() => Linking.openURL('http://google.com')}>
+                    onPress={() => Linking.openURL('https://forms.gle/aLEb6ay5rJwNnVXZ7')}>
                     Give feedback</Text>
             </View>
             <StatusBar style="auto" />

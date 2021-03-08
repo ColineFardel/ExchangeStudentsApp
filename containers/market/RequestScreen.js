@@ -1,8 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, Button, Image, ScrollView, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Button, Image, ScrollView, TouchableOpacity,TextInput } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { getRequests } from '../../redux/actions/market';
+import { deleteRequest, getRequests } from '../../redux/actions/market';
 import { useDispatch, useSelector } from 'react-redux';
 import theme from '../../constants/theme';
 import Card from '../../components/card';
@@ -10,24 +10,59 @@ import Card from '../../components/card';
 
 export default function RequestScreen({ navigation }) {
 
+  //Header
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <View style={styles.header}>
+          <Icon.Button name={searchOpen ? 'times' : 'search'}
+            size={20}
+            color="white"
+            backgroundColor={theme.colors.red}
+            onPress={() => { setSearchOpen(!searchOpen); updateSearch(''); }} />
+          {searchOpen && (
+            <TextInput
+              placeholder="Search..."
+              style={styles.searchBar}
+              value={search}
+              onChangeText={text => updateSearch(text)}
+            />
+          )}
+        </View>
+      )
+    })
+  })
+
   //Constants
   const requests = useSelector(state => state.marketReducer.requests);
   const requestLoaded = useSelector(state => state.marketReducer.requestLoaded);
+  const [requestsFiltered, setRequestsFiltered] = useState([]);
+  const [search, setSearch] = useState('');
+  const [searchOpen, setSearchOpen] = useState(false);
   const dispatch = useDispatch();
   const fetchRequests = () => dispatch(getRequests());
+  const removeRequest = (index) => dispatch(deleteRequest(index));
 
+  //Search bar function
+  const updateSearch = (text) => {
+    setSearch(text);
+    setRequestsFiltered(requests.filter((item) => item.name.toLowerCase().includes(text.toLowerCase())));
+    console.log('updating search');
+  }
 
   useEffect(() => {
     fetchRequests();
+    setRequestsFiltered(requests);
   }, [!requestLoaded])
 
   const showRequests = () => {
-    return requests.map((request, index) => {
+    return requestsFiltered.map((request, index) => {
       let uri = 'https://exchangestudentsapp-fardel.herokuapp.com/img/' + request.imgId;
       return (
         <Card
           key={request.id}
-          action={() => navigation.navigate("RequestDetails", request)}
+          onPressAction={() => navigation.navigate("RequestDetails", request)}
+          onLongPressAction={() => removeRequest(request.id)}
           title={request.name}
           subtitle={request.description}
           uri={uri}
@@ -106,5 +141,16 @@ const styles = StyleSheet.create({
     fontFamily: theme.fonts.regular,
     fontSize: theme.fontSizes.cardText,
     color: "black"
-  }
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  searchBar: {
+    backgroundColor: 'white',
+    borderRadius: 20,
+    paddingLeft: 10,
+    paddingRight: 10,
+    marginRight: 15
+  },
 });

@@ -1,35 +1,69 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, Button, Image, ScrollView, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Button, Image, ScrollView, TouchableOpacity, TextInput } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { getOffers } from '../../redux/actions/market';
+import { deleteOffer, getOffers } from '../../redux/actions/market';
 import { useDispatch, useSelector } from 'react-redux';
-
 import theme from '../../constants/theme';
 import Card from '../../components/card';
 
-export default function OfferScreen({navigation}) {
+export default function OfferScreen({ navigation }) {
+
+  //Header
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <View style={styles.header}>
+          <Icon.Button name={searchOpen ? 'times' : 'search'}
+            size={20}
+            color="white"
+            backgroundColor={theme.colors.red}
+            onPress={() => { setSearchOpen(!searchOpen); updateSearch(''); }} />
+          {searchOpen && (
+            <TextInput
+              placeholder="Search..."
+              style={styles.searchBar}
+              value={search}
+              onChangeText={text => updateSearch(text)}
+            />
+          )}
+        </View>
+      )
+    })
+  })
 
   //Constants
   const offers = useSelector(state => state.marketReducer.offers);
   const offerLoaded = useSelector(state => state.marketReducer.offerLoaded);
+  const [offersFiltered, setOffersFiltered] = useState([]);
+  const [search, setSearch] = useState('');
+  const [searchOpen, setSearchOpen] = useState(false);
   const dispatch = useDispatch();
   const fetchOffers = () => dispatch(getOffers());
+  const deleteAnOffer = (index) => dispatch(deleteOffer(index));
 
   useEffect(() => {
     fetchOffers();
+    setOffersFiltered(offers);
   }, [!offerLoaded])
 
+  //Search bar function
+  const updateSearch = (text) => {
+    setSearch(text);
+    setOffersFiltered(offers.filter((item) => item.name.toLowerCase().includes(text.toLowerCase())));
+    console.log('updating search');
+  }
+
   const showOffers = () => {
-    return offers.map((offer) => {
+    return offersFiltered.map((offer) => {
       let uri = 'https://exchangestudentsapp-fardel.herokuapp.com/img/' + offer.imgId;
       return (
-
         <Card
           key={offer.id}
-          action={() => navigation.navigate("OfferDetails", offer)}
+          onPressAction={() => navigation.navigate("OfferDetails", offer)}
+          onLongPressAction={() => deleteAnOffer(offer.id)}
           title={offer.name}
-          subtitle={offer.price}
+          price={offer.price}
           uri={uri}
         />
       )
@@ -107,5 +141,16 @@ const styles = StyleSheet.create({
     fontFamily: theme.fonts.regular,
     fontSize: theme.fontSizes.cardText,
     color: "black"
-  }
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  searchBar: {
+    backgroundColor: 'white',
+    borderRadius: 20,
+    paddingLeft: 10,
+    paddingRight: 10,
+    marginRight: 15
+  },
 });

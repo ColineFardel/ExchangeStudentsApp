@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ADD_OFFER, ADD_REQUEST, GET_OFFERS, GET_REQUESTS } from './types';
+import { ADD_OFFER, ADD_REQUEST, DELETE_OFFER, DELETE_REQUEST, GET_OFFERS, GET_REQUESTS } from './types';
 
 
 export const getRequests = () => {
@@ -36,6 +36,23 @@ export const addRequest = (request) => {
     }
 };
 
+export const deleteRequest = (index) => {
+    let url = 'https://exchangestudentsapp-fardel.herokuapp.com/request/' + index;
+    try {
+        return async dispatch => {
+            await axios.delete(url)
+                .then(response => {
+                    dispatch({
+                        type: DELETE_REQUEST,
+                        payload: index
+                    });
+                });
+        };
+    } catch (error) {
+        console.log(error);
+    }
+};
+
 export const getOffers = () => {
     try {
         return async dispatch => {
@@ -62,6 +79,23 @@ export const addOffer = (offer) => {
                     dispatch({
                         type: ADD_OFFER,
                         payload: offer
+                    });
+                });
+        };
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export const deleteOffer = (index) => {
+    let url = 'https://exchangestudentsapp-fardel.herokuapp.com/offer/' + index;
+    try {
+        return async dispatch => {
+            await axios.delete(url)
+                .then(response => {
+                    dispatch({
+                        type: DELETE_OFFER,
+                        payload: index
                     });
                 });
         };

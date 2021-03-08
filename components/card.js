@@ -1,24 +1,30 @@
 import React from 'react';
 import { Image } from 'react-native';
-import { View, ImageBackground, Text, ScrollView, StyleSheet, Dimensions, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import theme from '../constants/theme';
 
 export default Card = (props) => {
 
-    const { action, uri, title, subtitle, key } = props
+    const { uri, title, subtitle, key, onPressAction, onLongPressAction, price } = props
 
     return (
         <TouchableOpacity style={styles.container}
             key={key}
-            onPress={action}
+            onPress={onPressAction}
+            onLongPress={onLongPressAction}
         >
             <View style={styles.card}>
                 <Image style={styles.image} source={{ uri: uri }} />
                 <View style={styles.cardFoot}>
-                    <View>
+                    <View style={{ width: '90%' }}>
                         <Text style={styles.cardTitle}>{title}</Text>
-                        <Text style={styles.cardText}>{subtitle}</Text>
+                        {subtitle && (
+                            <Text style={styles.cardText}>{subtitle}</Text>
+                        )}
+                        {price && (
+                            <Text style={styles.cardText}>{price} €</Text>
+                        )}
                     </View>
 
                     <View>
@@ -41,7 +47,7 @@ const styles = StyleSheet.create({
         borderRadius: theme.borderRadius.card,
         width: '90%',
         margin: 10,
-        borderWidth:1,
+        borderWidth: 1,
         borderColor: theme.colors.lightRed
     },
     cardTitle: {

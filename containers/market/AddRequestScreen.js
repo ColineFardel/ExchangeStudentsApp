@@ -20,25 +20,10 @@ export default function AddRequestScreen({ route, navigation }) {
     const dispatch = useDispatch();
     const addTheRequest = (request) => dispatch(addRequest(request));
 
-
-    // const handleChoosePhoto = () => {
-    //   const options = {
-    //     noData: true
-    //   }
-    //   ImagePicker.launchImageLibrary(options, response => {
-    //     if (response.uri) {
-    //       console.log(response);
-    //       setPhoto(response);
-    //     }
-
-    //   })
-    // }
-
     const selectPicture = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
             allowsEditing: true,
-            aspect: [4, 3],
             quality: 1,
             fileName: true,
         });
@@ -65,23 +50,10 @@ export default function AddRequestScreen({ route, navigation }) {
 
             addTheRequest(data);
             navigation.goBack();
-
-            // fetch('https://exchangestudentsapp-fardel.herokuapp.com/addrequest', {
-            //     method: 'POST',
-            //     headers: { 'Content-type': 'multipart/form-data' },
-            //     body: data
-            // })
-            //     .then(_ => {
-            //         console.log('Request saved to database');
-            //         navigation.goBack();
-            //     })
-            //     .catch(err => console.error(err))
         }
         else {
             Alert.alert('You have to fill every field');
         }
-
-
     }
 
     return (
@@ -89,7 +61,6 @@ export default function AddRequestScreen({ route, navigation }) {
             <View style={{ flex: 1, justifyContent: 'center' }}>
                 <Text style={styles.title}>Add your request</Text>
             </View>
-
 
             <View style={{ flex: 5, width: '100%', justifyContent: 'flex-start', alignItems: 'center' }}>
                 <ScrollView style={{ width: '100%' }}>
@@ -128,7 +99,7 @@ export default function AddRequestScreen({ route, navigation }) {
                     {photo && (
                         <Image
                             source={{ uri: photo.uri }}
-                            style={{ width: 300, height: 300 }}
+                            style={{ width: '100%', height: 500 }}
                         />
                     )}
                 </ScrollView>
