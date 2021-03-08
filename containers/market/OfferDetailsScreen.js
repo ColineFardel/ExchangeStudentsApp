@@ -6,15 +6,15 @@ import theme from '../../constants/theme';
 import { Button } from 'react-native-elements';
 import { Image } from 'react-native';
 
-export default function RequestDetails({ navigation, route }) {
+export default function OfferDetails({ navigation, route }) {
 
-    const request = route.params;
+    const offer = route.params;
 
     const openWhatsApp = () => {
-        console.log(request);
+        console.log(offer);
     }
 
-    const uri = 'https://exchangestudentsapp-fardel.herokuapp.com/img/' + request.imgId;
+    const uri = 'https://exchangestudentsapp-fardel.herokuapp.com/img/' + offer.imgId;
 
     return (
         <View style={styles.container}>
@@ -27,13 +27,15 @@ export default function RequestDetails({ navigation, route }) {
                         size={30}
                         color="black"
                         onPress={() => navigation.goBack()} />
-                    <Text style={styles.bigTitle}>{request.name}</Text>
+                    <Text style={styles.bigTitle}>{offer.name}</Text>
                 </View>
                 <View style={styles.textContainer}>
                     <Text style={styles.title}>Description</Text>
-                    <Text style={styles.text}>{request.description}</Text>
+                    <Text style={styles.text}>{offer.description}</Text>
                     <Text style={styles.title}>Location</Text>
-                    <Text style={styles.text}>{request.location}</Text>
+                    <Text style={styles.text}>{offer.location}</Text>
+                    <Text style={styles.title}>Price</Text>
+                    <Text style={styles.text}>{offer.price}</Text>
                 </View>
 
                 <View style={styles.buttonContainer}>

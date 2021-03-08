@@ -10,6 +10,7 @@ import Card from '../../components/card';
 
 export default function RequestScreen({ navigation }) {
 
+  //Constants
   const requests = useSelector(state => state.marketReducer.requests);
   const requestLoaded = useSelector(state => state.marketReducer.requestLoaded);
   const dispatch = useDispatch();
@@ -21,13 +22,9 @@ export default function RequestScreen({ navigation }) {
   }, [!requestLoaded])
 
   const showRequests = () => {
-
-    //console.log(requests);
-
     return requests.map((request, index) => {
       let uri = 'https://exchangestudentsapp-fardel.herokuapp.com/img/' + request.imgId;
       return (
-
         <Card
           key={request.id}
           action={() => navigation.navigate("RequestDetails", request)}
@@ -35,26 +32,9 @@ export default function RequestScreen({ navigation }) {
           subtitle={request.description}
           uri={uri}
         />
-
-        // <TouchableOpacity style={{ width: "100%", alignItems: 'center', }}
-        //   onPress={() => { navigation.navigate("RequestDetails", request) }}
-        // >
-        //   <View style={styles.card}>
-        //     <Image style={styles.image} source={{ uri: uri }} />
-        //     <View style={{ margin: 10 }}>
-        //       <Text style={styles.cardTitle}>{request.name}</Text>
-        //       <Text style={styles.cardText}>{request.description}</Text>
-        //     </View>
-
-        //   </View>
-        // </TouchableOpacity>
-
       )
     })
   }
-
-
-
 
   return (
     <View style={styles.container}>
@@ -77,8 +57,6 @@ export default function RequestScreen({ navigation }) {
             onPress={() => { navigation.navigate('AddRequest') }} />
         </View>
       </View>
-
-
       <StatusBar style="auto" />
     </View>
   );

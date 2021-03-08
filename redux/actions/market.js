@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GET_REQUESTS } from './types';
+import { ADD_OFFER, ADD_REQUEST, GET_OFFERS, GET_REQUESTS } from './types';
 
 
 export const getRequests = () => {
@@ -14,6 +14,56 @@ export const getRequests = () => {
             } else {
                 console.log('Unable to fetch data from the API BASE URL!');
             }
+        };
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export const addRequest = (request) => {
+    try {
+        return async dispatch => {
+            await axios.post('https://exchangestudentsapp-fardel.herokuapp.com/addrequest', request)
+                .then(response => {
+                    dispatch({
+                        type: ADD_REQUEST,
+                        payload: request
+                    });
+                });
+        };
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export const getOffers = () => {
+    try {
+        return async dispatch => {
+            const response = await axios.get('https://exchangestudentsapp-fardel.herokuapp.com/offer');
+            if (response.data) {
+                dispatch({
+                    type: GET_OFFERS,
+                    payload: response.data
+                });
+            } else {
+                console.log('Unable to fetch data from the API BASE URL!');
+            }
+        };
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export const addOffer = (offer) => {
+    try {
+        return async dispatch => {
+            await axios.post('https://exchangestudentsapp-fardel.herokuapp.com/addoffer', offer)
+                .then(response => {
+                    dispatch({
+                        type: ADD_OFFER,
+                        payload: offer
+                    });
+                });
         };
     } catch (error) {
         console.log(error);

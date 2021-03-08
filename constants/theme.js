@@ -11,6 +11,7 @@ const theme = {
         lightGreen: '#9fe0aa',
 
         cyan: '#6DD0D0',
+        grey: '#808080',
     },
     fontSizes: {
         footText: 16,
@@ -25,6 +26,7 @@ const theme = {
     },
     borderRadius: {
         card: 10,
+        button:20
     }
 };
 

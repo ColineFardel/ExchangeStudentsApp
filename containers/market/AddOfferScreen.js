@@ -6,10 +6,10 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import * as ImagePicker from 'expo-image-picker';
 import theme from '../../constants/theme';
 import AppInput from '../../components/input';
-import { addRequest } from '../../redux/actions/market';
+import { addOffer } from '../../redux/actions/market';
 import { useDispatch } from 'react-redux';
 
-export default function AddRequestScreen({ route, navigation }) {
+export default function AddOfferScreen({ route, navigation }) {
 
     //Constants
     const [photo, setPhoto] = useState(null);
@@ -17,22 +17,9 @@ export default function AddRequestScreen({ route, navigation }) {
     const [desc, setDesc] = useState('');
     const [location, setLocation] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
+    const [price, setPrice] = useState('');
     const dispatch = useDispatch();
-    const addTheRequest = (request) => dispatch(addRequest(request));
-
-
-    // const handleChoosePhoto = () => {
-    //   const options = {
-    //     noData: true
-    //   }
-    //   ImagePicker.launchImageLibrary(options, response => {
-    //     if (response.uri) {
-    //       console.log(response);
-    //       setPhoto(response);
-    //     }
-
-    //   })
-    // }
+    const addTheOffer = (offer) => dispatch(addOffer(offer));
 
     const selectPicture = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -53,7 +40,7 @@ export default function AddRequestScreen({ route, navigation }) {
         }
     }
 
-    const saveRequest = () => {
+    const saveOffer = () => {
 
         if (name != '' || desc != '' || location != '' || phoneNumber != '' || photo) {
             const data = new FormData();
@@ -62,26 +49,14 @@ export default function AddRequestScreen({ route, navigation }) {
             data.append('desc', desc);
             data.append('location', location);
             data.append('phoneNumber', phoneNumber);
+            data.append('price', price);
 
-            addTheRequest(data);
+            addTheOffer(data);
             navigation.goBack();
-
-            // fetch('https://exchangestudentsapp-fardel.herokuapp.com/addrequest', {
-            //     method: 'POST',
-            //     headers: { 'Content-type': 'multipart/form-data' },
-            //     body: data
-            // })
-            //     .then(_ => {
-            //         console.log('Request saved to database');
-            //         navigation.goBack();
-            //     })
-            //     .catch(err => console.error(err))
         }
         else {
             Alert.alert('You have to fill every field');
         }
-
-
     }
 
     return (
@@ -89,17 +64,15 @@ export default function AddRequestScreen({ route, navigation }) {
             <View style={{ flex: 1, justifyContent: 'center' }}>
                 <Text style={styles.title}>Add your request</Text>
             </View>
-
-
             <View style={{ flex: 5, width: '100%', justifyContent: 'flex-start', alignItems: 'center' }}>
                 <ScrollView style={{ width: '100%' }}>
                     <AppInput
-                        placeholder="Type the name of your request"
+                        placeholder="Type the name of your offer"
                         color={theme.colors.lightRed}
                         action={value => setName(value)}
                     />
                     <AppInput
-                        placeholder="Type the description of your request"
+                        placeholder="Type the description of your offer"
                         color={theme.colors.lightRed}
                         action={value => setDesc(value)}
                     />
@@ -112,6 +85,11 @@ export default function AddRequestScreen({ route, navigation }) {
                         placeholder="Type your phone number"
                         color={theme.colors.lightRed}
                         action={value => setPhoneNumber(value)}
+                    />
+                    <AppInput
+                        placeholder="Type the price of your offer"
+                        color={theme.colors.lightRed}
+                        action={value => setPrice(value)}
                     />
                     <TouchableOpacity
                         onPress={() => { selectPicture() }}
@@ -144,7 +122,7 @@ export default function AddRequestScreen({ route, navigation }) {
                 <Button
                     buttonStyle={styles.sendButton}
                     titleStyle={{ color: 'red', fontFamily: 'MontserratBold', fontSize: 24 }}
-                    onPress={() => saveRequest()}
+                    onPress={() => saveOffer()}
                     title="CREATE" />
             </View>
 

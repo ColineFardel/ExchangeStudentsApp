@@ -11,6 +11,8 @@ import Offer from '../containers/market/OfferScreen';
 import AddRequest from '../containers/market/AddRequestScreen';
 import theme from '../constants/theme';
 import RequestDetails from '../containers/market/RequestDetailsScreen';
+import OfferDetails from '../containers/market/OfferDetailsScreen';
+import AddOffer from'../containers/market/AddOfferScreen';
 
 const Stack = createStackNavigator();
 
@@ -45,41 +47,13 @@ const FAQStackNavigation = ({ navigation }) => {
     )
 }
 
-// const MarketStackNavigation = ({ navigation }) => {
-//     return (
-//         <Stack.Navigator
-//             screenOptions={{
-//                 headerStyle: {
-//                     backgroundColor: 'red',
-//                 },
-//                 headerTintColor: 'white',
-//                 headerTitleStyle: {
-//                     fontWeight: 'bold',
-//                 }
-//             }}>
-//             <Stack.Screen
-//                 name="Market"
-//                 component={Market}
-//                 options={{
-//                     title: 'Market',
-//                     headerLeft: () => (
-//                         <Icon.Button name="ios-menu"
-//                             size={25}
-//                             backgroundColor="red"
-//                             onPress={() => { navigation.openDrawer() }} />
-//                     )
-//                 }} />
-//         </Stack.Navigator>
-//     )
-// }
-
 const RequestStackNavigation = ({ navigation, route }) => {
 
-    if(route.state && route.state.index>0){
-        navigation.setOptions({tabBarVisible : false})
+    if (route.state && route.state.index > 0) {
+        navigation.setOptions({ tabBarVisible: false })
     }
-    else{
-        navigation.setOptions({tabBarVisible : true})
+    else {
+        navigation.setOptions({ tabBarVisible: true })
     }
 
     return (
@@ -111,7 +85,13 @@ const RequestStackNavigation = ({ navigation, route }) => {
         </Stack.Navigator>
     )
 }
-const OfferStackNavigation = ({ navigation }) => {
+const OfferStackNavigation = ({ navigation, route }) => {
+    if (route.state && route.state.index > 0) {
+        navigation.setOptions({ tabBarVisible: false })
+    }
+    else {
+        navigation.setOptions({ tabBarVisible: true })
+    }
     return (
         <Stack.Navigator
             screenOptions={{
@@ -135,6 +115,8 @@ const OfferStackNavigation = ({ navigation }) => {
                             onPress={() => { navigation.openDrawer() }} />
                     )
                 }} />
+            <Stack.Screen name="AddOffer" component={AddOffer} options={{ headerShown: false }} />
+            <Stack.Screen name="OfferDetails" component={OfferDetails} options={{ headerShown: false }} />
         </Stack.Navigator>
     )
 }

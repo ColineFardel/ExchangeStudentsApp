@@ -41,6 +41,8 @@ const styles = StyleSheet.create({
         borderRadius: theme.borderRadius.card,
         width: '90%',
         margin: 10,
+        borderWidth:1,
+        borderColor: theme.colors.lightRed
     },
     cardTitle: {
         maxWidth: '90%',

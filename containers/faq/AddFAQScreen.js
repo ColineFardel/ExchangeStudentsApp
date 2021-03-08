@@ -1,11 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { useFonts } from 'expo-font';
 import { StyleSheet, Text, View } from 'react-native';
-import { Input, Button } from 'react-native-elements';
-
+import { Button } from 'react-native-elements';
+import AppInput from '../../components/input';
 import { addFaq } from '../../redux/actions/faq';
 import { useDispatch } from 'react-redux';
+import theme from '../../constants/theme';
 
 export default function AddFAQScreen({ route, navigation }) {
 
@@ -13,12 +13,6 @@ export default function AddFAQScreen({ route, navigation }) {
     const [question, setQuestion] = useState('');
     const dispatch = useDispatch();
     const addFAQ = (faq) => dispatch(addFaq(faq));
-
-    // //Loading fonts
-    // const [loaded] = useFonts({
-    //     Montserrat: require('../assets/myfonts/Montserrat-Regular.ttf'),
-    //     MontserratBold: require('../assets/myfonts/Montserrat-Bold.ttf'),
-    // });
 
     const saveQuestion = () => {
         const newQuestion = { question: question, status: 'sent', answer: 'Not answered yet' };
@@ -29,25 +23,20 @@ export default function AddFAQScreen({ route, navigation }) {
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Ask a question</Text>
-            <Input
+            <AppInput
                 placeholder="Type your question here"
-                style={styles.input}
-                inputStyle={styles.inputStyle}
-                placeholderTextColor='black'
-                inputContainerStyle={{ color: 'green', borderBottomWidth: 0 }}
-                onChangeText={value => setQuestion(value)}
-                multiline={true}
-                autoFocus={true}
+                color={theme.colors.lightGreen}
+                action={value => setQuestion(value)}
             />
             <View style={styles.buttonContainer}>
                 <Button
                     buttonStyle={styles.cancelButton}
-                    titleStyle={{ color: 'white', fontFamily: 'MontserratBold', fontSize: 24 }}
+                    titleStyle={{ color: 'white', fontFamily: theme.fonts.bold, fontSize: theme.fontSizes.buttonText }}
                     onPress={() => navigation.goBack()}
                     title="CANCEL" />
                 <Button
                     buttonStyle={styles.sendButton}
-                    titleStyle={{ color: '#6DD07D', fontFamily: 'MontserratBold', fontSize: 24 }}
+                    titleStyle={{ color: theme.colors.green, fontFamily: theme.fonts.bold, fontSize: theme.fontSizes.buttonText }}
                     onPress={() => saveQuestion()}
                     title="SEND" />
             </View>
@@ -65,22 +54,9 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around',
     },
     title: {
-        fontFamily: 'MontserratBold',
-        fontSize: 36,
-        color: '#6DD07D',
-    },
-    input: {
-        borderWidth: 0,
-        borderRadius: 10,
-        width: '90%',
-        backgroundColor: '#6DD07D',
-        opacity: 0.5,
-    },
-    inputStyle: {
-        color: 'black',
-        fontFamily: 'MontserratBold',
-        padding: 10,
-        margin: 10
+        fontFamily: theme.fonts.bold,
+        fontSize: theme.fontSizes.screenTitle,
+        color: theme.colors.green,
     },
     cancelButton: {
         backgroundColor: 'red',
@@ -89,13 +65,13 @@ const styles = StyleSheet.create({
     sendButton: {
         backgroundColor: 'white',
         borderWidth: 1,
-        borderColor: '#6DD07D',
-        borderRadius: 10
+        borderColor: theme.colors.green,
+        borderRadius: theme.borderRadius.card
     },
     buttonContainer: {
-        flexDirection: 'row', 
-        justifyContent: 'space-between', 
-        alignItems: 'center', 
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
         width: '90%'
     },
 });
