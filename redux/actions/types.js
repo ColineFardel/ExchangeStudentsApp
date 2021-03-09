@@ -12,3 +12,5 @@ export const GET_OFFERS = 'GET_OFFERS';
 export const ADD_OFFER = 'ADD_OFFER';
 export const DELETE_OFFER = 'DELETE_OFFER';
 export const MODIFY_OFFER = 'MODIFY_OFFER';
+
+export const SET_VISIBLE_FALSE = 'SET_VISIBLE_FALSE';

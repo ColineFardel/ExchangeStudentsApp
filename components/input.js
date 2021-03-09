@@ -5,7 +5,7 @@ import { Input, Button } from 'react-native-elements';
 
 export default AppInput = (props) => {
 
-    const { color, placeholder, action } = props
+    const { color, placeholder, action, keyboardType } = props
 
     return (
         <Input
@@ -22,6 +22,7 @@ export default AppInput = (props) => {
             onChangeText={action}
             multiline={true}
             autoFocus={true}
+            keyboardType={keyboardType}
         />
     )
 }

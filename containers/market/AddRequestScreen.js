@@ -8,6 +8,7 @@ import theme from '../../constants/theme';
 import AppInput from '../../components/input';
 import { addRequest } from '../../redux/actions/market';
 import { useDispatch } from 'react-redux';
+import { Snackbar } from 'react-native-paper';
 
 export default function AddRequestScreen({ route, navigation }) {
 
@@ -40,7 +41,30 @@ export default function AddRequestScreen({ route, navigation }) {
 
     const saveRequest = () => {
 
-        if (name != '' || desc != '' || location != '' || phoneNumber != '' || photo) {
+        let canBeSaved = true;
+
+        if (!name.trim()) {
+            Alert.alert('Fill every fields', 'You must enter the name of your request');
+            canBeSaved = false;
+        }
+        if (!desc.trim()) {
+            Alert.alert('Fill every fields', 'You must enter a description for your request');
+            canBeSaved = false;
+        }
+        if (!phoneNumber.trim()) {
+            Alert.alert('Fill every fields', 'You must enter your phone number');
+            canBeSaved = false;
+        }
+        if (!location.trim()) {
+            Alert.alert('Fill every fields', 'You must enter your location');
+            canBeSaved = false;
+        }
+        if (!photo) {
+            Alert.alert('Fill every fields', 'You must upload an image of your request');
+            canBeSaved = false;
+        }
+
+        if (canBeSaved) {
             const data = new FormData();
             data.append('file', { name: photo.name, type: photo.type, uri: photo.uri });
             data.append('name', name);
@@ -50,9 +74,6 @@ export default function AddRequestScreen({ route, navigation }) {
 
             addTheRequest(data);
             navigation.goBack();
-        }
-        else {
-            Alert.alert('You have to fill every field');
         }
     }
 
@@ -83,6 +104,7 @@ export default function AddRequestScreen({ route, navigation }) {
                         placeholder="Type your phone number"
                         color={theme.colors.lightRed}
                         action={value => setPhoneNumber(value)}
+                        keyboardType={'phone-pad'}
                     />
                     <TouchableOpacity
                         onPress={() => { selectPicture() }}
@@ -104,8 +126,6 @@ export default function AddRequestScreen({ route, navigation }) {
                     )}
                 </ScrollView>
             </View>
-
-
             <View style={styles.buttonContainer}>
                 <Button
                     buttonStyle={styles.cancelButton}
@@ -118,7 +138,6 @@ export default function AddRequestScreen({ route, navigation }) {
                     onPress={() => saveRequest()}
                     title="CREATE" />
             </View>
-
             <StatusBar style="auto" />
         </View>
     );

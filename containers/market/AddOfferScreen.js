@@ -40,8 +40,32 @@ export default function AddOfferScreen({ route, navigation }) {
     }
 
     const saveOffer = () => {
+        if (!name.trim()) {
+            Alert.alert('Fill every fields', 'You must enter the name of your request');
+            canBeSaved = false;
+        }
+        if (!desc.trim()) {
+            Alert.alert('Fill every fields', 'You must enter a description for your request');
+            canBeSaved = false;
+        }
+        if (!phoneNumber.trim()) {
+            Alert.alert('Fill every fields', 'You must enter your phone number');
+            canBeSaved = false;
+        }
+        if (!location.trim()) {
+            Alert.alert('Fill every fields', 'You must enter your location');
+            canBeSaved = false;
+        }
+        if (!photo) {
+            Alert.alert('Fill every fields', 'You must upload an image of your request');
+            canBeSaved = false;
+        }
+        if (!price.trim()) {
+            Alert.alert('Fill every fields', 'You must enter a price event if it is 0');
+            canBeSaved = false;
+        }
 
-        if (name != '' || desc != '' || location != '' || phoneNumber != '' || photo) {
+        if (canBeSaved) {
             const data = new FormData();
             data.append('file', { name: photo.name, type: photo.type, uri: photo.uri });
             data.append('name', name);
@@ -52,9 +76,6 @@ export default function AddOfferScreen({ route, navigation }) {
 
             addTheOffer(data);
             navigation.goBack();
-        }
-        else {
-            Alert.alert('You have to fill every field');
         }
     }
 
@@ -84,11 +105,13 @@ export default function AddOfferScreen({ route, navigation }) {
                         placeholder="Type your phone number"
                         color={theme.colors.lightRed}
                         action={value => setPhoneNumber(value)}
+                        keyboardType={'phone-pad'}
                     />
                     <AppInput
                         placeholder="Type the price of your offer"
                         color={theme.colors.lightRed}
                         action={value => setPrice(value)}
+                        keyboardType={'numeric'}
                     />
                     <TouchableOpacity
                         onPress={() => { selectPicture() }}

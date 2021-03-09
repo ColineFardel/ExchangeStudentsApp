@@ -1,11 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, Button, Image, ScrollView, TouchableOpacity,TextInput } from 'react-native';
+import { StyleSheet, Text, View, Button, Image, ScrollView, TouchableOpacity, TextInput } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { deleteRequest, getRequests } from '../../redux/actions/market';
+import { deleteRequest, getRequests, setVisibleFalse } from '../../redux/actions/market';
 import { useDispatch, useSelector } from 'react-redux';
 import theme from '../../constants/theme';
 import Card from '../../components/card';
+import { Snackbar } from 'react-native-paper';
 
 
 export default function RequestScreen({ navigation }) {
@@ -34,12 +35,15 @@ export default function RequestScreen({ navigation }) {
   })
 
   //Constants
+  const visible = useSelector(state => state.marketReducer.snackBarVisible);
+  const message = useSelector(state => state.marketReducer.snackBarMessage);
   const requests = useSelector(state => state.marketReducer.requests);
   const requestLoaded = useSelector(state => state.marketReducer.requestLoaded);
   const [requestsFiltered, setRequestsFiltered] = useState([]);
   const [search, setSearch] = useState('');
   const [searchOpen, setSearchOpen] = useState(false);
   const dispatch = useDispatch();
+  const removeSnackBar = () => dispatch(setVisibleFalse());
   const fetchRequests = () => dispatch(getRequests());
   const removeRequest = (index) => dispatch(deleteRequest(index));
 
@@ -78,6 +82,12 @@ export default function RequestScreen({ navigation }) {
           {showRequests()}
         </ScrollView>
       </View>
+
+      <Snackbar
+        visible={visible}
+        onDismiss={() => removeSnackBar()}
+        duration={2000}
+      >{message}</Snackbar>
 
       <View style={styles.foot}>
         <View style={{ flex: 4, alignItems: "center", justifyContent: "center" }}>

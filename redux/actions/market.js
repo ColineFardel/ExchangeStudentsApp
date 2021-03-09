@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ADD_OFFER, ADD_REQUEST, DELETE_OFFER, DELETE_REQUEST, GET_OFFERS, GET_REQUESTS } from './types';
+import { ADD_OFFER, ADD_REQUEST, DELETE_OFFER, DELETE_REQUEST, GET_OFFERS, GET_REQUESTS, SET_VISIBLE_FALSE } from './types';
 
 
 export const getRequests = () => {
@@ -102,4 +102,10 @@ export const deleteOffer = (index) => {
     } catch (error) {
         console.log(error);
     }
+};
+
+export const setVisibleFalse = () => dispatch => {
+    dispatch({
+        type: SET_VISIBLE_FALSE
+    })
 };

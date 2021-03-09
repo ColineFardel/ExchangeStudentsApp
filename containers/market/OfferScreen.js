@@ -6,6 +6,7 @@ import { deleteOffer, getOffers } from '../../redux/actions/market';
 import { useDispatch, useSelector } from 'react-redux';
 import theme from '../../constants/theme';
 import Card from '../../components/card';
+import { Snackbar } from 'react-native-paper';
 
 export default function OfferScreen({ navigation }) {
 
@@ -33,12 +34,15 @@ export default function OfferScreen({ navigation }) {
   })
 
   //Constants
+  const visible = useSelector(state => state.marketReducer.snackBarVisible);
+  const message = useSelector(state => state.marketReducer.snackBarMessage);
   const offers = useSelector(state => state.marketReducer.offers);
   const offerLoaded = useSelector(state => state.marketReducer.offerLoaded);
   const [offersFiltered, setOffersFiltered] = useState([]);
   const [search, setSearch] = useState('');
   const [searchOpen, setSearchOpen] = useState(false);
   const dispatch = useDispatch();
+  const removeSnackBar = () => dispatch(setVisibleFalse());
   const fetchOffers = () => dispatch(getOffers());
   const deleteAnOffer = (index) => dispatch(deleteOffer(index));
 
@@ -76,6 +80,12 @@ export default function OfferScreen({ navigation }) {
           {showOffers()}
         </ScrollView>
       </View>
+
+      <Snackbar
+        visible={visible}
+        onDismiss={() => removeSnackBar()}
+        duration={2000}
+      >{message}</Snackbar>
 
       <View style={styles.foot}>
         <View style={{ flex: 4, alignItems: "center", justifyContent: "center" }}>
