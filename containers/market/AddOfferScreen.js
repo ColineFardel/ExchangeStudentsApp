@@ -1,8 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, Alert, ScrollView } from 'react-native';
-import { Input, Button } from 'react-native-elements';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { Button } from 'react-native-elements';
 import * as ImagePicker from 'expo-image-picker';
 import theme from '../../constants/theme';
 import AppInput from '../../components/input';
@@ -21,6 +20,7 @@ export default function AddOfferScreen({ route, navigation }) {
     const dispatch = useDispatch();
     const addTheOffer = (offer) => dispatch(addOffer(offer));
 
+    //Open the user's library to choose an image
     const selectPicture = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -39,6 +39,7 @@ export default function AddOfferScreen({ route, navigation }) {
         }
     }
 
+    //Saving offer in database if all fields are filled
     const saveOffer = () => {
         if (!name.trim()) {
             Alert.alert('Fill every fields', 'You must enter the name of your request');

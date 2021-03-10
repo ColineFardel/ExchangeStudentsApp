@@ -1,5 +1,4 @@
-import { StatusBar } from 'expo-status-bar';
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import ItemDetails from '../../components/details';
 
 export default function OfferDetails({ navigation, route }) {

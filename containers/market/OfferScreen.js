@@ -58,6 +58,7 @@ export default function OfferScreen({ navigation }) {
     console.log('updating search');
   }
 
+  //Show the list of offers
   const showOffers = () => {
     return offersFiltered.map((offer) => {
       let uri = 'https://exchangestudentsapp-fardel.herokuapp.com/img/' + offer.imgId;
@@ -73,6 +74,7 @@ export default function OfferScreen({ navigation }) {
       )
     })
   }
+
   return (
     <View style={styles.container}>
       <View style={styles.content}>
@@ -100,8 +102,6 @@ export default function OfferScreen({ navigation }) {
             onPress={() => { navigation.navigate('AddOffer') }} />
         </View>
       </View>
-
-
       <StatusBar style="auto" />
     </View>
   );

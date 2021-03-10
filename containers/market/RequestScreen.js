@@ -59,6 +59,7 @@ export default function RequestScreen({ navigation }) {
     setRequestsFiltered(requests);
   }, [!requestLoaded])
 
+  //Show the list of requests
   const showRequests = () => {
     return requestsFiltered.map((request, index) => {
       let uri = 'https://exchangestudentsapp-fardel.herokuapp.com/img/' + request.imgId;
