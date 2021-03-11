@@ -41,12 +41,15 @@ export default function AddOfferScreen({ route, navigation }) {
 
     //Saving offer in database if all fields are filled
     const saveOffer = () => {
+
+        let canBeSaved = true;
+
         if (!name.trim()) {
-            Alert.alert('Fill every fields', 'You must enter the name of your request');
+            Alert.alert('Fill every fields', 'You must enter the name of your offer');
             canBeSaved = false;
         }
         if (!desc.trim()) {
-            Alert.alert('Fill every fields', 'You must enter a description for your request');
+            Alert.alert('Fill every fields', 'You must enter a description for your offer');
             canBeSaved = false;
         }
         if (!phoneNumber.trim()) {
@@ -58,7 +61,7 @@ export default function AddOfferScreen({ route, navigation }) {
             canBeSaved = false;
         }
         if (!photo) {
-            Alert.alert('Fill every fields', 'You must upload an image of your request');
+            Alert.alert('Fill every fields', 'You must upload an image of your offer');
             canBeSaved = false;
         }
         if (!price.trim()) {
@@ -83,7 +86,7 @@ export default function AddOfferScreen({ route, navigation }) {
     return (
         <View style={styles.container}>
             <View style={{ flex: 1, justifyContent: 'center' }}>
-                <Text style={styles.title}>Add your request</Text>
+                <Text style={styles.title}>Add your offer</Text>
             </View>
             <View style={{ flex: 5, width: '100%', justifyContent: 'flex-start', alignItems: 'center' }}>
                 <ScrollView style={{ width: '100%' }}>

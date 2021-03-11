@@ -7,7 +7,7 @@ export default function HomeScreen() {
 
     return (
         <View style={styles.container}>
-            <View style={{ flex: 1, margin: 40 }}>
+            <View style={{ flex: 1, margin: 30 }}>
                 <Text style={styles.title}>Welcome to the exchange students app</Text>
             </View>
             <View style={{ flex: 8, margin: 10 }}>
@@ -16,6 +16,8 @@ export default function HomeScreen() {
                 <Text style={{ color: 'blue', fontSize: 20, fontFamily: theme.fonts.regular, textAlign: 'center' }}
                     onPress={() => Linking.openURL('https://forms.gle/aLEb6ay5rJwNnVXZ7')}>
                     Give feedback</Text>
+
+                <Text style={styles.text}>N.B. if you press a long time on an FAQ, you will be able to delete or modify it and if you do the same on a request or an offer it will delete it</Text>
             </View>
             <StatusBar style="auto" />
         </View>
@@ -36,6 +38,8 @@ const styles = StyleSheet.create({
         textAlign: 'center'
     },
     text: {
+        marginBottom:10,
+        marginTop:10,
         fontSize: 20,
         fontFamily: theme.fonts.regular
     }

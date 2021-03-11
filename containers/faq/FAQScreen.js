@@ -32,12 +32,6 @@ export default function FAQScreen({ navigation }) {
         })
     })
 
-    // //Loading the fonts
-    // const [loaded] = useFonts({
-    //     Montserrat: require('../assets/myfonts/Montserrat-Regular.ttf'),
-    //     MontserratBold: require('../assets/myfonts/Montserrat-Bold.ttf'),
-    // });
-
     //Constants
     const [search, setSearch] = useState('');
     const [searchOpen, setSearchOpen] = useState(false);
@@ -53,7 +47,6 @@ export default function FAQScreen({ navigation }) {
     const updateSearch = (text) => {
         setSearch(text);
         setFaqsFiltered(faqs.filter((item) => item.question.toLowerCase().includes(text.toLowerCase())));
-        console.log('updating search');
     }
 
     useEffect(() => {
@@ -110,31 +103,43 @@ export default function FAQScreen({ navigation }) {
         })
     }
 
-    return (
-        <View style={styles.container}>
+    if (faqLoaded) {
+        return (
+            <View style={styles.container}>
 
-            <View style={styles.content}>
-                <ScrollView style={{ width: '100%' }}>
-                    {showFAQs()}
-                </ScrollView>
-            </View>
+                <View style={styles.content}>
+                    <ScrollView style={{ width: '100%' }}>
+                        {showFAQs()}
+                    </ScrollView>
+                </View>
 
-            <View style={styles.foot}>
-                <View style={{ flex: 4, alignItems: "center", justifyContent: "center" }}>
-                    <Text style={styles.text}>Those questions did'nt help you?</Text>
-                    <Text style={styles.text}>No problem! Ask your question here</Text>
+                <View style={styles.foot}>
+                    <View style={{ flex: 4, alignItems: "center", justifyContent: "center" }}>
+                        <Text style={styles.text}>Those questions did'nt help you?</Text>
+                        <Text style={styles.text}>No problem! Ask your question here</Text>
+                    </View>
+                    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+                        <Icon.Button name="question-circle"
+                            size={50}
+                            color="white"
+                            backgroundColor={theme.colors.green}
+                            onPress={() => { navigation.navigate('AddFAQ', getFAQs) }} />
+                    </View>
                 </View>
-                <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-                    <Icon.Button name="question-circle"
-                        size={50}
-                        color="white"
-                        backgroundColor={theme.colors.green}
-                        onPress={() => { navigation.navigate('AddFAQ', getFAQs) }} />
-                </View>
+                <StatusBar style="auto" />
             </View>
-            <StatusBar style="auto" />
-        </View>
-    )
+        )
+    }
+    else {
+        return (
+            <View style={styles.container}>
+                <Text>Loading...</Text>
+                <Text>Please wait</Text>
+            </View>
+        )
+
+    }
+
 }
 
 

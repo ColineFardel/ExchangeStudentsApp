@@ -36,7 +36,7 @@ export function DrawerContent(props) {
                 <View style={styles.drawerContent}>
                     <View style={styles.userInfoSection}>
                         <View style={{ marginLeft: 15 }}>
-                            <Title style={styles.title}>Coline Fardel</Title>
+                            <Title style={styles.title}>Your name</Title>
                             <Text>Email</Text>
                         </View>
                     </View>

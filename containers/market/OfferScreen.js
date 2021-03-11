@@ -1,8 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, Button, Image, ScrollView, TouchableOpacity, TextInput } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TextInput } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { deleteOffer, getOffers } from '../../redux/actions/market';
+import { deleteOffer, getOffers, setVisibleFalse } from '../../redux/actions/market';
 import { useDispatch, useSelector } from 'react-redux';
 import theme from '../../constants/theme';
 import Card from '../../components/card';
@@ -55,7 +55,6 @@ export default function OfferScreen({ navigation }) {
   const updateSearch = (text) => {
     setSearch(text);
     setOffersFiltered(offers.filter((item) => item.name.toLowerCase().includes(text.toLowerCase())));
-    console.log('updating search');
   }
 
   //Show the list of offers
@@ -75,36 +74,47 @@ export default function OfferScreen({ navigation }) {
     })
   }
 
-  return (
-    <View style={styles.container}>
-      <View style={styles.content}>
-        <ScrollView style={{ width: '100%' }}>
-          {showOffers()}
-        </ScrollView>
-      </View>
-
-      <Snackbar
-        visible={visible}
-        onDismiss={() => removeSnackBar()}
-        duration={2000}
-      >{message}</Snackbar>
-
-      <View style={styles.foot}>
-        <View style={{ flex: 4, alignItems: "center", justifyContent: "center" }}>
-          <Text style={styles.text}>You want to post an offer?</Text>
-          <Text style={styles.text}>No problem! Create one here</Text>
+  if (offerLoaded) {
+    return (
+      <View style={styles.container}>
+        <View style={styles.content}>
+          <ScrollView style={{ width: '100%' }}>
+            {showOffers()}
+          </ScrollView>
         </View>
-        <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-          <Icon.Button name="plus-circle"
-            size={50}
-            color="white"
-            backgroundColor={theme.colors.red}
-            onPress={() => { navigation.navigate('AddOffer') }} />
+
+        <Snackbar
+          visible={visible}
+          onDismiss={() => removeSnackBar()}
+          duration={2000}
+        >{message}</Snackbar>
+
+        <View style={styles.foot}>
+          <View style={{ flex: 4, alignItems: "center", justifyContent: "center" }}>
+            <Text style={styles.text}>You want to post an offer?</Text>
+            <Text style={styles.text}>No problem! Create one here</Text>
+          </View>
+          <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+            <Icon.Button name="plus-circle"
+              size={50}
+              color="white"
+              backgroundColor={theme.colors.red}
+              onPress={() => { navigation.navigate('AddOffer') }} />
+          </View>
         </View>
+        <StatusBar style="auto" />
       </View>
-      <StatusBar style="auto" />
-    </View>
-  );
+    );
+  }
+  else {
+    return (
+      <View style={styles.container}>
+        <Text>Loading...</Text>
+        <Text>Please wait</Text>
+      </View>
+    )
+  }
+
 }
 
 const styles = StyleSheet.create({

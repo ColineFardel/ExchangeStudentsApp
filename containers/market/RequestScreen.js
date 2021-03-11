@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, Button, Image, ScrollView, TouchableOpacity, TextInput } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TextInput } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { deleteRequest, getRequests, setVisibleFalse } from '../../redux/actions/market';
 import { useDispatch, useSelector } from 'react-redux';
@@ -51,7 +51,6 @@ export default function RequestScreen({ navigation }) {
   const updateSearch = (text) => {
     setSearch(text);
     setRequestsFiltered(requests.filter((item) => item.name.toLowerCase().includes(text.toLowerCase())));
-    console.log('updating search');
   }
 
   useEffect(() => {
@@ -76,36 +75,48 @@ export default function RequestScreen({ navigation }) {
     })
   }
 
-  return (
-    <View style={styles.container}>
-      <View style={styles.content}>
-        <ScrollView style={{ width: '100%' }}>
-          {showRequests()}
-        </ScrollView>
-      </View>
-
-      <Snackbar
-        visible={visible}
-        onDismiss={() => removeSnackBar()}
-        duration={2000}
-      >{message}</Snackbar>
-
-      <View style={styles.foot}>
-        <View style={{ flex: 4, alignItems: "center", justifyContent: "center" }}>
-          <Text style={styles.text}>You want to post a request?</Text>
-          <Text style={styles.text}>No problem! Create one here</Text>
+  if (requestLoaded) {
+    return (
+      <View style={styles.container}>
+        <View style={styles.content}>
+          <ScrollView style={{ width: '100%' }}>
+            {showRequests()}
+          </ScrollView>
         </View>
-        <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-          <Icon.Button name="plus-circle"
-            size={50}
-            color="white"
-            backgroundColor={theme.colors.red}
-            onPress={() => { navigation.navigate('AddRequest') }} />
+
+        <Snackbar
+          visible={visible}
+          onDismiss={() => removeSnackBar()}
+          duration={2000}
+        >{message}</Snackbar>
+
+        <View style={styles.foot}>
+          <View style={{ flex: 4, alignItems: "center", justifyContent: "center" }}>
+            <Text style={styles.text}>You want to post a request?</Text>
+            <Text style={styles.text}>No problem! Create one here</Text>
+          </View>
+          <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+            <Icon.Button name="plus-circle"
+              size={50}
+              color="white"
+              backgroundColor={theme.colors.red}
+              onPress={() => { navigation.navigate('AddRequest') }} />
+          </View>
         </View>
+        <StatusBar style="auto" />
       </View>
-      <StatusBar style="auto" />
-    </View>
-  );
+    );
+  }
+  else {
+    return (
+      <View style={styles.container}>
+        <Text>Loading...</Text>
+        <Text>Please wait</Text>
+      </View>
+    )
+
+  }
+
 }
 
 const styles = StyleSheet.create({
