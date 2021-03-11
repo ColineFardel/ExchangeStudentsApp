@@ -12,6 +12,9 @@ const theme = {
 
         cyan: '#6DD0D0',
         grey: '#808080',
+
+        orange: '#FEC048',
+        lightOrange:'#ffe4b3',
     },
     fontSizes: {
         footText: 16,

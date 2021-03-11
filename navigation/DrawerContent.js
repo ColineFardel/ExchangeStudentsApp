@@ -43,7 +43,7 @@ export function DrawerContent(props) {
                     <Drawer.Section style={styles.drawerSection}>
                         <DrawerItem
                             label="Home"
-                            onPress={() => { props.navigation.navigate('Home')}}
+                            onPress={() => { props.navigation.navigate('Home') }}
                             icon={() => (
                                 <Icon
                                     name="home"
@@ -61,7 +61,7 @@ export function DrawerContent(props) {
                             )} />
                         <DrawerItem
                             label="Forum"
-                            onPress={() => { }}
+                            onPress={() => { props.navigation.navigate('Forum') }}
                             icon={() => (
                                 <Icon
                                     name="forum"

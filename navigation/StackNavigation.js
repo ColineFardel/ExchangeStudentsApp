@@ -12,7 +12,8 @@ import AddRequest from '../containers/market/AddRequestScreen';
 import theme from '../constants/theme';
 import RequestDetails from '../containers/market/RequestDetailsScreen';
 import OfferDetails from '../containers/market/OfferDetailsScreen';
-import AddOffer from'../containers/market/AddOfferScreen';
+import AddOffer from '../containers/market/AddOfferScreen';
+import Forum from '../containers/forum/ForumScreen';
 
 const Stack = createStackNavigator();
 
@@ -149,4 +150,32 @@ const HomeStackNavigation = ({ navigation }) => {
     )
 }
 
-export { FAQStackNavigation, RequestStackNavigation, OfferStackNavigation, HomeStackNavigation };
+const ForumStackNavigation = ({ navigation }) => {
+    return (
+        <Stack.Navigator
+            screenOptions={{
+                headerStyle: {
+                    backgroundColor: theme.colors.orange,
+                },
+                headerTintColor: 'white',
+                headerTitleStyle: {
+                    fontWeight: 'bold',
+                }
+            }}>
+            <Stack.Screen
+                name="Forum"
+                component={Forum}
+                options={{
+                    title: 'Forum',
+                    headerLeft: () => (
+                        <Icon.Button name="ios-menu"
+                            size={25}
+                            backgroundColor={theme.colors.orange}
+                            onPress={() => { navigation.openDrawer() }} />
+                    )
+                }} />
+        </Stack.Navigator>
+    )
+}
+
+export { FAQStackNavigation, RequestStackNavigation, OfferStackNavigation, HomeStackNavigation, ForumStackNavigation };
