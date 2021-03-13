@@ -90,19 +90,13 @@ export default function RequestScreen({ navigation }) {
           duration={2000}
         >{message}</Snackbar>
 
-        <View style={styles.foot}>
-          <View style={{ flex: 4, alignItems: "center", justifyContent: "center" }}>
-            <Text style={styles.text}>You want to post a request?</Text>
-            <Text style={styles.text}>No problem! Create one here</Text>
-          </View>
-          <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-            <Icon.Button name="plus-circle"
-              size={50}
-              color="white"
-              backgroundColor={theme.colors.red}
-              onPress={() => { navigation.navigate('AddRequest') }} />
-          </View>
-        </View>
+        <Foot
+          color={theme.colors.red}
+          icon="plus-circle"
+          textTop="You want to post an request?"
+          textBottom="No problem! Create one here"
+          iconAction={() => { navigation.navigate('AddRequest') }}
+        />
         <StatusBar style="auto" />
       </View>
     );

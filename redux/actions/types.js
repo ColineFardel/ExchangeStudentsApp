@@ -14,3 +14,6 @@ export const DELETE_OFFER = 'DELETE_OFFER';
 export const MODIFY_OFFER = 'MODIFY_OFFER';
 
 export const SET_VISIBLE_FALSE = 'SET_VISIBLE_FALSE';
+
+export const GET_TOPICS = 'GET_TOPICS';
+export const ADD_TOPIC = 'ADD_TOPIC';

@@ -6,6 +6,7 @@ import { useFonts } from 'expo-font';
 import { getFAQs } from '../../redux/actions/faq';
 import { useDispatch, useSelector } from 'react-redux';
 import theme from '../../constants/theme';
+import Foot from '../../components/foot';
 
 export default function FAQScreen({ navigation }) {
 
@@ -113,19 +114,13 @@ export default function FAQScreen({ navigation }) {
                     </ScrollView>
                 </View>
 
-                <View style={styles.foot}>
-                    <View style={{ flex: 4, alignItems: "center", justifyContent: "center" }}>
-                        <Text style={styles.text}>Those questions did'nt help you?</Text>
-                        <Text style={styles.text}>No problem! Ask your question here</Text>
-                    </View>
-                    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-                        <Icon.Button name="question-circle"
-                            size={50}
-                            color="white"
-                            backgroundColor={theme.colors.green}
-                            onPress={() => { navigation.navigate('AddFAQ', getFAQs) }} />
-                    </View>
-                </View>
+                <Foot
+                    color={theme.colors.green}
+                    icon="question-circle"
+                    textTop="Those questions did'nt help you?"
+                    textBottom="No problem! Ask your question here"
+                    iconAction={() => { navigation.navigate('AddFAQ', getFAQs) }}
+                />
                 <StatusBar style="auto" />
             </View>
         )

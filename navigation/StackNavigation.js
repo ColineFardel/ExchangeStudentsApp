@@ -14,6 +14,8 @@ import RequestDetails from '../containers/market/RequestDetailsScreen';
 import OfferDetails from '../containers/market/OfferDetailsScreen';
 import AddOffer from '../containers/market/AddOfferScreen';
 import Forum from '../containers/forum/ForumScreen';
+import AddTopic from '../containers/forum/AddTopicScreen';
+import ChatRoom from '../containers/forum/ChatRoomScreen';
 
 const Stack = createStackNavigator();
 
@@ -174,6 +176,8 @@ const ForumStackNavigation = ({ navigation }) => {
                             onPress={() => { navigation.openDrawer() }} />
                     )
                 }} />
+            <Stack.Screen name="AddTopic" component={AddTopic} options={{ headerShown: false }} />
+            <Stack.Screen name="ChatRoom" component={ChatRoom} />
         </Stack.Navigator>
     )
 }

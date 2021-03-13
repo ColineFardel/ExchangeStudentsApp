@@ -17,11 +17,11 @@ const theme = {
         lightOrange:'#ffe4b3',
     },
     fontSizes: {
-        footText: 16,
-        buttonText: 24,
-        cardTitle: 20,
-        cardText: 18,
-        screenTitle: 36,
+        footText: 12,
+        buttonText: 20,
+        cardTitle: 16,
+        cardText: 12,
+        screenTitle: 32,
     },
     fonts: {
         regular: 'Montserrat',
