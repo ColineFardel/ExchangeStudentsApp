@@ -17,3 +17,6 @@ export const SET_VISIBLE_FALSE = 'SET_VISIBLE_FALSE';
 
 export const GET_TOPICS = 'GET_TOPICS';
 export const ADD_TOPIC = 'ADD_TOPIC';
+
+export const ADD_CHAT = 'ADD_CHAT';
+export const GET_CHATS = 'GET_CHATS';

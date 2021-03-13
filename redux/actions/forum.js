@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GET_TOPICS, ADD_TOPIC } from './types';
+import { GET_TOPICS, ADD_TOPIC, ADD_CHAT, GET_CHATS } from './types';
 
 export const getTopics = () => {
     try {
@@ -27,6 +27,40 @@ export const addTopic = (topic) => {
                     dispatch({
                         type: ADD_TOPIC,
                         payload: topic
+                    });
+                });
+        };
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export const getChats = (topicId) => {
+    try {
+        return async dispatch => {
+            const response = await axios.get('https://exchangestudentsapp-fardel.herokuapp.com/chat/' + topicId);
+            if (response.data) {
+                dispatch({
+                    type: GET_CHATS,
+                    payload: response.data
+                });
+            } else {
+                console.log('Unable to fetch data from the API BASE URL!');
+            }
+        };
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export const addChat = (chat) => {
+    try {
+        return async dispatch => {
+            await axios.post('https://exchangestudentsapp-fardel.herokuapp.com/addchat', chat)
+                .then(response => {
+                    dispatch({
+                        type: ADD_CHAT,
+                        payload: chat
                     });
                 });
         };

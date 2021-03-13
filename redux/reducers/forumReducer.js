@@ -1,8 +1,10 @@
-import { GET_TOPICS, ADD_TOPIC } from '../actions/types';
+import { GET_TOPICS, ADD_TOPIC, GET_CHATS, ADD_CHAT } from '../actions/types';
 
 const initialState = {
     topics: [],
-    topicLoaded: false
+    topicLoaded: false,
+    chats:[],
+    chatLoaded:false
 }
 
 const forumReducer = (state = initialState, action) => {
@@ -10,7 +12,12 @@ const forumReducer = (state = initialState, action) => {
         case GET_TOPICS:
             return { ...state, topics: action.payload, topicLoaded: true };
         case ADD_TOPIC:
-            return { ...state, topicLoaded: false }
+            return { ...state, topicLoaded: false };
+
+        case GET_CHATS:
+            return { ...state, chats: action.payload, chatLoaded: true };
+        case ADD_CHAT:
+            return { ...state, chatLoaded: false };
         default:
             return state;
     }

@@ -12,9 +12,10 @@ const theme = {
 
         cyan: '#6DD0D0',
         grey: '#808080',
+        lightGrey: '#d9d9d9',
 
         orange: '#FEC048',
-        lightOrange:'#ffe4b3',
+        lightOrange: '#ffe4b3',
     },
     fontSizes: {
         footText: 12,
@@ -29,7 +30,8 @@ const theme = {
     },
     borderRadius: {
         card: 10,
-        button:20
+        button: 20,
+        chat: 30
     }
 };
 
