@@ -10,7 +10,25 @@ import Foot from '../../components/foot';
 
 export default function ForumScreen({ navigation }) {
 
+    //Header for search bar
+    React.useLayoutEffect(() => {
+        navigation.setOptions({
+            headerRight: () => (
+                <Search
+                    searchOpen={searchOpen}
+                    color={theme.colors.orange}
+                    onPress={() => { setSearchOpen(!searchOpen); updateSearch(''); }}
+                    onChangeText={text => updateSearch(text)}
+                    search={search}
+                />
+            )
+        })
+    })
+
     //Constants
+    const [search, setSearch] = useState('');
+    const [searchOpen, setSearchOpen] = useState(false);
+    const [topicsFiltered, setTopicsFiltered] = useState([]);
     const topics = useSelector(state => state.forumReducer.topics);
     const topicLoaded = useSelector(state => state.forumReducer.topicLoaded);
     const dispatch = useDispatch();
@@ -18,10 +36,16 @@ export default function ForumScreen({ navigation }) {
 
     useEffect(() => {
         fetchTopics();
+        setTopicsFiltered(topics);
     }, [!topicLoaded])
 
+    const updateSearch = (text) => {
+        setSearch(text);
+        setTopicsFiltered(topics.filter((item) => item.name.toLowerCase().includes(text.toLowerCase())));
+    }
+
     const showTopics = () => {
-        return topics.map((topic, index) => {
+        return topicsFiltered.map((topic, index) => {
             return (
                 <TouchableOpacity
                     key={index}

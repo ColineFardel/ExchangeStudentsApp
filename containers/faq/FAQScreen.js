@@ -2,33 +2,25 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, Alert, TouchableOpacity, ScrollView, TextInput } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { useFonts } from 'expo-font';
 import { getFAQs } from '../../redux/actions/faq';
 import { useDispatch, useSelector } from 'react-redux';
 import theme from '../../constants/theme';
 import Foot from '../../components/foot';
+import Search from '../../components/search';
 
 export default function FAQScreen({ navigation }) {
 
-    //Header
+    //Header for search bar
     React.useLayoutEffect(() => {
         navigation.setOptions({
             headerRight: () => (
-                <View style={styles.header}>
-                    <Icon.Button name={searchOpen ? 'times' : 'search'}
-                        size={20}
-                        color="white"
-                        backgroundColor={theme.colors.green}
-                        onPress={() => { setSearchOpen(!searchOpen); updateSearch(''); }} />
-                    {searchOpen && (
-                        <TextInput
-                            placeholder="Search..."
-                            style={styles.searchBar}
-                            value={search}
-                            onChangeText={text => updateSearch(text)}
-                        />
-                    )}
-                </View>
+                <Search
+                    searchOpen={searchOpen}
+                    color={theme.colors.green}
+                    onPress={() => { setSearchOpen(!searchOpen); updateSearch(''); }}
+                    onChangeText={text => updateSearch(text)}
+                    search={search}
+                />
             )
         })
     })

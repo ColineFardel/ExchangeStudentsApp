@@ -38,11 +38,11 @@ export const addTopic = (topic) => {
 export const getChats = (topicId) => {
     try {
         return async dispatch => {
-            const response = await axios.get('https://exchangestudentsapp-fardel.herokuapp.com/chat/' + topicId);
+            const response = await axios.get('https://exchangestudentsapp-fardel.herokuapp.com/chatByDate/' + topicId);
             if (response.data) {
                 dispatch({
                     type: GET_CHATS,
-                    payload: response.data
+                    payload: response.data.reverse()
                 });
             } else {
                 console.log('Unable to fetch data from the API BASE URL!');
@@ -58,9 +58,10 @@ export const addChat = (chat) => {
         return async dispatch => {
             await axios.post('https://exchangestudentsapp-fardel.herokuapp.com/addchat', chat)
                 .then(response => {
+                    console.log(response.data);
                     dispatch({
                         type: ADD_CHAT,
-                        payload: chat
+                        payload: response.data
                     });
                 });
         };

@@ -1,20 +1,19 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, Alert, TouchableOpacity, ScrollView, TextInput } from 'react-native';
+import { StyleSheet, View, Text, TextInput, } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { useFonts } from 'expo-font';
 import { addChat, getChats, getTopics } from '../../redux/actions/forum';
 import { useDispatch, useSelector } from 'react-redux';
 import theme from '../../constants/theme';
-import Foot from '../../components/foot';
-import AppInput from '../../components/input';
-import { Input, Button } from 'react-native-elements';
 import moment from "moment";
+import Chat from '../../components/chat';
+import { SectionList } from 'react-native';
 
 export default function ChatRoomScreen({ navigation, route }) {
 
     //Constants
     const chats = useSelector(state => state.forumReducer.chats);
+    const userChats = useSelector(state => state.forumReducer.userChats);
     const chatLoaded = useSelector(state => state.forumReducer.chatLoaded);
     const topic = route.params;
     const [message, setMessage] = useState('');
@@ -34,25 +33,26 @@ export default function ChatRoomScreen({ navigation, route }) {
         setMessage('');
     }
 
-    const showChats = () => {
-        return chats.map((chat, index) => {
-            return (
-                <View>
-                    <Text>{chat.time}</Text>
-                    <Text style={{ backgroundColor: theme.colors.grey, color: 'white', padding: 10, borderRadius: theme.borderRadius.chat, margin: 5 }}>{chat.text}</Text>
-                </View>
-
-            )
-        });
-    }
-
     return (
         <View style={styles.container}>
             <Text>Chat room</Text>
             <View style={styles.content}>
-                <ScrollView>
-                    {showChats()}
-                </ScrollView>
+                <SectionList
+                    style={{ width: '100%', marginBottom: 15 }}
+                    inverted
+                    sections={chats}
+                    keyExtractor={(item, index) => item + index}
+                    renderItem={({ item }) =>
+                        <Chat
+                            chat={item}
+                            color={theme.colors.grey}
+                            userColor={theme.colors.orange}
+                            isUser={userChats.some((userChat) => userChat.id === item.id)}
+                        />
+                    }
+                    renderSectionFooter={({ section: { date } }) => (
+                        <Text style={styles.header}>{date}</Text>)}
+                />
             </View>
             <View style={{ width: '100%', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginBottom: 5 }}>
                 <View style={{ flex: 7, justifyContent: 'center', alignItems: 'center' }}>
@@ -116,5 +116,11 @@ const styles = StyleSheet.create({
         width: '100%',
         justifyContent: 'flex-start',
         alignItems: 'flex-start'
+    },
+    header: {
+        fontFamily: theme.fonts.bold,
+        fontSize: theme.fontSizes.cardTitle,
+        justifyContent: 'center',
+        alignSelf: 'center',
     },
 });
