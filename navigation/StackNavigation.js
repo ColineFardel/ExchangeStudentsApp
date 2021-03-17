@@ -3,19 +3,18 @@ import { createStackNavigator } from '@react-navigation/stack';
 import FAQ from '../containers/faq/FAQScreen';
 import AddFAQ from '../containers/faq/AddFAQScreen';
 import ModifyFAQ from '../containers/faq/ModifyFAQScreen';
-import Market from '../containers/market/MarketScreen';
 import Home from '../containers/HomeScreen';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Request from '../containers/market/RequestScreen';
 import Offer from '../containers/market/OfferScreen';
 import AddRequest from '../containers/market/AddRequestScreen';
 import theme from '../constants/theme';
-import RequestDetails from '../containers/market/RequestDetailsScreen';
-import OfferDetails from '../containers/market/OfferDetailsScreen';
 import AddOffer from '../containers/market/AddOfferScreen';
 import Forum from '../containers/forum/ForumScreen';
 import AddTopic from '../containers/forum/AddTopicScreen';
 import ChatRoom from '../containers/forum/ChatRoomScreen';
+import Images from '../containers/market/ImagesScreen';
+import Details from '../containers/market/DetailsScreen';
 
 const Stack = createStackNavigator();
 
@@ -84,7 +83,8 @@ const RequestStackNavigation = ({ navigation, route }) => {
                 }} />
 
             <Stack.Screen name="AddRequest" component={AddRequest} options={{ headerShown: false }} />
-            <Stack.Screen name="RequestDetails" component={RequestDetails} options={{ headerShown: false }} />
+            <Stack.Screen name="RequestDetails" component={Details} options={{ headerShown: false }} />
+            <Stack.Screen name="Images" component={Images} />
         </Stack.Navigator>
     )
 }
@@ -119,7 +119,8 @@ const OfferStackNavigation = ({ navigation, route }) => {
                     )
                 }} />
             <Stack.Screen name="AddOffer" component={AddOffer} options={{ headerShown: false }} />
-            <Stack.Screen name="OfferDetails" component={OfferDetails} options={{ headerShown: false }} />
+            <Stack.Screen name="OfferDetails" component={Details} options={{ headerShown: false }} />
+            <Stack.Screen name="Images" component={Images} />
         </Stack.Navigator>
     )
 }

@@ -2,15 +2,17 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import theme from '../constants/theme';
+import theme from '../../constants/theme';
 import { Button } from 'react-native-elements';
 import { Image } from 'react-native';
 import { Linking } from 'react-native';
 import { TouchableOpacity } from 'react-native';
 
-export default ItemDetails = (props) => {
+export default function DetailsScreen({ navigation, route }) {
 
-    const { item, backButton, navigation } = props
+    const item = route.params;
+
+    //const { item, backButton, navigation } = props
 
     const uri = 'https://exchangestudentsapp-fardel.herokuapp.com/img/' + item.imgId;
 
@@ -32,7 +34,7 @@ export default ItemDetails = (props) => {
                     <Icon name={"chevron-left"}
                         size={30}
                         color="black"
-                        onPress={backButton} />
+                        onPress={()=> navigation.goBack()} />
                     <Text style={styles.bigTitle}>{item.name}</Text>
                 </View>
                 <View style={styles.textContainer}>
@@ -55,7 +57,6 @@ export default ItemDetails = (props) => {
                         title="Contact the owner" />
                 </View>
             </View>
-
         </View>
     )
 }
