@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, Alert, TouchableOpacity, ScrollView, TextInput } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useFonts } from 'expo-font';
-import { getTopics } from '../../redux/actions/forum';
+import { deleteTopic, getTopics } from '../../redux/actions/forum';
 import { useDispatch, useSelector } from 'react-redux';
 import theme from '../../constants/theme';
 import Foot from '../../components/foot';
@@ -33,6 +33,7 @@ export default function ForumScreen({ navigation }) {
     const topicLoaded = useSelector(state => state.forumReducer.topicLoaded);
     const dispatch = useDispatch();
     const fetchTopics = () => dispatch(getTopics());
+    const deleteOneTopic = (index) => dispatch(deleteTopic(index));
 
     useEffect(() => {
         fetchTopics();
@@ -51,6 +52,7 @@ export default function ForumScreen({ navigation }) {
                     key={index}
                     style={{ justifyContent: 'center', alignItems: 'center' }}
                     onPress={() => { navigation.navigate('ChatRoom', topic) }}
+                    onLongPress={()=>{deleteOneTopic(topic.id)}}
                 >
                     <View style={{ justifyContent: 'space-between', alignItems: 'center', width: '90%', flexDirection: 'row', backgroundColor: theme.colors.lightOrange, borderRadius: theme.borderRadius.card, margin: 10, padding: 10 }}>
                         <Text style={{ fontSize: theme.fontSizes.cardTitle, fontFamily: theme.fonts.bold }}>{topic.name}</Text>

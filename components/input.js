@@ -17,7 +17,7 @@ export default AppInput = (props) => {
                 backgroundColor: color
             }}
             inputStyle={styles.inputStyle}
-            placeholderTextColor={theme.colors.grey}
+            placeholderTextColor='white'
             inputContainerStyle={{ borderBottomWidth: 0 }}
             onChangeText={action}
             multiline={true}

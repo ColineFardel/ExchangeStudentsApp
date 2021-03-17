@@ -182,6 +182,6 @@ const styles = StyleSheet.create({
         maxWidth: '90%',
         fontFamily: theme.fonts.bold,
         fontSize: theme.fontSizes.cardTitle,
-        color: theme.colors.grey
+        color: 'white'
     }
 });

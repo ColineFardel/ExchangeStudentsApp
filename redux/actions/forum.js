@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GET_TOPICS, ADD_TOPIC, ADD_CHAT, GET_CHATS } from './types';
+import { GET_TOPICS, ADD_TOPIC, ADD_CHAT, GET_CHATS, DELETE_TOPIC } from './types';
 
 export const getTopics = () => {
     try {
@@ -13,6 +13,23 @@ export const getTopics = () => {
             } else {
                 console.log('Unable to fetch data from the API BASE URL!');
             }
+        };
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export const deleteTopic = (index) => {
+    let url = 'https://exchangestudentsapp-fardel.herokuapp.com/topic/' + index;
+    try {
+        return async dispatch => {
+            await axios.delete(url)
+                .then(response => {
+                    dispatch({
+                        type: DELETE_TOPIC,
+                        payload: index
+                    });
+                });
         };
     } catch (error) {
         console.log(error);
