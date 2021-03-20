@@ -1,9 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, TextInput } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { Input, Button } from 'react-native-elements';
 import { deleteFaq, modifyFaq } from '../../redux/actions/faq';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import theme from '../../constants/theme';
 
 export default function ModifyFAQScreen({ navigation, route }) {
 
@@ -38,7 +39,6 @@ export default function ModifyFAQScreen({ navigation, route }) {
         <View style={styles.container}>
             <View style={{ width: '100%', justifyContent: 'center', alignItems: 'center' }}>
                 <Text style={styles.questionTitle}>{faq.question}</Text>
-
                 <Input
                     label="Answer"
                     placeholder={faq.answer}
@@ -64,12 +64,12 @@ export default function ModifyFAQScreen({ navigation, route }) {
             <View style={styles.buttonContainer}>
                 <Button
                     buttonStyle={styles.deleteButton}
-                    titleStyle={{ color: 'white', fontFamily: 'MontserratBold', fontSize: 24 }}
+                    titleStyle={styles.deleteButtonText}
                     onPress={() => handleDelete()}
                     title="DELETE" />
                 <Button
                     buttonStyle={styles.saveButton}
-                    titleStyle={{ color: '#6DD07D', fontFamily: 'MontserratBold', fontSize: 24 }}
+                    titleStyle={styles.saveButtonText}
                     onPress={() => handleModify()}
                     title="SAVE" />
             </View>
@@ -86,26 +86,26 @@ const styles = StyleSheet.create({
         paddingBottom: 20,
         paddingTop: 20,
     },
-    inputContainer:{
-        color: 'green', 
-        borderBottomWidth: 1, 
-        borderBottomColor:'#6DD07D'
+    inputContainer: {
+        color: theme.colors.green,
+        borderBottomWidth: 1,
+        borderBottomColor: theme.colors.green,
     },
     questionTitle: {
-        fontFamily: 'MontserratBold',
-        color: "#6DD07D",
-        fontSize: 24,
+        fontFamily: theme.fonts.bold,
+        color: theme.colors.green,
+        fontSize: theme.fontSizes.screenTitle,
         width: '90%',
         marginBottom: 25
     },
     inputSyle: {
-        color: '#6DD07D',
-        fontFamily: 'MontserratBold',
+        color: theme.colors.green,
+        fontFamily: theme.fonts.bold,
     },
     buttonContainer: {
-        flexDirection: 'row', 
-        justifyContent: 'space-between', 
-        alignItems: 'center', 
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
         width: '90%'
     },
     deleteButton: {
@@ -115,7 +115,17 @@ const styles = StyleSheet.create({
     saveButton: {
         backgroundColor: 'white',
         borderWidth: 1,
-        borderColor: '#6DD07D',
-        borderRadius: 10
+        borderColor: theme.colors.green,
+        borderRadius: theme.borderRadius.button
     },
+    deleteButtonText: {
+        color: 'white',
+        fontFamily: theme.fonts.bold,
+        fontSize: theme.fontSizes.buttonText
+    },
+    saveButtonText: {
+        color: theme.colors.green,
+        fontFamily: theme.fonts.bold,
+        fontSize: theme.fontSizes.buttonText
+    }
 });

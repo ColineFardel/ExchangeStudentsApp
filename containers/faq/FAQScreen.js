@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, Alert, TouchableOpacity, ScrollView, TextInput } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { getFAQs, setVisibleFalse } from '../../redux/actions/faq';
 import { useDispatch, useSelector } from 'react-redux';
@@ -31,7 +31,6 @@ export default function FAQScreen({ navigation }) {
     const [searchOpen, setSearchOpen] = useState(false);
     const [faqsFiltered, setFaqsFiltered] = useState([]);
     const [currentIndex, setCurrentIndex] = React.useState(null);
-
     const visible = useSelector(state => state.faqReducer.snackBarVisible);
     const message = useSelector(state => state.faqReducer.snackBarMessage);
     const faqs = useSelector(state => state.faqReducer.faqs);
@@ -48,7 +47,6 @@ export default function FAQScreen({ navigation }) {
 
     useEffect(() => {
         fetchFaqs();
-
         setFaqsFiltered(faqs.sort((a, b) => {
             if (a.tag < b.tag)
                 return -1;
@@ -103,7 +101,6 @@ export default function FAQScreen({ navigation }) {
     if (faqLoaded) {
         return (
             <View style={styles.container}>
-
                 <View style={styles.content}>
                     <ScrollView style={{ width: '100%' }}>
                         {showFAQs()}
@@ -128,7 +125,7 @@ export default function FAQScreen({ navigation }) {
     }
     else {
         return (
-            <Loading/>
+            <Loading />
         )
 
     }
@@ -144,48 +141,21 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         width: '100%',
     },
-    header: {
-        flexDirection: 'row',
-        alignItems: 'center'
-    },
-    searchBar: {
-        backgroundColor: 'white',
-        borderRadius: 20,
-        paddingLeft: 10,
-        paddingRight: 10,
-        marginRight: 15
-    },
     card: {
         backgroundColor: theme.colors.lightGreen,
-        borderRadius: 10,
+        borderRadius: theme.borderRadius.card,
         width: '90%',
         padding: 10,
         margin: 10,
-    },
-    foot: {
-        backgroundColor: theme.colors.green,
-        width: '100%',
-        flexDirection: 'row',
-        minHeight: 50,
     },
     content: {
         flex: 10,
         width: '100%',
     },
-    text: {
-        fontFamily: theme.fonts.bold,
-        fontSize: theme.fontSizes.footText,
-        color: theme.colors.footTextColor,
-    },
     cardText: {
         fontFamily: theme.fonts.regular,
         fontSize: theme.fontSizes.cardText,
         color: "black"
-    },
-    input: {
-        borderWidth: 0,
-        width: '50%',
-        backgroundColor: theme.colors.green,
     },
     cardTitle: {
         maxWidth: '90%',

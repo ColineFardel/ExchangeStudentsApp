@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, Alert, TouchableOpacity, ScrollView, TextInput } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { deleteTopic, getTopics, setVisibleFalse } from '../../redux/actions/forum';
 import { useDispatch, useSelector } from 'react-redux';
@@ -98,11 +98,9 @@ export default function ForumScreen({ navigation }) {
     }
     else {
         return (
-            <Loading/>
+            <Loading />
         );
     }
-
-
 }
 
 const styles = StyleSheet.create({

@@ -1,13 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, TextInput, } from 'react-native';
+import { StyleSheet, View, Text, TextInput, SectionList } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { addChat, getChats, getTopics } from '../../redux/actions/forum';
+import { addChat, getChats } from '../../redux/actions/forum';
 import { useDispatch, useSelector } from 'react-redux';
 import theme from '../../constants/theme';
 import moment from "moment";
 import Chat from '../../components/chat';
-import { SectionList } from 'react-native';
 
 export default function ChatRoomScreen({ navigation, route }) {
 
@@ -89,17 +88,10 @@ const styles = StyleSheet.create({
         flex: 1,
         width: '100%',
     },
-    inputStyle: {
-        color: 'black',
-        fontFamily: theme.fonts.bold,
-        padding: 10,
-        margin: 10,
-        fontSize: theme.fontSizes.cardTitle,
-    },
     chatInput: {
-        fontSize: 16,
-        backgroundColor: 'grey',
-        borderRadius: 30,
+        fontSize: theme.fontSizes.chat,
+        backgroundColor: theme.colors.grey,
+        borderRadius: theme.borderRadius.chat,
         padding: 10,
         width: '100%',
         marginLeft: 10,
@@ -107,7 +99,7 @@ const styles = StyleSheet.create({
     },
     sendButton: {
         backgroundColor: theme.colors.orange,
-        borderRadius: 30,
+        borderRadius: theme.borderRadius.chatButton,
         padding: 10
     },
     content: {

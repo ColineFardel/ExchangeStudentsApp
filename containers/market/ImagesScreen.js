@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Image } from 'react-native';
-import { StyleSheet, View, Text, Alert, TouchableOpacity, ScrollView, TextInput } from 'react-native';
+import { StyleSheet, View, ScrollView } from 'react-native';
 import { Dimensions } from 'react-native';
 
-export default function ImagesScreen({ navigation, route }) {
+export default function ImagesScreen({ route }) {
 
     const windowWidth = Dimensions.get('window').width;
 
@@ -33,6 +33,7 @@ const styles = StyleSheet.create({
     },
     image: {
         width: Dimensions.get('window').width,
-        height: Dimensions.get('window').height
+        height: Dimensions.get('window').height,
+        resizeMode: 'contain'
     },
 });

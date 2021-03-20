@@ -8,7 +8,7 @@ import AppInput from '../../components/input';
 import { addRequest } from '../../redux/actions/market';
 import { useDispatch } from 'react-redux';
 
-export default function AddRequestScreen({ route, navigation }) {
+export default function AddRequestScreen({ navigation }) {
 
     //Constants
     const [photo, setPhoto] = useState(null);
@@ -39,7 +39,6 @@ export default function AddRequestScreen({ route, navigation }) {
     }
     //Saving request in database if all fields are filled
     const saveRequest = () => {
-
         let canBeSaved = true;
 
         if (!name.trim()) {
@@ -128,12 +127,12 @@ export default function AddRequestScreen({ route, navigation }) {
             <View style={styles.buttonContainer}>
                 <Button
                     buttonStyle={styles.cancelButton}
-                    titleStyle={{ color: 'white', fontFamily: 'MontserratBold', fontSize: 24 }}
+                    titleStyle={styles.cancelButtonText}
                     onPress={() => navigation.goBack()}
                     title="CANCEL" />
                 <Button
-                    buttonStyle={styles.sendButton}
-                    titleStyle={{ color: 'red', fontFamily: 'MontserratBold', fontSize: 24 }}
+                    buttonStyle={styles.createButton}
+                    titleStyle={styles.createButtonText}
                     onPress={() => saveRequest()}
                     title="CREATE" />
             </View>
@@ -156,13 +155,13 @@ const styles = StyleSheet.create({
     },
     cancelButton: {
         backgroundColor: 'red',
-        borderRadius: 10
+        borderRadius: theme.borderRadius.button
     },
-    sendButton: {
+    createButton: {
         backgroundColor: 'white',
         borderWidth: 1,
-        borderColor: 'red',
-        borderRadius: 10
+        borderColor: theme.colors.red,
+        borderRadius: theme.borderRadius.button
     },
     buttonContainer: {
         flexDirection: 'row',
@@ -171,9 +170,19 @@ const styles = StyleSheet.create({
         width: '90%',
         flex: 1
     },
+    cancelButtonText: {
+        color: 'white',
+        fontFamily: theme.fonts.bold,
+        fontSize: theme.fontSizes.buttonText
+    },
+    createButtonText: {
+        color: theme.colors.red,
+        fontFamily: theme.fonts.bold,
+        fontSize: theme.fontSizes.buttonText
+    },
     card: {
         backgroundColor: theme.colors.lightRed,
-        borderRadius: 10,
+        borderRadius: theme.borderRadius.card,
         width: '90%',
         padding: 10,
         margin: 10,

@@ -1,12 +1,8 @@
-import { StatusBar } from 'expo-status-bar';
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { StyleSheet, Text, View, Image, Linking, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import theme from '../../constants/theme';
 import { Button } from 'react-native-elements';
-import { Image } from 'react-native';
-import { Linking } from 'react-native';
-import { TouchableOpacity } from 'react-native';
 
 export default function DetailsScreen({ navigation, route }) {
 
@@ -52,7 +48,7 @@ export default function DetailsScreen({ navigation, route }) {
                 <View style={styles.buttonContainer}>
                     <Button
                         buttonStyle={styles.button}
-                        titleStyle={{ color: 'white', fontFamily: 'MontserratBold', fontSize: 24 }}
+                        titleStyle={{ color: 'white', fontFamily: 'MontserratBold', fontSize:theme.fontSizes.buttonText }}
                         onPress={() => openWhatsApp()}
                         title="Contact the owner" />
                 </View>
@@ -68,7 +64,7 @@ const styles = StyleSheet.create({
         flex: 1
     },
     button: {
-        backgroundColor: 'red',
+        backgroundColor: theme.colors.red,
         borderRadius: theme.borderRadius.button,
         width: '50%',
         margin: 20

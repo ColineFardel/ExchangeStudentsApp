@@ -33,14 +33,14 @@ const styles = StyleSheet.create({
         width: '100%',
     },
     title: {
-        fontSize: 24,
+        fontSize: theme.fontSizes.screenTitle,
         fontFamily: theme.fonts.bold,
         textAlign: 'center'
     },
     text: {
-        marginBottom:10,
-        marginTop:10,
-        fontSize: 20,
+        marginBottom: 10,
+        marginTop: 10,
+        fontSize: theme.fontSizes.buttonText,
         fontFamily: theme.fonts.regular
     }
 });

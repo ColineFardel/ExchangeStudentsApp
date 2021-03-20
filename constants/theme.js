@@ -19,10 +19,11 @@ const theme = {
     },
     fontSizes: {
         footText: 12,
-        buttonText: 20,
+        buttonText: 18,
         cardTitle: 16,
         cardText: 12,
-        screenTitle: 32,
+        screenTitle: 28,
+        chat:16
     },
     fonts: {
         regular: 'Montserrat',
@@ -30,8 +31,9 @@ const theme = {
     },
     borderRadius: {
         card: 10,
-        button: 20,
-        chat: 30
+        button: 10,
+        chat: 30,
+        chatButton: 30
     }
 };
 

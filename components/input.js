@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet} from 'react-native';
 import theme from '../constants/theme';
-import { Input, Button } from 'react-native-elements';
+import { Input } from 'react-native-elements';
 
 export default AppInput = (props) => {
 

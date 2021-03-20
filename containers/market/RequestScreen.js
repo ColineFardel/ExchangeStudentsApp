@@ -1,36 +1,25 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, ScrollView, TextInput } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { StyleSheet, View, ScrollView } from 'react-native';
 import { deleteRequest, getRequests, setVisibleFalse } from '../../redux/actions/market';
 import { useDispatch, useSelector } from 'react-redux';
 import theme from '../../constants/theme';
 import Card from '../../components/card';
-import { Snackbar } from 'react-native-paper';
 import Loading from '../../components/loading';
-
 
 export default function RequestScreen({ navigation }) {
 
-  //Header
+  //Header for search bar
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <View style={styles.header}>
-          <Icon.Button name={searchOpen ? 'times' : 'search'}
-            size={20}
-            color="white"
-            backgroundColor={theme.colors.red}
-            onPress={() => { setSearchOpen(!searchOpen); updateSearch(''); }} />
-          {searchOpen && (
-            <TextInput
-              placeholder="Search..."
-              style={styles.searchBar}
-              value={search}
-              onChangeText={text => updateSearch(text)}
-            />
-          )}
-        </View>
+        <Search
+          searchOpen={searchOpen}
+          color={theme.colors.red}
+          onPress={() => { setSearchOpen(!searchOpen); updateSearch(''); }}
+          onChangeText={text => updateSearch(text)}
+          search={search}
+        />
       )
     })
   })
@@ -84,14 +73,12 @@ export default function RequestScreen({ navigation }) {
             {showRequests()}
           </ScrollView>
         </View>
-
         <AppSnackBar
           visible={visible}
           onDismiss={() => removeSnackBar()}
           message={message}
           color={theme.colors.red}
         />
-
         <Foot
           color={theme.colors.red}
           icon="plus-circle"
@@ -105,11 +92,9 @@ export default function RequestScreen({ navigation }) {
   }
   else {
     return (
-      <Loading/>
+      <Loading />
     )
-
   }
-
 }
 
 const styles = StyleSheet.create({
@@ -123,17 +108,6 @@ const styles = StyleSheet.create({
     flex: 10,
     width: '100%',
   },
-  foot: {
-    backgroundColor: theme.colors.red,
-    width: '100%',
-    flexDirection: 'row',
-    minHeight: 50,
-  },
-  text: {
-    fontFamily: theme.fonts.bold,
-    fontSize: theme.fontSizes.footText,
-    color: 'white',
-  },
   card: {
     backgroundColor: theme.colors.lightRed,
     borderRadius: theme.borderRadius.card,
@@ -145,27 +119,5 @@ const styles = StyleSheet.create({
     height: 140,
     borderTopLeftRadius: theme.borderRadius.card,
     borderTopRightRadius: theme.borderRadius.card,
-  },
-  cardTitle: {
-    maxWidth: '90%',
-    fontFamily: theme.fonts.bold,
-    fontSize: theme.fontSizes.cardTitle,
-    color: "black"
-  },
-  cardText: {
-    fontFamily: theme.fonts.regular,
-    fontSize: theme.fontSizes.cardText,
-    color: "black"
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center'
-  },
-  searchBar: {
-    backgroundColor: 'white',
-    borderRadius: 20,
-    paddingLeft: 10,
-    paddingRight: 10,
-    marginRight: 15
   },
 });

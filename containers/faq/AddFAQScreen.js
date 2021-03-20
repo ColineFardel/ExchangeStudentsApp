@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Alert } from 'react-native';
 import { Button } from 'react-native-elements';
 import AppInput from '../../components/input';
 import { addFaq } from '../../redux/actions/faq';
@@ -15,9 +15,14 @@ export default function AddFAQScreen({ route, navigation }) {
     const addFAQ = (faq) => dispatch(addFaq(faq));
 
     const saveQuestion = () => {
-        const newQuestion = { question: question, status: 'sent', answer: 'Not answered yet' };
-        addFAQ(newQuestion);
-        navigation.goBack();
+        if (question.trim()) {
+            const newQuestion = { question: question, status: 'sent', answer: 'Not answered yet' };
+            addFAQ(newQuestion);
+            navigation.goBack();
+        }
+        else {
+            Alert.alert('You forgot a field', 'Please enter a question');
+        }
     }
 
     return (
@@ -31,12 +36,12 @@ export default function AddFAQScreen({ route, navigation }) {
             <View style={styles.buttonContainer}>
                 <Button
                     buttonStyle={styles.cancelButton}
-                    titleStyle={{ color: 'white', fontFamily: theme.fonts.bold, fontSize: theme.fontSizes.buttonText }}
+                    titleStyle={styles.cancelButtonText}
                     onPress={() => navigation.goBack()}
                     title="CANCEL" />
                 <Button
                     buttonStyle={styles.sendButton}
-                    titleStyle={{ color: theme.colors.green, fontFamily: theme.fonts.bold, fontSize: theme.fontSizes.buttonText }}
+                    titleStyle={styles.sendButtonText}
                     onPress={() => saveQuestion()}
                     title="SEND" />
             </View>
@@ -51,27 +56,39 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: 'white',
         alignItems: 'center',
-        justifyContent: 'space-around',
+        justifyContent: 'space-between',
     },
     title: {
         fontFamily: theme.fonts.bold,
         fontSize: theme.fontSizes.screenTitle,
         color: theme.colors.green,
+        marginTop: 50
     },
     cancelButton: {
         backgroundColor: 'red',
-        borderRadius: 10
+        borderRadius: theme.borderRadius.button
     },
     sendButton: {
         backgroundColor: 'white',
         borderWidth: 1,
         borderColor: theme.colors.green,
-        borderRadius: theme.borderRadius.card
+        borderRadius: theme.borderRadius.button
+    },
+    sendButtonText: {
+        color: theme.colors.green,
+        fontFamily: theme.fonts.bold,
+        fontSize: theme.fontSizes.buttonText
+    },
+    cancelButtonText: {
+        color: 'white',
+        fontFamily: theme.fonts.bold,
+        fontSize: theme.fontSizes.buttonText
     },
     buttonContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        width: '90%'
+        width: '90%',
+        marginBottom: 15
     },
 });
