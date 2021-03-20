@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GET_TOPICS, ADD_TOPIC, ADD_CHAT, GET_CHATS, DELETE_TOPIC } from './types';
+import { GET_TOPICS, ADD_TOPIC, ADD_CHAT, GET_CHATS, DELETE_TOPIC, SET_VISIBLE_FALSE } from './types';
 
 export const getTopics = () => {
     try {
@@ -85,4 +85,10 @@ export const addChat = (chat) => {
     } catch (error) {
         console.log(error);
     }
+};
+
+export const setVisibleFalse = () => dispatch => {
+    dispatch({
+        type: SET_VISIBLE_FALSE
+    })
 };

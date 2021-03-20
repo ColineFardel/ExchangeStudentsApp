@@ -2,11 +2,12 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, Alert, TouchableOpacity, ScrollView, TextInput } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { useFonts } from 'expo-font';
-import { deleteTopic, getTopics } from '../../redux/actions/forum';
+import { deleteTopic, getTopics, setVisibleFalse } from '../../redux/actions/forum';
 import { useDispatch, useSelector } from 'react-redux';
 import theme from '../../constants/theme';
 import Foot from '../../components/foot';
+import AppSnackBar from '../../components/snackbar';
+import Loading from '../../components/loading';
 
 export default function ForumScreen({ navigation }) {
 
@@ -26,6 +27,8 @@ export default function ForumScreen({ navigation }) {
     })
 
     //Constants
+    const visible = useSelector(state => state.forumReducer.snackBarVisible);
+    const message = useSelector(state => state.forumReducer.snackBarMessage);
     const [search, setSearch] = useState('');
     const [searchOpen, setSearchOpen] = useState(false);
     const [topicsFiltered, setTopicsFiltered] = useState([]);
@@ -34,6 +37,7 @@ export default function ForumScreen({ navigation }) {
     const dispatch = useDispatch();
     const fetchTopics = () => dispatch(getTopics());
     const deleteOneTopic = (index) => dispatch(deleteTopic(index));
+    const removeSnackBar = () => dispatch(setVisibleFalse());
 
     useEffect(() => {
         fetchTopics();
@@ -52,7 +56,7 @@ export default function ForumScreen({ navigation }) {
                     key={index}
                     style={{ justifyContent: 'center', alignItems: 'center' }}
                     onPress={() => { navigation.navigate('ChatRoom', topic) }}
-                    onLongPress={()=>{deleteOneTopic(topic.id)}}
+                    onLongPress={() => { deleteOneTopic(topic.id) }}
                 >
                     <View style={{ justifyContent: 'space-between', alignItems: 'center', width: '90%', flexDirection: 'row', backgroundColor: theme.colors.lightOrange, borderRadius: theme.borderRadius.card, margin: 10, padding: 10 }}>
                         <Text style={{ fontSize: theme.fontSizes.cardTitle, fontFamily: theme.fonts.bold }}>{topic.name}</Text>
@@ -75,7 +79,12 @@ export default function ForumScreen({ navigation }) {
                         {showTopics()}
                     </ScrollView>
                 </View>
-
+                <AppSnackBar
+                    visible={visible}
+                    onDismiss={() => removeSnackBar()}
+                    message={message}
+                    color={theme.colors.orange}
+                />
                 <Foot
                     color={theme.colors.orange}
                     icon="plus-circle"
@@ -83,15 +92,13 @@ export default function ForumScreen({ navigation }) {
                     textBottom="No problem! Create one here"
                     iconAction={() => { navigation.navigate('AddTopic') }}
                 />
+                <StatusBar style="auto" />
             </View>
         );
     }
     else {
         return (
-            <View style={styles.container}>
-                <Text>Loading...</Text>
-                <Text>Please wait</Text>
-            </View>
+            <Loading/>
         );
     }
 

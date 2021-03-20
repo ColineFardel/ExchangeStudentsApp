@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import theme from '../../constants/theme';
 import Card from '../../components/card';
 import { Snackbar } from 'react-native-paper';
+import Loading from '../../components/loading';
 
 
 export default function RequestScreen({ navigation }) {
@@ -84,11 +85,12 @@ export default function RequestScreen({ navigation }) {
           </ScrollView>
         </View>
 
-        <Snackbar
+        <AppSnackBar
           visible={visible}
           onDismiss={() => removeSnackBar()}
-          duration={2000}
-        >{message}</Snackbar>
+          message={message}
+          color={theme.colors.red}
+        />
 
         <Foot
           color={theme.colors.red}
@@ -103,10 +105,7 @@ export default function RequestScreen({ navigation }) {
   }
   else {
     return (
-      <View style={styles.container}>
-        <Text>Loading...</Text>
-        <Text>Please wait</Text>
-      </View>
+      <Loading/>
     )
 
   }

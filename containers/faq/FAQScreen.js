@@ -2,11 +2,12 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, Alert, TouchableOpacity, ScrollView, TextInput } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { getFAQs } from '../../redux/actions/faq';
+import { getFAQs, setVisibleFalse } from '../../redux/actions/faq';
 import { useDispatch, useSelector } from 'react-redux';
 import theme from '../../constants/theme';
 import Foot from '../../components/foot';
 import Search from '../../components/search';
+import Loading from '../../components/loading';
 
 export default function FAQScreen({ navigation }) {
 
@@ -31,10 +32,13 @@ export default function FAQScreen({ navigation }) {
     const [faqsFiltered, setFaqsFiltered] = useState([]);
     const [currentIndex, setCurrentIndex] = React.useState(null);
 
+    const visible = useSelector(state => state.faqReducer.snackBarVisible);
+    const message = useSelector(state => state.faqReducer.snackBarMessage);
     const faqs = useSelector(state => state.faqReducer.faqs);
     const faqLoaded = useSelector(state => state.faqReducer.faqLoaded);
     const dispatch = useDispatch();
     const fetchFaqs = () => dispatch(getFAQs());
+    const removeSnackBar = () => dispatch(setVisibleFalse());
 
     //Search bar function
     const updateSearch = (text) => {
@@ -105,7 +109,12 @@ export default function FAQScreen({ navigation }) {
                         {showFAQs()}
                     </ScrollView>
                 </View>
-
+                <AppSnackBar
+                    visible={visible}
+                    onDismiss={() => removeSnackBar()}
+                    message={message}
+                    color={theme.colors.green}
+                />
                 <Foot
                     color={theme.colors.green}
                     icon="question-circle"
@@ -119,10 +128,7 @@ export default function FAQScreen({ navigation }) {
     }
     else {
         return (
-            <View style={styles.container}>
-                <Text>Loading...</Text>
-                <Text>Please wait</Text>
-            </View>
+            <Loading/>
         )
 
     }

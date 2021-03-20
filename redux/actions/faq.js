@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ADD_FAQ, DELETE_FAQ, GET_FAQS, MODIFY_FAQ } from './types';
+import { ADD_FAQ, DELETE_FAQ, GET_FAQS, MODIFY_FAQ, SET_VISIBLE_FALSE } from './types';
 
 export const addFaq = (faq) => {
     try {
@@ -67,4 +67,10 @@ export const deleteFaq = (index) => {
     } catch (error) {
         console.log(error);
     }
+};
+
+export const setVisibleFalse = () => dispatch => {
+    dispatch({
+        type: SET_VISIBLE_FALSE
+    })
 };

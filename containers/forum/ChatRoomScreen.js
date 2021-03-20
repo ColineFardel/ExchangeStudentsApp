@@ -27,7 +27,7 @@ export default function ChatRoomScreen({ navigation, route }) {
 
     const saveNewChat = () => {
         const time = moment().format('LT');
-        const date = moment().format('L');
+        const date = moment().format('LL');
         let chat = { text: message, date: date, time: time, topic: topic }
         newChat(chat);
         setMessage('');
@@ -35,7 +35,6 @@ export default function ChatRoomScreen({ navigation, route }) {
 
     return (
         <View style={styles.container}>
-            <Text>Chat room</Text>
             <View style={styles.content}>
                 <SectionList
                     style={{ width: '100%', marginBottom: 15 }}
