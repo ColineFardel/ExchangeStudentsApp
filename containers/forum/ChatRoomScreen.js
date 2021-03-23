@@ -5,9 +5,10 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { addChat, getChats } from '../../redux/actions/forum';
 import { useDispatch, useSelector } from 'react-redux';
 import theme from '../../constants/theme';
-import moment from "moment";
+import moment from "moment-timezone";
 import Chat from '../../components/chat';
 import * as firebase from 'firebase';
+import * as Localization from 'expo-localization'
 
 export default function ChatRoomScreen({ navigation, route }) {
 
@@ -34,8 +35,8 @@ export default function ChatRoomScreen({ navigation, route }) {
     }, [!chatLoaded])
 
     const saveNewChat = () => {
-        const time = moment().format('LT');
-        const date = moment().format('LL');
+        const time = moment().tz("Europe/Helsinki").format('LT');
+        const date = moment().tz("Europe/Helsinki").format('LL');
         let chat = { text: message, date: date, time: time, topic: topic }
         newChat(chat);
         addChatFirebase(chat);
