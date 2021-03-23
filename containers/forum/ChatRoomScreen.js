@@ -7,8 +7,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import theme from '../../constants/theme';
 import moment from "moment";
 import Chat from '../../components/chat';
+import * as firebase from 'firebase';
 
 export default function ChatRoomScreen({ navigation, route }) {
+
+    //Header for search bar
+    React.useLayoutEffect(() => {
+        navigation.setOptions({
+            title: topic.name
+        })
+    })
 
     //Constants
     const chats = useSelector(state => state.forumReducer.chats);
@@ -22,6 +30,7 @@ export default function ChatRoomScreen({ navigation, route }) {
 
     useEffect(() => {
         fetchChats(topic.id);
+        firebaseChats();
     }, [!chatLoaded])
 
     const saveNewChat = () => {
@@ -29,7 +38,22 @@ export default function ChatRoomScreen({ navigation, route }) {
         const date = moment().format('LL');
         let chat = { text: message, date: date, time: time, topic: topic }
         newChat(chat);
+        addChatFirebase(chat);
         setMessage('');
+    }
+
+    const firebaseChats = () => {
+        const ref = topic.name + topic.id;
+        firebase.database().ref(ref).on('value', snapshot => {
+            fetchChats(topic.id);
+        });
+    }
+
+    const addChatFirebase = (chat) => {
+        const ref = topic.name + topic.id;
+        firebase.database().ref(ref).set(chat).then(() => {
+            console.log('The chat has been saved in firebase');
+        });
     }
 
     return (
@@ -60,6 +84,7 @@ export default function ChatRoomScreen({ navigation, route }) {
                         onChangeText={text => setMessage(text)}
                         placeholderTextColor={theme.colors.lightGrey}
                         style={styles.chatInput}
+                        multiline={true}
                     />
                 </View>
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -72,6 +97,7 @@ export default function ChatRoomScreen({ navigation, route }) {
                     />
                 </View>
             </View>
+            <StatusBar style="auto" />
         </View>
     );
 }

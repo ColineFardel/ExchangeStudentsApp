@@ -63,7 +63,7 @@ export const getChats = (topicId) => {
                 })
                 dispatch({
                     type: GET_CHATS,
-                    payload: response.data
+                    payload: response.data.reverse()
                 });
             } else {
                 console.log('Unable to fetch data from the API BASE URL!');
