@@ -56,7 +56,7 @@ export const addTopic = (topic) => {
 export const getChats = (topicId) => {
     try {
         return async dispatch => {
-            const response = await axios.get('https://exchangestudentsapp-fardel.herokuapp.com/chatByDate/' + topicId);
+            const response = await axios.get('https://exchangestudentsapp-fardel.herokuapp.com/chatByDate/topic/' + topicId);
             if (response.data) {
                 const chats = response.data;
                 chats.map((obj) => {

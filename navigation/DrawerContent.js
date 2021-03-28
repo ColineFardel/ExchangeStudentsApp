@@ -97,7 +97,7 @@ export function DrawerContent(props) {
                             )} />
                         <DrawerItem
                             label="Courses"
-                            onPress={() => { }}
+                            onPress={() => { props.navigation.navigate('Courses') }}
                             icon={() => (
                                 <Icon
                                     name="book"

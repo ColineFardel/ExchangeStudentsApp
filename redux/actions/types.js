@@ -21,3 +21,6 @@ export const DELETE_TOPIC = 'DELETE_TOPIC';
 
 export const ADD_CHAT = 'ADD_CHAT';
 export const GET_CHATS = 'GET_CHATS';
+
+export const GET_COURSES = 'GET_COURSES';
+export const ADD_COURSE = 'ADD_COURSE';

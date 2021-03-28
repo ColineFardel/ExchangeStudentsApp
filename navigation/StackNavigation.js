@@ -15,6 +15,8 @@ import AddTopic from '../containers/forum/AddTopicScreen';
 import ChatRoom from '../containers/forum/ChatRoomScreen';
 import Images from '../containers/market/ImagesScreen';
 import Details from '../containers/market/DetailsScreen';
+import Courses from '../containers/course/CourseScreen';
+import AddCourse from '../containers/course/AddCourseScreen';
 
 const Stack = createStackNavigator();
 
@@ -183,4 +185,33 @@ const ForumStackNavigation = ({ navigation }) => {
     )
 }
 
-export { FAQStackNavigation, RequestStackNavigation, OfferStackNavigation, HomeStackNavigation, ForumStackNavigation };
+const CoursesStackNavigation = ({ navigation }) => {
+    return (
+        <Stack.Navigator
+            screenOptions={{
+                headerStyle: {
+                    backgroundColor: theme.colors.blue,
+                },
+                headerTintColor: 'white',
+                headerTitleStyle: {
+                    fontWeight: 'bold',
+                }
+            }}>
+            <Stack.Screen
+                name="Courses"
+                component={Courses}
+                options={{
+                    title: 'Courses',
+                    headerLeft: () => (
+                        <Icon.Button name="ios-menu"
+                            size={25}
+                            backgroundColor={theme.colors.blue}
+                            onPress={() => { navigation.openDrawer() }} />
+                    )
+                }} />
+            <Stack.Screen name="AddCourse" component={AddCourse} options={{ headerShown: false }} />
+        </Stack.Navigator>
+    )
+}
+
+export { FAQStackNavigation, RequestStackNavigation, OfferStackNavigation, HomeStackNavigation, ForumStackNavigation, CoursesStackNavigation };

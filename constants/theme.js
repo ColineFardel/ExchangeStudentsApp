@@ -16,6 +16,9 @@ const theme = {
 
         orange: '#FEC048',
         lightOrange: '#ffe4b3',
+
+        blue: '#3333ff',
+        lightBlue: '#b3b3ff'
     },
     fontSizes: {
         footText: 12,
@@ -23,7 +26,7 @@ const theme = {
         cardTitle: 16,
         cardText: 12,
         screenTitle: 28,
-        chat:16
+        chat: 16
     },
     fonts: {
         regular: 'Montserrat',
