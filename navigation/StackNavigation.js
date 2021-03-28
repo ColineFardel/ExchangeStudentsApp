@@ -17,6 +17,7 @@ import Images from '../containers/market/ImagesScreen';
 import Details from '../containers/market/DetailsScreen';
 import Courses from '../containers/course/CourseScreen';
 import AddCourse from '../containers/course/AddCourseScreen';
+import CourseChatRoom from '../containers/course/ChatRoomScreen';
 
 const Stack = createStackNavigator();
 
@@ -210,6 +211,7 @@ const CoursesStackNavigation = ({ navigation }) => {
                     )
                 }} />
             <Stack.Screen name="AddCourse" component={AddCourse} options={{ headerShown: false }} />
+            <Stack.Screen name="ChatRoom" component={CourseChatRoom} />
         </Stack.Navigator>
     )
 }

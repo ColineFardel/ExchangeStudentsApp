@@ -13,10 +13,13 @@ export default Chat = (props) => {
             alignItems: isUser ? 'flex-end' : 'flex-start',
         }}>
             <Text style={styles.time}>{chat.time}</Text>
-            <View style={{ backgroundColor: isUser ? userColor : color, borderRadius: theme.borderRadius.chat, padding: 10, maxWidth:'90%', marginLeft:5, marginRight:5 }}>
+            <View style={{ backgroundColor: isUser ? userColor : color, borderRadius: theme.borderRadius.chat, padding: 10, maxWidth: '90%', marginLeft: 5, marginRight: 5 }}>
 
                 {!isUser && (
-                    <Text style={styles.user}>Someone</Text>
+                    <Text style={{
+                        color: userColor,
+                        fontFamily: theme.fonts.bold
+                    }}>Someone</Text>
                 )}
                 <Text style={styles.chatText}>{chat.text}</Text>
             </View>
@@ -31,10 +34,10 @@ const styles = StyleSheet.create({
         fontFamily: theme.fonts.regular
     },
     time: {
-        fontFamily:theme.fonts.regular,
-        marginTop:10,
-        marginLeft:15,
-        marginRight:15
+        fontFamily: theme.fonts.regular,
+        marginTop: 10,
+        marginLeft: 15,
+        marginRight: 15
     },
     user: {
         color: theme.colors.orange,

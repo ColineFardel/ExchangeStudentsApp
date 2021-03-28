@@ -55,7 +55,7 @@ export default function CourseScreen({ navigation }) {
                 <TouchableOpacity
                     key={index}
                     style={{ justifyContent: 'center', alignItems: 'center' }}
-                //onPress={() => { navigation.navigate('ChatRoom', topic) }}
+                onPress={() => { navigation.navigate('ChatRoom', course) }}
                 //onLongPress={() => { deleteOneTopic(topic.id) }}
                 >
                     <View style={{ justifyContent: 'space-between', alignItems: 'center', width: '90%', flexDirection: 'row', backgroundColor: theme.colors.lightBlue, borderRadius: theme.borderRadius.card, margin: 10, padding: 10 }}>
