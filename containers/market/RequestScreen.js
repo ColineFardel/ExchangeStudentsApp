@@ -54,7 +54,6 @@ export default function RequestScreen({ navigation }) {
       let uri = 'https://exchangestudentsapp-fardel.herokuapp.com/img/' + request.imgId;
       return (
         <Card
-          key={request.id}
           onPressAction={() => navigation.navigate("RequestDetails", request)}
           onLongPressAction={() => removeRequest(request.id)}
           title={request.name}

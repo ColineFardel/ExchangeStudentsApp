@@ -56,7 +56,6 @@ export default function OfferScreen({ navigation }) {
       let uri = 'https://exchangestudentsapp-fardel.herokuapp.com/img/' + offer.imgId;
       return (
         <Card
-          key={offer.id}
           onPressAction={() => navigation.navigate("OfferDetails", offer)}
           onLongPressAction={() => deleteAnOffer(offer.id)}
           title={offer.name}

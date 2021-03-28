@@ -6,11 +6,10 @@ import theme from '../constants/theme';
 
 export default Card = (props) => {
 
-    const { uri, title, subtitle, key, onPressAction, onLongPressAction, price } = props
+    const { uri, title, subtitle, onPressAction, onLongPressAction, price } = props
 
     return (
         <TouchableOpacity style={styles.container}
-            key={key}
             onPress={onPressAction}
             onLongPress={onLongPressAction}
         >
