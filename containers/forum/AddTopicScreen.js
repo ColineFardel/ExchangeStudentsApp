@@ -26,18 +26,16 @@ export default function AddTopicScreen({ route, navigation }) {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Create your own topic</Text>
-            <AppInput
-                placeholder="Type the name of the topic"
-                color={theme.colors.lightOrange}
-                action={value => setTopic(value)}
-            />
+            <View style={styles.inputContainer}>
+                <Text style={styles.title}>Create your own topic</Text>
+                <AppInput
+                    placeholder="Type the name of the topic"
+                    color={theme.colors.lightOrange}
+                    action={value => setTopic(value)}
+                />
+            </View>
+
             <View style={styles.buttonContainer}>
-                <Button
-                    buttonStyle={styles.cancelButton}
-                    titleStyle={styles.cancelButtonText}
-                    onPress={() => navigation.goBack()}
-                    title="CANCEL" />
                 <Button
                     buttonStyle={styles.sendButton}
                     titleStyle={styles.sendButtonText}
@@ -61,11 +59,8 @@ const styles = StyleSheet.create({
         fontFamily: theme.fonts.bold,
         fontSize: theme.fontSizes.screenTitle,
         color: theme.colors.orange,
-        marginTop: 50
-    },
-    cancelButton: {
-        backgroundColor: 'red',
-        borderRadius: 10
+        marginTop: 15,
+        marginBottom: 20
     },
     sendButton: {
         backgroundColor: 'white',
@@ -73,21 +68,19 @@ const styles = StyleSheet.create({
         borderColor: theme.colors.orange,
         borderRadius: theme.borderRadius.button
     },
-    cancelButtonText:{
-        color: 'white', 
-        fontFamily: theme.fonts.bold, 
-        fontSize: theme.fontSizes.buttonText
-    },
-    sendButtonText:{
-        color: theme.colors.orange, 
-        fontFamily: theme.fonts.bold, 
-        fontSize: theme.fontSizes.buttonText
+    sendButtonText: {
+        color: theme.colors.orange,
+        fontFamily: theme.fonts.bold,
+        fontSize: theme.fontSizes.buttonText,
+        width: '70%'
     },
     buttonContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
         alignItems: 'center',
         width: '90%',
         marginBottom: 15
     },
+    inputContainer: {
+        alignItems: 'center',
+        width: '100%'
+    }
 });

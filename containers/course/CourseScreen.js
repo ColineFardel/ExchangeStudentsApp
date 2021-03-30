@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { getCourses, addCourse } from '../../redux/actions/courses';
+import { getCourses, addCourse, setVisibleFalse, deleteCourse } from '../../redux/actions/courses';
 import { useDispatch, useSelector } from 'react-redux';
 import theme from '../../constants/theme';
 import Foot from '../../components/foot';
@@ -27,8 +27,8 @@ export default function CourseScreen({ navigation }) {
     })
 
     //Constants
-    //const visible = useSelector(state => state.forumReducer.snackBarVisible);
-    //const message = useSelector(state => state.forumReducer.snackBarMessage);
+    const visible = useSelector(state => state.courseReducer.snackBarVisible);
+    const message = useSelector(state => state.courseReducer.snackBarMessage);
     const [search, setSearch] = useState('');
     const [searchOpen, setSearchOpen] = useState(false);
     const [coursesFiltered, setCoursesFiltered] = useState([]);
@@ -36,8 +36,8 @@ export default function CourseScreen({ navigation }) {
     const courseLoaded = useSelector(state => state.courseReducer.courseLoaded);
     const dispatch = useDispatch();
     const fetchCourses = () => dispatch(getCourses());
-    //const deleteOneTopic = (index) => dispatch(deleteTopic(index));
-    //const removeSnackBar = () => dispatch(setVisibleFalse());
+    const deleteOneCourse = (index) => dispatch(deleteCourse(index));
+    const removeSnackBar = () => dispatch(setVisibleFalse());
 
     useEffect(() => {
         fetchCourses();
@@ -55,8 +55,8 @@ export default function CourseScreen({ navigation }) {
                 <TouchableOpacity
                     key={index}
                     style={{ justifyContent: 'center', alignItems: 'center' }}
-                onPress={() => { navigation.navigate('ChatRoom', course) }}
-                //onLongPress={() => { deleteOneTopic(topic.id) }}
+                    onPress={() => { navigation.navigate('ChatRoom', course) }}
+                    onLongPress={() => { deleteOneCourse(course.id) }}
                 >
                     <View style={{ justifyContent: 'space-between', alignItems: 'center', width: '90%', flexDirection: 'row', backgroundColor: theme.colors.lightBlue, borderRadius: theme.borderRadius.card, margin: 10, padding: 10 }}>
                         <View>
@@ -84,16 +84,16 @@ export default function CourseScreen({ navigation }) {
                         {showCourses()}
                     </ScrollView>
                 </View>
-                {/* <AppSnackBar
+                <AppSnackBar
                     visible={visible}
                     onDismiss={() => removeSnackBar()}
                     message={message}
-                    color={theme.colors.orange}
-                /> */}
+                    color={theme.colors.blue}
+                />
                 <Foot
                     color={theme.colors.blue}
                     icon="plus-circle"
-                    textTop="You want to create a new course?"
+                    textTop="You couldn't find your course?"
                     textBottom="No problem! Create one here"
                     iconAction={() => { navigation.navigate('AddCourse') }}
                 />

@@ -27,25 +27,22 @@ export default function AddFAQScreen({ route, navigation }) {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Ask a question</Text>
-            <AppInput
-                placeholder="Type your question here"
-                color={theme.colors.lightGreen}
-                action={value => setQuestion(value)}
-            />
+            <View style={styles.inputContainer}>
+                <Text style={styles.title}>Ask a question</Text>
+                <AppInput
+                    placeholder="Type your question here"
+                    color={theme.colors.lightGreen}
+                    action={value => setQuestion(value)}
+                />
+            </View>
+
             <View style={styles.buttonContainer}>
-                <Button
-                    buttonStyle={styles.cancelButton}
-                    titleStyle={styles.cancelButtonText}
-                    onPress={() => navigation.goBack()}
-                    title="CANCEL" />
                 <Button
                     buttonStyle={styles.sendButton}
                     titleStyle={styles.sendButtonText}
                     onPress={() => saveQuestion()}
                     title="SEND" />
             </View>
-
             <StatusBar style="auto" />
         </View>
     );
@@ -62,11 +59,8 @@ const styles = StyleSheet.create({
         fontFamily: theme.fonts.bold,
         fontSize: theme.fontSizes.screenTitle,
         color: theme.colors.green,
-        marginTop: 50
-    },
-    cancelButton: {
-        backgroundColor: 'red',
-        borderRadius: theme.borderRadius.button
+        marginTop: 15,
+        marginBottom: 20
     },
     sendButton: {
         backgroundColor: 'white',
@@ -77,18 +71,16 @@ const styles = StyleSheet.create({
     sendButtonText: {
         color: theme.colors.green,
         fontFamily: theme.fonts.bold,
-        fontSize: theme.fontSizes.buttonText
-    },
-    cancelButtonText: {
-        color: 'white',
-        fontFamily: theme.fonts.bold,
-        fontSize: theme.fontSizes.buttonText
+        fontSize: theme.fontSizes.buttonText,
+        width: '70%'
     },
     buttonContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
         alignItems: 'center',
         width: '90%',
         marginBottom: 15
     },
+    inputContainer: {
+        alignItems: 'center',
+        width: '100%'
+    }
 });

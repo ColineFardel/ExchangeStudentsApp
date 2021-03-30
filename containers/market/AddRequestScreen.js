@@ -77,11 +77,8 @@ export default function AddRequestScreen({ navigation }) {
 
     return (
         <View style={styles.container}>
-            <View style={{ flex: 1, justifyContent: 'center' }}>
-                <Text style={styles.title}>Add your request</Text>
-            </View>
-
-            <View style={{ flex: 5, width: '100%', justifyContent: 'flex-start', alignItems: 'center' }}>
+            <View style={styles.inputContainer}>
+                <Text style={styles.title}>Enter your request information</Text>
                 <ScrollView style={{ width: '100%' }}>
                     <AppInput
                         placeholder="Type the name of your request"
@@ -126,11 +123,6 @@ export default function AddRequestScreen({ navigation }) {
             </View>
             <View style={styles.buttonContainer}>
                 <Button
-                    buttonStyle={styles.cancelButton}
-                    titleStyle={styles.cancelButtonText}
-                    onPress={() => navigation.goBack()}
-                    title="CANCEL" />
-                <Button
                     buttonStyle={styles.createButton}
                     titleStyle={styles.createButtonText}
                     onPress={() => saveRequest()}
@@ -146,16 +138,14 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: 'white',
         alignItems: 'center',
-        justifyContent: 'space-around',
+        justifyContent: 'space-between',
     },
     title: {
         fontFamily: theme.fonts.bold,
         fontSize: theme.fontSizes.screenTitle,
         color: theme.colors.red,
-    },
-    cancelButton: {
-        backgroundColor: 'red',
-        borderRadius: theme.borderRadius.button
+        marginTop: 15,
+        marginBottom: 20
     },
     createButton: {
         backgroundColor: 'white',
@@ -164,21 +154,16 @@ const styles = StyleSheet.create({
         borderRadius: theme.borderRadius.button
     },
     buttonContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
         alignItems: 'center',
         width: '90%',
+        margin: 15,
         flex: 1
-    },
-    cancelButtonText: {
-        color: 'white',
-        fontFamily: theme.fonts.bold,
-        fontSize: theme.fontSizes.buttonText
     },
     createButtonText: {
         color: theme.colors.red,
         fontFamily: theme.fonts.bold,
-        fontSize: theme.fontSizes.buttonText
+        fontSize: theme.fontSizes.buttonText,
+        width: '70%'
     },
     card: {
         backgroundColor: theme.colors.lightRed,
@@ -192,5 +177,10 @@ const styles = StyleSheet.create({
         fontFamily: theme.fonts.bold,
         fontSize: theme.fontSizes.cardTitle,
         color: 'white'
+    },
+    inputContainer: {
+        alignItems: 'center',
+        width: '100%',
+        flex: 15
     }
 });

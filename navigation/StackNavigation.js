@@ -46,7 +46,7 @@ const FAQStackNavigation = ({ navigation }) => {
                     )
 
                 }} />
-            <Stack.Screen name="AddFAQ" component={AddFAQ} options={{ headerShown: false }} />
+            <Stack.Screen name="AddFAQ" component={AddFAQ} />
             <Stack.Screen name="ModifyFAQ" component={ModifyFAQ} />
         </Stack.Navigator>
     )
@@ -85,7 +85,7 @@ const RequestStackNavigation = ({ navigation, route }) => {
                     )
                 }} />
 
-            <Stack.Screen name="AddRequest" component={AddRequest} options={{ headerShown: false }} />
+            <Stack.Screen name="AddRequest" component={AddRequest} />
             <Stack.Screen name="RequestDetails" component={Details} options={{ headerShown: false }} />
             <Stack.Screen name="Images" component={Images} />
         </Stack.Navigator>
@@ -121,7 +121,7 @@ const OfferStackNavigation = ({ navigation, route }) => {
                             onPress={() => { navigation.openDrawer() }} />
                     )
                 }} />
-            <Stack.Screen name="AddOffer" component={AddOffer} options={{ headerShown: false }} />
+            <Stack.Screen name="AddOffer" component={AddOffer} />
             <Stack.Screen name="OfferDetails" component={Details} options={{ headerShown: false }} />
             <Stack.Screen name="Images" component={Images} />
         </Stack.Navigator>
@@ -180,7 +180,7 @@ const ForumStackNavigation = ({ navigation }) => {
                             onPress={() => { navigation.openDrawer() }} />
                     )
                 }} />
-            <Stack.Screen name="AddTopic" component={AddTopic} options={{ headerShown: false }} />
+            <Stack.Screen name="AddTopic" component={AddTopic} />
             <Stack.Screen name="ChatRoom" component={ChatRoom} />
         </Stack.Navigator>
     )
@@ -210,7 +210,7 @@ const CoursesStackNavigation = ({ navigation }) => {
                             onPress={() => { navigation.openDrawer() }} />
                     )
                 }} />
-            <Stack.Screen name="AddCourse" component={AddCourse} options={{ headerShown: false }} />
+            <Stack.Screen name="AddCourse" component={AddCourse} />
             <Stack.Screen name="ChatRoom" component={CourseChatRoom} />
         </Stack.Navigator>
     )

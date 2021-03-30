@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GET_COURSES, ADD_COURSE, GET_CHATS, ADD_CHAT } from './types';
+import { GET_COURSES, ADD_COURSE, GET_CHATS, ADD_CHAT, SET_VISIBLE_FALSE, DELETE_COURSE } from './types';
 import moment from "moment";
 
 export const getCourses = () => {
@@ -80,4 +80,27 @@ export const addChat = (chat) => {
     } catch (error) {
         console.log(error);
     }
+};
+
+export const deleteCourse = (index) => {
+    let url = 'https://exchangestudentsapp-fardel.herokuapp.com/course/' + index;
+    try {
+        return async dispatch => {
+            await axios.delete(url)
+                .then(response => {
+                    dispatch({
+                        type: DELETE_COURSE,
+                        payload: index
+                    });
+                });
+        };
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export const setVisibleFalse = () => dispatch => {
+    dispatch({
+        type: SET_VISIBLE_FALSE
+    })
 };
