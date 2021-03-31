@@ -2,12 +2,14 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { getCourses, addCourse, setVisibleFalse, deleteCourse } from '../../redux/actions/courses';
+import { getCourses, setVisibleFalse, deleteCourse, getUniversities } from '../../redux/actions/courses';
 import { useDispatch, useSelector } from 'react-redux';
 import theme from '../../constants/theme';
 import Foot from '../../components/foot';
 import AppSnackBar from '../../components/snackbar';
 import Loading from '../../components/loading';
+import DropDownPicker from 'react-native-dropdown-picker';
+import { Button } from 'react-native-elements';
 
 export default function CourseScreen({ navigation }) {
 
@@ -18,8 +20,8 @@ export default function CourseScreen({ navigation }) {
                 <Search
                     searchOpen={searchOpen}
                     color={theme.colors.blue}
-                    onPress={() => { setSearchOpen(!searchOpen); updateSearch(''); }}
-                    onChangeText={text => updateSearch(text)}
+                    onPress={() => { setSearchOpen(!searchOpen); fitlerCourses('', selectedUni); }}
+                    onChangeText={text => fitlerCourses(text, selectedUni)}
                     search={search}
                 />
             )
@@ -32,21 +34,29 @@ export default function CourseScreen({ navigation }) {
     const [search, setSearch] = useState('');
     const [searchOpen, setSearchOpen] = useState(false);
     const [coursesFiltered, setCoursesFiltered] = useState([]);
+    const [selectedUni, setSelectedUni] = useState('');
+    const [showFilter, setShowFilter] = useState(false);
     const courses = useSelector(state => state.courseReducer.courses);
     const courseLoaded = useSelector(state => state.courseReducer.courseLoaded);
     const dispatch = useDispatch();
     const fetchCourses = () => dispatch(getCourses());
+    const fetchUni = () => dispatch(getUniversities());
     const deleteOneCourse = (index) => dispatch(deleteCourse(index));
     const removeSnackBar = () => dispatch(setVisibleFalse());
+    const universities = useSelector(state => state.courseReducer.universities);
 
     useEffect(() => {
         fetchCourses();
         setCoursesFiltered(courses);
+        fetchUni();
     }, [!courseLoaded])
 
-    const updateSearch = (text) => {
-        setSearch(text);
-        setCoursesFiltered(courses.filter((item) => item.name.toLowerCase().includes(text.toLowerCase())));
+    const fitlerCourses = (title, uni) => {
+        setSearch(title);
+        let temp = JSON.parse(JSON.stringify(courses));
+        temp = temp.filter((item) => item.name.toLowerCase().includes(title.toLowerCase()));
+        temp = temp.filter((item) => item.university.toLowerCase().includes(uni.toLowerCase()));
+        setCoursesFiltered(temp);
     }
 
     const showCourses = () => {
@@ -79,6 +89,49 @@ export default function CourseScreen({ navigation }) {
     if (courseLoaded) {
         return (
             <View style={styles.container}>
+                {!showFilter &&
+                    <Button
+                        icon={
+                            <Icon
+                                name='filter'
+                                size={30}
+                                color={theme.colors.blue}
+                            />}
+                        title="Filter by university"
+                        titleStyle={{ fontFamily: theme.fonts.bold, color: theme.colors.blue }}
+                        buttonStyle={{
+                            borderColor: theme.colors.blue, borderRadius: theme.borderRadius.button, borderWidth: 1, marginTop: 15
+                        }}
+                        type='outline'
+                        onPress={() => { setShowFilter(true) }}
+                    />
+                }
+
+                {showFilter &&
+                    <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 15 }}>
+                        <DropDownPicker
+                            items={universities}
+                            containerStyle={{ height: 40, width: '70%' }}
+                            style={{ backgroundColor: '#fafafa' }}
+                            itemStyle={{
+                                justifyContent: 'flex-start'
+                            }}
+                            dropDownStyle={{ backgroundColor: '#fafafa' }}
+                            onChangeItem={item => { setSelectedUni(item.value); fitlerCourses(search, item.value); }}
+                            placeholder="Select an university"
+                            placeholderStyle={{ fontFamily: theme.fonts.regular }}
+                            labelStyle={{ fontFamily: theme.fonts.regular }}
+                        />
+                        <Icon
+                            name='times'
+                            size={30}
+                            color='red'
+                            onPress={() => { setShowFilter(false); fitlerCourses(search, ''); setSelectedUni('') }}
+                        />
+                    </View>
+
+                }
+
                 <View style={styles.listContainer}>
                     <ScrollView style={{ width: '100%' }}>
                         {showCourses()}

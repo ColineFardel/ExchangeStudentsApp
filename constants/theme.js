@@ -18,7 +18,11 @@ const theme = {
         lightOrange: '#ffe4b3',
 
         blue: '#3333ff',
-        lightBlue: '#b3b3ff'
+        lightBlue: '#b3b3ff',
+
+        purple :'#993399',
+
+        pink:'#ff00ff'
     },
     fontSizes: {
         footText: 12,

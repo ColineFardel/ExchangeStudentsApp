@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
-import { Avatar, Title, Caption, Paragraph, Drawer, Text, TouchableRipple, Switch } from 'react-native-paper';
+import { Title, Drawer, Text } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import theme from '../constants/theme';
 
 export function DrawerContent(props) {
 
@@ -42,66 +43,80 @@ export function DrawerContent(props) {
                     </View>
                     <Drawer.Section style={styles.drawerSection}>
                         <DrawerItem
+                            style={{ backgroundColor: theme.colors.cyan }}
+                            labelStyle={{ color: 'white', fontFamily: theme.fonts.bold }}
                             label="Home"
                             onPress={() => { props.navigation.navigate('Home') }}
                             icon={() => (
                                 <Icon
                                     name="home"
-                                    color="black"
+                                    color="white"
                                     size={20} />
                             )} />
                         <DrawerItem
+                            style={{ backgroundColor: theme.colors.green }}
+                            labelStyle={{ color: 'white', fontFamily: theme.fonts.bold }}
                             label="FAQ"
                             onPress={() => { props.navigation.navigate('FAQ') }}
                             icon={() => (
                                 <Icon
                                     name="comment-question"
-                                    color="black"
+                                    color="white"
                                     size={20} />
                             )} />
                         <DrawerItem
+                            style={{ backgroundColor: theme.colors.orange }}
+                            labelStyle={{ color: 'white', fontFamily: theme.fonts.bold }}
                             label="Forum"
                             onPress={() => { props.navigation.navigate('Forum') }}
                             icon={() => (
                                 <Icon
                                     name="forum"
-                                    color="black"
+                                    color="white"
                                     size={20} />
                             )} />
                         <DrawerItem
+                            style={{ backgroundColor: theme.colors.red }}
+                            labelStyle={{ color: 'white', fontFamily: theme.fonts.bold }}
                             label="Market"
                             onPress={() => { props.navigation.navigate('Market') }}
                             icon={() => (
                                 <Icon
                                     name="shopping-outline"
-                                    color="black"
+                                    color="white"
                                     size={20} />
                             )} />
                         <DrawerItem
+                            style={{ backgroundColor: theme.colors.pink }}
+                            labelStyle={{ color: 'white', fontFamily: theme.fonts.bold }}
                             label="Events"
                             onPress={() => { }}
                             icon={() => (
                                 <Icon
                                     name="calendar-blank"
-                                    color="black"
+                                    color="white"
                                     size={20} />
                             )} />
                         <DrawerItem
+                            style={{ backgroundColor: theme.colors.purple }}
+                            labelStyle={{ color: 'white', fontFamily: theme.fonts.bold }}
                             label="Tips"
                             onPress={() => { }}
                             icon={() => (
                                 <Icon
                                     name="lightbulb-outline"
-                                    color="black"
+                                    color="white"
                                     size={20} />
                             )} />
                         <DrawerItem
+                            style={{ backgroundColor: theme.colors.blue }}
+                            labelStyle={{ color: 'white', fontFamily: theme.fonts.bold }}
                             label="Courses"
                             onPress={() => { props.navigation.navigate('Courses') }}
                             icon={() => (
                                 <Icon
                                     name="book"
-                                    color="black"
+                                    color="white"
                                     size={20} />
                             )} />
                     </Drawer.Section>
