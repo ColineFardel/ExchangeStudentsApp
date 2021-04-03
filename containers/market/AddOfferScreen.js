@@ -85,7 +85,7 @@ export default function AddOfferScreen({ navigation }) {
     return (
         <View style={styles.container}>
             <View style={styles.inputContainer}>
-                <Text style={styles.title}>Add your offer</Text>
+                <Text style={styles.title}>Enter your offer information</Text>
                 <ScrollView style={{ width: '100%' }}>
                     <AppInput
                         placeholder="Type the name of your offer"
@@ -158,7 +158,8 @@ const styles = StyleSheet.create({
         fontSize: theme.fontSizes.screenTitle,
         color: theme.colors.red,
         marginTop: 15,
-        marginBottom: 20
+        marginBottom: 20,
+        textAlign: 'center'
     },
     createButton: {
         backgroundColor: 'white',

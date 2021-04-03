@@ -54,7 +54,7 @@ export default function CourseScreen({ navigation }) {
     const fitlerCourses = (title, uni) => {
         setSearch(title);
         let temp = JSON.parse(JSON.stringify(courses));
-        temp = temp.filter((item) => item.name.toLowerCase().includes(title.toLowerCase()));
+        temp = temp.filter((item) => item.name.toLowerCase().includes(title.toLowerCase()) || item.teacher.toLowerCase().includes(title.toLowerCase()));
         temp = temp.filter((item) => item.university.toLowerCase().includes(uni.toLowerCase()));
         setCoursesFiltered(temp);
     }

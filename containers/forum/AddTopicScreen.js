@@ -60,7 +60,8 @@ const styles = StyleSheet.create({
         fontSize: theme.fontSizes.screenTitle,
         color: theme.colors.orange,
         marginTop: 15,
-        marginBottom: 20
+        marginBottom: 20,
+        textAlign: 'center'
     },
     sendButton: {
         backgroundColor: 'white',

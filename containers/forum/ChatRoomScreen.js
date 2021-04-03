@@ -35,12 +35,14 @@ export default function ChatRoomScreen({ navigation, route }) {
     }, [!chatLoaded])
 
     const saveNewChat = () => {
-        const time = moment().tz("Europe/Helsinki").format('LT');
-        const date = moment().tz("Europe/Helsinki").format('LL');
-        let chat = { text: message, date: date, time: time, topic: topic }
-        newChat(chat);
-        addChatFirebase(chat);
-        setMessage('');
+        if (message.trim()) {
+            const time = moment().tz("Europe/Helsinki").format('LT');
+            const date = moment().tz("Europe/Helsinki").format('LL');
+            let chat = { text: message, date: date, time: time, topic: topic }
+            newChat(chat);
+            addChatFirebase(chat);
+            setMessage('');
+        }
     }
 
     const firebaseChats = () => {
