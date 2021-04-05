@@ -29,7 +29,7 @@ const theme = {
         buttonText: 18,
         cardTitle: 16,
         cardText: 12,
-        screenTitle: 28,
+        screenTitle: 22,
         chat: 16
     },
     fonts: {

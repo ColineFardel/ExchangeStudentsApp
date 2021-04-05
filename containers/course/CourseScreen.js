@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { getCourses, setVisibleFalse, deleteCourse, getUniversities } from '../../redux/actions/courses';
+import { getCourses, setVisibleFalse, getUniversities } from '../../redux/actions/courses';
 import { useDispatch, useSelector } from 'react-redux';
 import theme from '../../constants/theme';
 import Foot from '../../components/foot';
@@ -41,7 +41,6 @@ export default function CourseScreen({ navigation }) {
     const dispatch = useDispatch();
     const fetchCourses = () => dispatch(getCourses());
     const fetchUni = () => dispatch(getUniversities());
-    const deleteOneCourse = (index) => dispatch(deleteCourse(index));
     const removeSnackBar = () => dispatch(setVisibleFalse());
     const universities = useSelector(state => state.courseReducer.universities);
 
@@ -66,7 +65,7 @@ export default function CourseScreen({ navigation }) {
                     key={index}
                     style={{ justifyContent: 'center', alignItems: 'center' }}
                     onPress={() => { navigation.navigate('ChatRoom', course) }}
-                    onLongPress={() => { deleteOneCourse(course.id) }}
+                    onLongPress={() => { navigation.navigate('ModifyCourse', course) }}
                 >
                     <View style={{ justifyContent: 'space-between', alignItems: 'center', width: '90%', flexDirection: 'row', backgroundColor: theme.colors.lightBlue, borderRadius: theme.borderRadius.card, margin: 10, padding: 10 }}>
                         <View>

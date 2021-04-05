@@ -1,4 +1,4 @@
-import { GET_COURSES, ADD_COURSE, GET_CHATS, ADD_CHAT, SET_VISIBLE_FALSE, DELETE_COURSE, GET_UNIVERSITIES } from '../actions/types';
+import { GET_COURSES, ADD_COURSE, GET_CHATS, ADD_CHAT, SET_VISIBLE_FALSE, DELETE_COURSE, GET_UNIVERSITIES, MODIFY_COURSE } from '../actions/types';
 
 const initialState = {
     courses: [],
@@ -19,6 +19,8 @@ const courseReducer = (state = initialState, action) => {
             return { ...state, courseLoaded: false, snackBarVisible: true, snackBarMessage: 'The course has successfully been added' };
         case DELETE_COURSE:
             return { ...state, courseLoaded: false, snackBarVisible: true, snackBarMessage: 'The course has successfully been deleted' };
+        case MODIFY_COURSE:
+            return { ...state, courseLoaded: false, snackBarVisible: true, snackBarMessage: 'The course has successfully been modified' };
 
         case GET_CHATS:
             return { ...state, chats: action.payload, chatLoaded: true };

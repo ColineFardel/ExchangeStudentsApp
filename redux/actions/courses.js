@@ -1,11 +1,11 @@
 import axios from 'axios';
-import { GET_COURSES, ADD_COURSE, GET_CHATS, ADD_CHAT, SET_VISIBLE_FALSE, DELETE_COURSE, GET_UNIVERSITIES } from './types';
+import { GET_COURSES, ADD_COURSE, GET_CHATS, ADD_CHAT, SET_VISIBLE_FALSE, DELETE_COURSE, GET_UNIVERSITIES, MODIFY_COURSE } from './types';
 import moment from "moment";
 
 export const getCourses = () => {
     try {
         return async dispatch => {
-            const response = await axios.get('https://exchangestudentsapp-fardel.herokuapp.com/course');
+            const response = await axios.get('https://exchangestudentsapp-fardel.herokuapp.com/courses');
             if (response.data) {
                 dispatch({
                     type: GET_COURSES,
@@ -91,6 +91,23 @@ export const deleteCourse = (index) => {
                     dispatch({
                         type: DELETE_COURSE,
                         payload: index
+                    });
+                });
+        };
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export const modifyCourse = (course) => {
+    let url = 'https://exchangestudentsapp-fardel.herokuapp.com/course/' + course.id;
+    try {
+        return async dispatch => {
+            await axios.put(url, course)
+                .then(response => {
+                    dispatch({
+                        type: MODIFY_COURSE,
+                        payload: course
                     });
                 });
         };

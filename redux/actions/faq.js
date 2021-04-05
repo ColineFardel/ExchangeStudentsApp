@@ -20,7 +20,7 @@ export const addFaq = (faq) => {
 export const getFAQs = () => {
     try {
         return async dispatch => {
-            const response = await axios.get('https://exchangestudentsapp-fardel.herokuapp.com/faq');
+            const response = await axios.get('https://exchangestudentsapp-fardel.herokuapp.com/faqs');
             if (response.data) {
                 dispatch({
                     type: GET_FAQS,

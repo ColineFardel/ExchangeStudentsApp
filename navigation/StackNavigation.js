@@ -18,6 +18,7 @@ import Details from '../containers/market/DetailsScreen';
 import Courses from '../containers/course/CourseScreen';
 import AddCourse from '../containers/course/AddCourseScreen';
 import CourseChatRoom from '../containers/course/ChatRoomScreen';
+import ModifyCourse from '../containers/course/ModifyCourseScreen';
 
 const Stack = createStackNavigator();
 
@@ -211,6 +212,7 @@ const CoursesStackNavigation = ({ navigation }) => {
                     )
                 }} />
             <Stack.Screen name="AddCourse" component={AddCourse} />
+            <Stack.Screen name="ModifyCourse" component={ModifyCourse} />
             <Stack.Screen name="ChatRoom" component={CourseChatRoom} />
         </Stack.Navigator>
     )

@@ -5,7 +5,7 @@ import moment from "moment";
 export const getTopics = () => {
     try {
         return async dispatch => {
-            const response = await axios.get('https://exchangestudentsapp-fardel.herokuapp.com/topic');
+            const response = await axios.get('https://exchangestudentsapp-fardel.herokuapp.com/topics');
             if (response.data) {
                 dispatch({
                     type: GET_TOPICS,

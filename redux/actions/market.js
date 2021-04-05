@@ -5,7 +5,7 @@ import { ADD_OFFER, ADD_REQUEST, DELETE_OFFER, DELETE_REQUEST, GET_OFFERS, GET_R
 export const getRequests = () => {
     try {
         return async dispatch => {
-            const response = await axios.get('https://exchangestudentsapp-fardel.herokuapp.com/request');
+            const response = await axios.get('https://exchangestudentsapp-fardel.herokuapp.com/requests');
             if (response.data) {
                 dispatch({
                     type: GET_REQUESTS,
@@ -56,7 +56,7 @@ export const deleteRequest = (index) => {
 export const getOffers = () => {
     try {
         return async dispatch => {
-            const response = await axios.get('https://exchangestudentsapp-fardel.herokuapp.com/offer');
+            const response = await axios.get('https://exchangestudentsapp-fardel.herokuapp.com/offers');
             if (response.data) {
                 dispatch({
                     type: GET_OFFERS,
