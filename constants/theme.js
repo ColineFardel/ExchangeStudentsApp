@@ -21,6 +21,7 @@ const theme = {
         lightBlue: '#b3b3ff',
 
         purple :'#993399',
+        lightPurple :'#e6b3e6',
 
         pink:'#ff00ff'
     },

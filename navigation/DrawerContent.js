@@ -101,7 +101,7 @@ export function DrawerContent(props) {
                             style={{ backgroundColor: theme.colors.purple }}
                             labelStyle={{ color: 'white', fontFamily: theme.fonts.bold }}
                             label="Tips"
-                            onPress={() => { }}
+                            onPress={() => { props.navigation.navigate('Tips') }}
                             icon={() => (
                                 <Icon
                                     name="lightbulb-outline"

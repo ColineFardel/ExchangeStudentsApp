@@ -27,3 +27,7 @@ export const ADD_COURSE = 'ADD_COURSE';
 export const DELETE_COURSE = 'DELETE_COURSE';
 export const MODIFY_COURSE = 'MODIFY_COURSE';
 export const GET_UNIVERSITIES = 'GET_UNIVERSITIES';
+
+export const GET_TIPS = 'GET_TIPS';
+export const ADD_TIP = 'ADD_TIP';
+export const DELETE_TIP = 'DELETE_TIP';

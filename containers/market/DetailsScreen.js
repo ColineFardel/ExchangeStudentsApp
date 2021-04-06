@@ -28,7 +28,7 @@ export default function DetailsScreen({ navigation, route }) {
             <View style={styles.detailsContainer}>
                 <View style={styles.titleContainer}>
                     <Icon name={"chevron-left"}
-                        size={30}
+                        size={20}
                         color="black"
                         onPress={()=> navigation.goBack()} />
                     <Text style={styles.bigTitle}>{item.name}</Text>

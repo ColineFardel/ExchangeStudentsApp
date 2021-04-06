@@ -19,6 +19,9 @@ import Courses from '../containers/course/CourseScreen';
 import AddCourse from '../containers/course/AddCourseScreen';
 import CourseChatRoom from '../containers/course/ChatRoomScreen';
 import ModifyCourse from '../containers/course/ModifyCourseScreen';
+import Tips from '../containers/tip/TipScreen';
+import AddTip from '../containers/tip/AddTipScreen';
+import TipDetails from '../containers/tip/TipDetailsScreen';
 
 const Stack = createStackNavigator();
 
@@ -218,4 +221,34 @@ const CoursesStackNavigation = ({ navigation }) => {
     )
 }
 
-export { FAQStackNavigation, RequestStackNavigation, OfferStackNavigation, HomeStackNavigation, ForumStackNavigation, CoursesStackNavigation };
+const TipStackNavigation = ({ navigation }) => {
+    return (
+        <Stack.Navigator
+            screenOptions={{
+                headerStyle: {
+                    backgroundColor: theme.colors.purple,
+                },
+                headerTintColor: 'white',
+                headerTitleStyle: {
+                    fontWeight: 'bold',
+                }
+            }}>
+            <Stack.Screen
+                name="Tips"
+                component={Tips}
+                options={{
+                    title: 'Tips',
+                    headerLeft: () => (
+                        <Icon.Button name="ios-menu"
+                            size={25}
+                            backgroundColor={theme.colors.purple}
+                            onPress={() => { navigation.openDrawer() }} />
+                    )
+                }} />
+            <Stack.Screen name="AddTip" component={AddTip} />
+            <Stack.Screen name="TipDetails" component={TipDetails} options={{ headerShown: false }} />
+        </Stack.Navigator>
+    )
+}
+
+export { FAQStackNavigation, RequestStackNavigation, OfferStackNavigation, HomeStackNavigation, ForumStackNavigation, CoursesStackNavigation, TipStackNavigation };
