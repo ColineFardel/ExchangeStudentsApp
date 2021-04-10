@@ -1,13 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, ScrollView } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { StyleSheet, View, ScrollView } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { getTips, setVisibleFalse } from '../../redux/actions/tip';
 import theme from '../../constants/theme';
 import Foot from '../../components/foot';
 import AppSnackBar from '../../components/snackbar';
 import Loading from '../../components/loading';
+import AppListItem from '../../components/listItem';
 
 export default function TipScreen({ navigation }) {
 
@@ -40,35 +40,54 @@ export default function TipScreen({ navigation }) {
     //Search bar function
     const updateSearch = (text) => {
         setSearch(text);
-        setTipsFiltered(tips.filter((item)=> item.name.toLowerCase().includes(text.toLowerCase())));
+        setTipsFiltered(tips.filter((item) => item.name.toLowerCase().includes(text.toLowerCase())));
         //setFaqsFiltered(faqs.filter((item) => item.question.toLowerCase().includes(text.toLowerCase())));
     }
 
     useEffect(() => {
         fetchTips();
-        setTipsFiltered(tips);
+        setTipsFiltered(tips.sort((a, b) => {
+            if (a.tag < b.tag)
+                return -1;
+            if (a.tag > b.tag)
+                return 1;
+            if (a.tag === null)
+                return 1;
+            if (b.tag === null)
+                return -1;
+            return 0;
+        }));
     }, [!tipLoaded])
 
     const showTips = () => {
         return tipsFiltered.map((tip, index) => {
-            return (
-                <TouchableOpacity
-                    key={index}
-                    style={{ justifyContent: 'center', alignItems: 'center' }}
-                    onPress={() => { navigation.navigate('TipDetails', tip) }}
-                //onLongPress={() => { deleteOneTopic(topic.id) }}
-                >
-                    <View style={{ justifyContent: 'space-between', alignItems: 'center', width: '90%', flexDirection: 'row', backgroundColor: theme.colors.lightPurple, borderRadius: theme.borderRadius.card, margin: 10, padding: 10 }}>
-                        <View>
-                            <Text style={{ fontSize: theme.fontSizes.cardTitle, fontFamily: theme.fonts.bold }}>{tip.name}</Text>
-                            <Text style={{ fontSize: theme.fontSizes.cardTitle, fontFamily: theme.fonts.regular }}>{tip.tag}</Text>
-                        </View>
-                        <Icon name={"chevron-right"}
-                            size={20}
-                            color="black" />
-                    </View>
-                </TouchableOpacity>
-            )
+            const uri = 'https://exchangestudentsapp-fardel.herokuapp.com/img/' + tip.img;
+
+            if (tip.img > 0) {
+                return (
+                    <AppListItem
+                        key={index}
+                        onPressAction={() => { navigation.navigate('TipDetails', tip) }}
+                        onLongPressAction={() => { deleteOneTopic(topic.id) }}
+                        title={tip.name}
+                        color={theme.colors.lightPurple}
+                        subtitle={tip.tag}
+                        uri={uri}
+                    />
+                )
+            }
+            else {
+                return (
+                    <AppListItem
+                        key={index}
+                        onPressAction={() => { navigation.navigate('TipDetails', tip) }}
+                        onLongPressAction={() => { deleteOneTopic(topic.id) }}
+                        title={tip.name}
+                        color={theme.colors.lightPurple}
+                        subtitle={tip.tag}
+                    />
+                )
+            }
         })
     }
 
@@ -109,11 +128,17 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: 'white',
         alignItems: 'center',
-        justifyContent: 'flex-start',
+        justifyContent: 'center',
         width: '100%',
     },
     listContainer: {
         flex: 1,
         width: '100%',
+    },
+    image: {
+        width: '100%',
+        height: 140,
+        borderTopLeftRadius: theme.borderRadius.card,
+        borderTopRightRadius: theme.borderRadius.card,
     },
 });

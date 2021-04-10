@@ -38,6 +38,7 @@ export default function AddFAQScreen({ route, navigation }) {
 
             <View style={styles.buttonContainer}>
                 <Button
+                    raised={true}
                     buttonStyle={styles.sendButton}
                     titleStyle={styles.sendButtonText}
                     onPress={() => saveQuestion()}

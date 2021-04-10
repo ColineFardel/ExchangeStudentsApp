@@ -35,6 +35,22 @@ export const addTip = (tip) => {
     }
 };
 
+export const addTipWithImg = (tip) => {
+    try {
+        return async dispatch => {
+            await axios.post('https://exchangestudentsapp-fardel.herokuapp.com/addtipwithimg', tip)
+                .then(response => {
+                    dispatch({
+                        type: ADD_TIP,
+                        payload: tip
+                    });
+                });
+        };
+    } catch (error) {
+        console.log(error);
+    }
+};
+
 export const deleteTip = (index) => {
     let url = 'https://exchangestudentsapp-fardel.herokuapp.com/tip/' + index;
     try {

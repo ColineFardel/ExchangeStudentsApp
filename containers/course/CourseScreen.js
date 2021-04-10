@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, ScrollView } from 'react-native';
+import { StyleSheet, View, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { getCourses, setVisibleFalse, getUniversities } from '../../redux/actions/courses';
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,6 +10,7 @@ import AppSnackBar from '../../components/snackbar';
 import Loading from '../../components/loading';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { Button } from 'react-native-elements';
+import AppListItem from '../../components/listItem';
 
 export default function CourseScreen({ navigation }) {
 
@@ -61,24 +62,15 @@ export default function CourseScreen({ navigation }) {
     const showCourses = () => {
         return coursesFiltered.map((course, index) => {
             return (
-                <TouchableOpacity
+                <AppListItem
                     key={index}
-                    style={{ justifyContent: 'center', alignItems: 'center' }}
-                    onPress={() => { navigation.navigate('ChatRoom', course) }}
-                    onLongPress={() => { navigation.navigate('ModifyCourse', course) }}
-                >
-                    <View style={{ justifyContent: 'space-between', alignItems: 'center', width: '90%', flexDirection: 'row', backgroundColor: theme.colors.lightBlue, borderRadius: theme.borderRadius.card, margin: 10, padding: 10 }}>
-                        <View>
-                            <Text style={{ fontSize: theme.fontSizes.cardTitle, fontFamily: theme.fonts.bold }}>{course.name}</Text>
-                            <Text style={{ fontSize: theme.fontSizes.cardText, fontFamily: theme.fonts.regular }}>{course.university}</Text>
-                            <Text style={{ fontSize: theme.fontSizes.cardText, fontFamily: theme.fonts.regular }}>{course.teacher}</Text>
-                        </View>
-                        <Icon name={"chevron-right"}
-                            size={20}
-                            color="black" />
-                    </View>
-
-                </TouchableOpacity>
+                    onPressAction={() => { navigation.navigate('ChatRoom', course) }}
+                    onLongPressAction={() => { navigation.navigate('ModifyCourse', course) }}
+                    color={theme.colors.lightBlue}
+                    title={course.name}
+                    subtitle={course.university}
+                    secondsubtitle={course.teacher}
+                />
             )
 
         })

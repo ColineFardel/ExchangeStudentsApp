@@ -37,6 +37,7 @@ export default function AddTopicScreen({ route, navigation }) {
 
             <View style={styles.buttonContainer}>
                 <Button
+                    raised={true}
                     buttonStyle={styles.sendButton}
                     titleStyle={styles.sendButtonText}
                     onPress={() => saveTheTopic()}

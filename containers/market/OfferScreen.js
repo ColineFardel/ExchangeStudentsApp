@@ -4,10 +4,10 @@ import { StyleSheet, View, ScrollView } from 'react-native';
 import { deleteOffer, getOffers, setVisibleFalse } from '../../redux/actions/market';
 import { useDispatch, useSelector } from 'react-redux';
 import theme from '../../constants/theme';
-import Card from '../../components/card';
 import AppSnackBar from '../../components/snackbar';
 import Loading from '../../components/loading';
 import Search from '../../components/search';
+import AppListItem from '../../components/listItem';
 
 export default function OfferScreen({ navigation }) {
 
@@ -52,15 +52,17 @@ export default function OfferScreen({ navigation }) {
 
   //Show the list of offers
   const showOffers = () => {
-    return offersFiltered.map((offer) => {
+    return offersFiltered.map((offer, index) => {
       let uri = 'https://exchangestudentsapp-fardel.herokuapp.com/img/' + offer.imgId;
       return (
-        <Card
+        <AppListItem
+          key={index}
           onPressAction={() => navigation.navigate("OfferDetails", offer)}
           onLongPressAction={() => deleteAnOffer(offer.id)}
           title={offer.name}
-          price={offer.price}
+          subtitle={offer.price + '€'}
           uri={uri}
+          color={theme.colors.lightRed}
         />
       )
     })

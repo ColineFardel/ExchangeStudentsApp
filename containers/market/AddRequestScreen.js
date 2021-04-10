@@ -123,6 +123,7 @@ export default function AddRequestScreen({ navigation }) {
             </View>
             <View style={styles.buttonContainer}>
                 <Button
+                    raised={true}
                     buttonStyle={styles.createButton}
                     titleStyle={styles.createButtonText}
                     onPress={() => saveRequest()}

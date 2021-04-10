@@ -135,6 +135,7 @@ export default function AddOfferScreen({ navigation }) {
 
             <View style={styles.buttonContainer}>
                 <Button
+                    raised={true}
                     buttonStyle={styles.createButton}
                     titleStyle={styles.createButtonText}
                     onPress={() => saveOffer()}

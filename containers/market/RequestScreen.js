@@ -4,7 +4,6 @@ import { StyleSheet, View, ScrollView } from 'react-native';
 import { deleteRequest, getRequests, setVisibleFalse } from '../../redux/actions/market';
 import { useDispatch, useSelector } from 'react-redux';
 import theme from '../../constants/theme';
-import Card from '../../components/card';
 import Loading from '../../components/loading';
 
 export default function RequestScreen({ navigation }) {
@@ -53,7 +52,9 @@ export default function RequestScreen({ navigation }) {
     return requestsFiltered.map((request, index) => {
       let uri = 'https://exchangestudentsapp-fardel.herokuapp.com/img/' + request.imgId;
       return (
-        <Card
+        <AppListItem
+          key={index}
+          color={theme.colors.lightRed}
           onPressAction={() => navigation.navigate("RequestDetails", request)}
           onLongPressAction={() => removeRequest(request.id)}
           title={request.name}

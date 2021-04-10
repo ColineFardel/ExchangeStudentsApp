@@ -1,13 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, ScrollView } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { StyleSheet, View, ScrollView } from 'react-native';
 import { deleteTopic, getTopics, setVisibleFalse } from '../../redux/actions/forum';
 import { useDispatch, useSelector } from 'react-redux';
 import theme from '../../constants/theme';
 import Foot from '../../components/foot';
 import AppSnackBar from '../../components/snackbar';
 import Loading from '../../components/loading';
+import AppListItem from '../../components/listItem';
 
 export default function ForumScreen({ navigation }) {
 
@@ -52,22 +52,14 @@ export default function ForumScreen({ navigation }) {
     const showTopics = () => {
         return topicsFiltered.map((topic, index) => {
             return (
-                <TouchableOpacity
+                <AppListItem
+                    color={theme.colors.lightOrange}
+                    title={topic.name}
+                    onPressAction={() => { navigation.navigate('ChatRoom', topic) }}
+                    onLongPressAction={() => { deleteOneTopic(topic.id) }}
                     key={index}
-                    style={{ justifyContent: 'center', alignItems: 'center' }}
-                    onPress={() => { navigation.navigate('ChatRoom', topic) }}
-                    onLongPress={() => { deleteOneTopic(topic.id) }}
-                >
-                    <View style={{ justifyContent: 'space-between', alignItems: 'center', width: '90%', flexDirection: 'row', backgroundColor: theme.colors.lightOrange, borderRadius: theme.borderRadius.card, margin: 10, padding: 10 }}>
-                        <Text style={{ fontSize: theme.fontSizes.cardTitle, fontFamily: theme.fonts.bold }}>{topic.name}</Text>
-                        <Icon name={"chevron-right"}
-                            size={20}
-                            color="black" />
-                    </View>
-
-                </TouchableOpacity>
+                />
             )
-
         })
     }
 
@@ -75,6 +67,7 @@ export default function ForumScreen({ navigation }) {
         return (
             <View style={styles.container}>
                 <View style={styles.listContainer}>
+
                     <ScrollView style={{ width: '100%' }}>
                         {showTopics()}
                     </ScrollView>

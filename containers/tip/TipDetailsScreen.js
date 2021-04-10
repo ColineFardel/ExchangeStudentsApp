@@ -5,9 +5,21 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import theme from '../../constants/theme';
 import { Button } from 'react-native-elements';
 
+
 export default function TipDetailsScreen({ navigation, route }) {
 
     const tip = route.params;
+
+    const uri = 'https://exchangestudentsapp-fardel.herokuapp.com/img/' + tip.img;
+    const hasImg = tip.img !== 0;
+    console.log(hasImg);
+
+    const img = () => {
+        if (hasImg)
+            return <Image style={styles.image} source={{ uri: uri }} />
+        else
+            return <Image style={styles.image} source={require('../../assets/defaultTip.png')} />
+    }
 
     return (
         <View style={styles.container}>
@@ -15,8 +27,7 @@ export default function TipDetailsScreen({ navigation, route }) {
                 <TouchableOpacity
                 //onPress={() => { navigation.navigate('Images', item.imgId) }}
                 >
-                    {/* <Image style={styles.image} source={{ uri: uri }} /> */}
-                    <Image style={styles.image} source={require('../../assets/defaultTip.png')} />
+                    {img()}
                 </TouchableOpacity>
 
             </View>
