@@ -247,6 +247,7 @@ const TipStackNavigation = ({ navigation }) => {
                 }} />
             <Stack.Screen name="AddTip" component={AddTip} />
             <Stack.Screen name="TipDetails" component={TipDetails} options={{ headerShown: false }} />
+            <Stack.Screen name="TipImage" component={Images} />
         </Stack.Navigator>
     )
 }

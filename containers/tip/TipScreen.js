@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
-import { getTips, setVisibleFalse } from '../../redux/actions/tip';
+import { getTips, setVisibleFalse, deleteTip } from '../../redux/actions/tip';
 import theme from '../../constants/theme';
 import Foot from '../../components/foot';
 import AppSnackBar from '../../components/snackbar';
@@ -35,28 +35,18 @@ export default function TipScreen({ navigation }) {
     const tipLoaded = useSelector(state => state.tipReducer.tipLoaded);
     const dispatch = useDispatch();
     const fetchTips = () => dispatch(getTips());
+    const deleteOneTip = (index) => dispatch(deleteTip(index));
     const removeSnackBar = () => dispatch(setVisibleFalse());
 
     //Search bar function
     const updateSearch = (text) => {
         setSearch(text);
         setTipsFiltered(tips.filter((item) => item.name.toLowerCase().includes(text.toLowerCase())));
-        //setFaqsFiltered(faqs.filter((item) => item.question.toLowerCase().includes(text.toLowerCase())));
     }
 
     useEffect(() => {
         fetchTips();
-        setTipsFiltered(tips.sort((a, b) => {
-            if (a.tag < b.tag)
-                return -1;
-            if (a.tag > b.tag)
-                return 1;
-            if (a.tag === null)
-                return 1;
-            if (b.tag === null)
-                return -1;
-            return 0;
-        }));
+        setTipsFiltered(tips);
     }, [!tipLoaded])
 
     const showTips = () => {
@@ -68,7 +58,7 @@ export default function TipScreen({ navigation }) {
                     <AppListItem
                         key={index}
                         onPressAction={() => { navigation.navigate('TipDetails', tip) }}
-                        onLongPressAction={() => { deleteOneTopic(topic.id) }}
+                        onLongPressAction={() => { deleteOneTip(tip.id) }}
                         title={tip.name}
                         color={theme.colors.lightPurple}
                         subtitle={tip.tag}
@@ -81,7 +71,7 @@ export default function TipScreen({ navigation }) {
                     <AppListItem
                         key={index}
                         onPressAction={() => { navigation.navigate('TipDetails', tip) }}
-                        onLongPressAction={() => { deleteOneTopic(topic.id) }}
+                        onLongPressAction={() => { deleteOneTip(tip.id) }}
                         title={tip.name}
                         color={theme.colors.lightPurple}
                         subtitle={tip.tag}

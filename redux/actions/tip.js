@@ -6,6 +6,17 @@ export const getTips = () => {
         return async dispatch => {
             const response = await axios.get('https://exchangestudentsapp-fardel.herokuapp.com/tips');
             if (response.data) {
+                response.data.sort((a, b) => {
+                    if (a.tag < b.tag)
+                        return -1;
+                    if (a.tag > b.tag)
+                        return 1;
+                    if (a.tag === null)
+                        return 1;
+                    if (b.tag === null)
+                        return -1;
+                    return 0;
+                });
                 dispatch({
                     type: GET_TIPS,
                     payload: response.data

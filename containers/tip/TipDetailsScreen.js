@@ -16,19 +16,24 @@ export default function TipDetailsScreen({ navigation, route }) {
 
     const img = () => {
         if (hasImg)
-            return <Image style={styles.image} source={{ uri: uri }} />
+            return (
+                <TouchableOpacity
+                    onPress={() => { navigation.navigate('TipImage', tip.img) }}>
+                    <Image style={styles.image} source={{ uri: uri }} />
+                </TouchableOpacity>
+            )
         else
-            return <Image style={styles.image} source={require('../../assets/defaultTip.png')} />
+            return (
+                <TouchableOpacity>
+                    <Image style={styles.image} source={require('../../assets/defaultTip.png')} />
+                </TouchableOpacity>
+            )
     }
 
     return (
         <View style={styles.container}>
             <View style={styles.imageContainer}>
-                <TouchableOpacity
-                //onPress={() => { navigation.navigate('Images', item.imgId) }}
-                >
-                    {img()}
-                </TouchableOpacity>
+                {img()}
 
             </View>
             <View style={styles.detailsContainer}>

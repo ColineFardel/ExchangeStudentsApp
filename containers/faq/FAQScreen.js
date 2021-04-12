@@ -47,17 +47,7 @@ export default function FAQScreen({ navigation }) {
 
     useEffect(() => {
         fetchFaqs();
-        setFaqsFiltered(faqs.sort((a, b) => {
-            if (a.tag < b.tag)
-                return -1;
-            if (a.tag > b.tag)
-                return 1;
-            if (a.tag === null)
-                return 1;
-            if (b.tag === null)
-                return -1;
-            return 0;
-        }));
+        setFaqsFiltered(faqs);
     }, [!faqLoaded])
 
     const showFAQs = () => {
