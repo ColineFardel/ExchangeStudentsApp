@@ -21,7 +21,8 @@ export default AppSnackBar = (props) => {
 }
 const styles = StyleSheet.create({
     text: {
-        fontFamily: theme.fonts.bold
+        fontFamily: theme.fonts.bold,
+        fontSize: theme.fontSizes.snackbar,
     },
 });
 

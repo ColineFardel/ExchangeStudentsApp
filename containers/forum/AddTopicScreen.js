@@ -14,6 +14,7 @@ export default function AddTopicScreen({ route, navigation }) {
     const dispatch = useDispatch();
     const saveTopic = (topic) => dispatch(addTopic(topic));
 
+    //Save the topic in the database
     const saveTheTopic = () => {
         if (topic.trim()) {
             saveTopic({ name: topic });

@@ -39,7 +39,7 @@ export default function AddOfferScreen({ navigation }) {
         }
     }
 
-    //Saving offer in database if all fields are filled
+    //Save offer in the database
     const saveOffer = () => {
         let canBeSaved = true;
 

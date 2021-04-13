@@ -37,7 +37,7 @@ export default function AddRequestScreen({ navigation }) {
             });
         }
     }
-    //Saving request in database if all fields are filled
+    //Save the request in the database
     const saveRequest = () => {
         let canBeSaved = true;
 

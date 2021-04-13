@@ -44,11 +44,13 @@ export default function ForumScreen({ navigation }) {
         setTopicsFiltered(topics);
     }, [!topicLoaded])
 
+    //Search bar function
     const updateSearch = (text) => {
         setSearch(text);
         setTopicsFiltered(topics.filter((item) => item.name.toLowerCase().includes(text.toLowerCase())));
     }
 
+    //Render list of topics
     const showTopics = () => {
         return topicsFiltered.map((topic, index) => {
             return (

@@ -61,6 +61,7 @@ export default function OfferScreen({ navigation }) {
           onLongPressAction={() => deleteAnOffer(offer.id)}
           title={offer.name}
           subtitle={offer.price + '€'}
+          secondsubtitle={offer.location}
           uri={uri}
           color={theme.colors.lightRed}
         />

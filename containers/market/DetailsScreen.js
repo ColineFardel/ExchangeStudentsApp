@@ -7,11 +7,9 @@ import { Button } from 'react-native-elements';
 export default function DetailsScreen({ navigation, route }) {
 
     const item = route.params;
-
-    //const { item, backButton, navigation } = props
-
     const uri = 'https://exchangestudentsapp-fardel.herokuapp.com/img/' + item.imgId;
 
+    //Open What's App with user's number
     const openWhatsApp = () => {
         Linking.openURL('whatsapp://send?text=' + 'Hello, I have seen your post on the exchange students app and I am interested! :)' + '&phone=' + item.phoneNumber)
     }
@@ -20,7 +18,7 @@ export default function DetailsScreen({ navigation, route }) {
         <View style={styles.container}>
             <View style={styles.imageContainer}>
                 <TouchableOpacity
-                    onPress={() => { navigation.navigate('Images', item.imgId) }}>
+                    onPress={() => { navigation.navigate('MarketImage', item.imgId) }}>
                     <Image style={styles.image} source={{ uri: uri }} />
                 </TouchableOpacity>
 
@@ -30,7 +28,7 @@ export default function DetailsScreen({ navigation, route }) {
                     <Icon name={"chevron-left"}
                         size={20}
                         color="black"
-                        onPress={()=> navigation.goBack()} />
+                        onPress={() => navigation.goBack()} />
                     <Text style={styles.bigTitle}>{item.name}</Text>
                 </View>
                 <View style={styles.textContainer}>
@@ -47,8 +45,9 @@ export default function DetailsScreen({ navigation, route }) {
                 </View>
                 <View style={styles.buttonContainer}>
                     <Button
+                        raised={true}
                         buttonStyle={styles.button}
-                        titleStyle={{ color: 'white', fontFamily: 'MontserratBold', fontSize:theme.fontSizes.buttonText }}
+                        titleStyle={styles.buttonText}
                         onPress={() => openWhatsApp()}
                         title="Contact the owner" />
                 </View>
@@ -65,9 +64,13 @@ const styles = StyleSheet.create({
     },
     button: {
         backgroundColor: theme.colors.red,
-        borderRadius: theme.borderRadius.button,
-        width: '50%',
-        margin: 20
+        borderRadius: theme.borderRadius.button
+    },
+    buttonText:{
+        color: 'white',
+        fontFamily: theme.fonts.bold,
+        fontSize: theme.fontSizes.buttonText,
+        width: '70%'
     },
     bigTitle: {
         fontSize: theme.fontSizes.screenTitle,
@@ -119,10 +122,8 @@ const styles = StyleSheet.create({
         flex: 5
     },
     buttonContainer: {
-        width: '100%',
-        alignItems: 'flex-end',
-        justifyContent: 'center',
-        flex: 1
+        alignItems: 'center',
+        marginBottom: 25
     }
 
 });

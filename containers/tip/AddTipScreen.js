@@ -35,7 +35,8 @@ export default function AddTipScreen({ navigation }) {
             });
         }
     }
-
+    
+    //Save the tip in the database
     const saveTheTip = () => {
         let canBeSaved = true;
 

@@ -1,9 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, Image, ScrollView } from 'react-native';
+import React from 'react';
+import { StyleSheet, View, Text, TouchableOpacity, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import theme from '../../constants/theme';
-import { Button } from 'react-native-elements';
 
 
 export default function TipDetailsScreen({ navigation, route }) {
@@ -12,8 +11,8 @@ export default function TipDetailsScreen({ navigation, route }) {
 
     const uri = 'https://exchangestudentsapp-fardel.herokuapp.com/img/' + tip.img;
     const hasImg = tip.img !== 0;
-    console.log(hasImg);
 
+    //Render the image
     const img = () => {
         if (hasImg)
             return (
@@ -57,6 +56,7 @@ export default function TipDetailsScreen({ navigation, route }) {
                     <Text style={styles.text}>{tip.tag}</Text>
                 </View>
             </View>
+            <StatusBar style="auto" />
         </View>
     )
 }

@@ -34,6 +34,7 @@ export default function ChatRoomScreen({ navigation, route }) {
         firebaseChats();
     }, [!chatLoaded])
 
+    //Save a chat in the database
     const saveNewChat = () => {
         if (message.trim()) {
             const time = moment().tz("Europe/Helsinki").format('LT');
@@ -45,6 +46,7 @@ export default function ChatRoomScreen({ navigation, route }) {
         }
     }
 
+    //Fetch the chats if the firebase database has been changed
     const firebaseChats = () => {
         const ref = topic.name + topic.id;
         firebase.database().ref(ref).on('value', snapshot => {
@@ -52,6 +54,7 @@ export default function ChatRoomScreen({ navigation, route }) {
         });
     }
 
+    //Save a chat in the firebase database
     const addChatFirebase = (chat) => {
         const ref = topic.name + topic.id;
         firebase.database().ref(ref).set(chat).then(() => {

@@ -17,11 +17,13 @@ export default function ModifyCourseScreen({ navigation, route }) {
     const [teacher, setTeacher] = useState(course.teacher);
     const [uni, setUni] = useState(course.university);
 
+    //Delete a course
     const handleDelete = () => {
         deleteOneCourse(course.id);
         navigation.goBack();
     }
 
+    //Modify a course
     const handleModify = () => {
         let newCourse = {
             name: name.trim() ? name : course.name,
@@ -98,13 +100,6 @@ const styles = StyleSheet.create({
         color: theme.colors.green,
         borderBottomWidth: 1,
         borderBottomColor: theme.colors.blue,
-    },
-    questionTitle: {
-        fontFamily: theme.fonts.bold,
-        color: theme.colors.blue,
-        fontSize: theme.fontSizes.screenTitle,
-        width: '90%',
-        marginBottom: 25
     },
     inputSyle: {
         color: theme.colors.blue,

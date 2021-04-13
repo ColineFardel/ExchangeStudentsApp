@@ -26,12 +26,13 @@ const theme = {
         pink:'#ff00ff'
     },
     fontSizes: {
-        footText: 12,
-        buttonText: 18,
-        cardTitle: 16,
+        footText: 14,
+        buttonText: 16,
+        cardTitle: 14,
         cardText: 12,
         screenTitle: 22,
-        chat: 16
+        chat: 16,
+        snackbar: 12
     },
     fonts: {
         regular: 'Montserrat',

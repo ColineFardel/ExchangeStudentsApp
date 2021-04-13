@@ -19,7 +19,7 @@ export default AppListItem = (props) => {
                     <Image style={styles.image} source={{ uri: uri }} />
                 )}
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    <View style={{ width: '90%', padding: 5 }}>
+                    <View style={styles.textContainer}>
                         <Text style={styles.title}>{title}</Text>
                         {subtitle && (
                             <Text style={styles.subtitle}>{subtitle}</Text>
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
     },
     title: {
         fontFamily: theme.fonts.bold,
-        fontSize: theme.fontSizes.cardTitle
+        fontSize: theme.fontSizes.cardTitle,
     },
     subtitle: {
         fontFamily: theme.fonts.regular,
@@ -59,7 +59,9 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: theme.borderRadius.card,
         borderTopRightRadius: theme.borderRadius.card,
     },
-    // item: {
-    //     backgroundColor
-    // },
+    textContainer: {
+        width: '90%',
+        paddingTop: 10,
+        paddingBottom: 10
+    }
 });

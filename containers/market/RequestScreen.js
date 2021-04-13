@@ -59,6 +59,7 @@ export default function RequestScreen({ navigation }) {
           onLongPressAction={() => removeRequest(request.id)}
           title={request.name}
           subtitle={request.description}
+          secondsubtitle={request.location}
           uri={uri}
         />
       )

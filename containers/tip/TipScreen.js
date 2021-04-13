@@ -26,6 +26,7 @@ export default function TipScreen({ navigation }) {
         })
     })
 
+    //Constants
     const [search, setSearch] = useState('');
     const [searchOpen, setSearchOpen] = useState(false);
     const [tipsFiltered, setTipsFiltered] = useState([]);
@@ -49,6 +50,7 @@ export default function TipScreen({ navigation }) {
         setTipsFiltered(tips);
     }, [!tipLoaded])
 
+    //Render the list of tips
     const showTips = () => {
         return tipsFiltered.map((tip, index) => {
             const uri = 'https://exchangestudentsapp-fardel.herokuapp.com/img/' + tip.img;

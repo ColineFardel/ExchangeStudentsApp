@@ -16,11 +16,13 @@ export default function ModifyFAQScreen({ navigation, route }) {
     const [answer, setAnswer] = useState(faq.answer);
     const [tag, setTag] = useState(faq.tag);
 
+    //Delete an FAQ
     const handleDelete = () => {
         deleteFAQ(faq.id);
         navigation.goBack();
     }
 
+    //Modify an FAQ
     const handleModify = () => {
         let newFaq = {
             answer: answer.trim() ? answer : faq.answer,
@@ -59,11 +61,13 @@ export default function ModifyFAQScreen({ navigation, route }) {
 
             <View style={styles.buttonContainer}>
                 <Button
+                    raised={true}
                     buttonStyle={styles.deleteButton}
                     titleStyle={styles.deleteButtonText}
                     onPress={() => handleDelete()}
                     title="DELETE" />
                 <Button
+                    raised={true}
                     buttonStyle={styles.saveButton}
                     titleStyle={styles.saveButtonText}
                     onPress={() => handleModify()}

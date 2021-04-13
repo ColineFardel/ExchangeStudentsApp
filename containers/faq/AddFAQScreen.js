@@ -14,6 +14,7 @@ export default function AddFAQScreen({ route, navigation }) {
     const dispatch = useDispatch();
     const addFAQ = (faq) => dispatch(addFaq(faq));
 
+    //Save the question in the database
     const saveQuestion = () => {
         if (question.trim()) {
             const newQuestion = { question: question, status: 'sent', answer: 'Not answered yet' };

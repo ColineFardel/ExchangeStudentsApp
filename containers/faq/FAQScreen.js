@@ -50,35 +50,36 @@ export default function FAQScreen({ navigation }) {
         setFaqsFiltered(faqs);
     }, [!faqLoaded])
 
+    //Render list of FAQs
     const showFAQs = () => {
-        return faqsFiltered.map((data, index) => {
+        return faqsFiltered.map((faq, index) => {
             let closed = true;
             if (index === currentIndex)
                 closed = false;
             return (
                 <TouchableOpacity
-                    key={data.question}
+                    key={faq.question}
                     onPress={() => { setCurrentIndex(index) }}
-                    onLongPress={() => navigation.navigate('ModifyFAQ', data)}
+                    onLongPress={() => navigation.navigate('ModifyFAQ', faq)}
                     style={{
                         width: "100%", alignItems: 'center',
                     }}
                 >
                     <View style={styles.card}>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                            <Text style={styles.cardTitle}>{data.question}</Text>
+                            <Text style={styles.cardTitle}>{faq.question}</Text>
                             <Icon name={closed ? "chevron-right" : "chevron-down"}
                                 size={20}
                                 color="black" />
                         </View>
 
-                        {data.tag && (
-                            <Text style={styles.cardText}>{data.tag}</Text>
+                        {faq.tag && (
+                            <Text style={styles.cardText}>{faq.tag}</Text>
                         )}
 
                         {!closed && (
                             <View>
-                                <Text style={styles.cardText}>{data.answer}</Text>
+                                <Text style={styles.cardText}>{faq.answer}</Text>
 
                             </View>
                         )}
@@ -105,7 +106,7 @@ export default function FAQScreen({ navigation }) {
                 <Foot
                     color={theme.colors.green}
                     icon="question-circle"
-                    textTop="Those questions did'nt help you?"
+                    textTop="Those questions didn't help you?"
                     textBottom="No problem! Ask your question here"
                     iconAction={() => { navigation.navigate('AddFAQ', getFAQs) }}
                 />
@@ -117,9 +118,7 @@ export default function FAQScreen({ navigation }) {
         return (
             <Loading />
         )
-
     }
-
 }
 
 
