@@ -22,6 +22,9 @@ import ModifyCourse from '../containers/course/ModifyCourseScreen';
 import Tips from '../containers/tip/TipScreen';
 import AddTip from '../containers/tip/AddTipScreen';
 import TipDetails from '../containers/tip/TipDetailsScreen';
+import Events from '../containers/event/EventScreen';
+import AddEvent from '../containers/event/AddEventScreen';
+import EventDetails from '../containers/event/EventDetailsScreen';
 
 const Stack = createStackNavigator();
 
@@ -252,4 +255,34 @@ const TipStackNavigation = ({ navigation }) => {
     )
 }
 
-export { FAQStackNavigation, RequestStackNavigation, OfferStackNavigation, HomeStackNavigation, ForumStackNavigation, CoursesStackNavigation, TipStackNavigation };
+const EventStackNavigation = ({ navigation }) => {
+    return (
+        <Stack.Navigator
+            screenOptions={{
+                headerStyle: {
+                    backgroundColor: theme.colors.pink,
+                },
+                headerTintColor: 'white',
+                headerTitleStyle: {
+                    fontWeight: 'bold',
+                }
+            }}>
+            <Stack.Screen
+                name="Events"
+                component={Events}
+                options={{
+                    title: 'Events',
+                    headerLeft: () => (
+                        <Icon.Button name="ios-menu"
+                            size={25}
+                            backgroundColor={theme.colors.pink}
+                            onPress={() => { navigation.openDrawer() }} />
+                    )
+                }} />
+            <Stack.Screen name="AddEvent" component={AddEvent} />
+            <Stack.Screen name="EventDetails" component={EventDetails} options={{ headerShown: false }} />
+        </Stack.Navigator>
+    )
+}
+
+export { FAQStackNavigation, RequestStackNavigation, OfferStackNavigation, HomeStackNavigation, ForumStackNavigation, CoursesStackNavigation, TipStackNavigation, EventStackNavigation };

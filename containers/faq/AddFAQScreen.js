@@ -16,7 +16,7 @@ export default function AddFAQScreen({ route, navigation }) {
 
     //Save the question in the database
     const saveQuestion = () => {
-        if (question.trim()) {
+        if (question) {
             const newQuestion = { question: question, status: 'sent', answer: 'Not answered yet' };
             addFAQ(newQuestion);
             navigation.goBack();

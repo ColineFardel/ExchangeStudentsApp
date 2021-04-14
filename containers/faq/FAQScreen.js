@@ -30,7 +30,7 @@ export default function FAQScreen({ navigation }) {
     const [search, setSearch] = useState('');
     const [searchOpen, setSearchOpen] = useState(false);
     const [faqsFiltered, setFaqsFiltered] = useState([]);
-    const [currentIndex, setCurrentIndex] = React.useState(null);
+    const [currentIndex, setCurrentIndex] = useState(null);
     const visible = useSelector(state => state.faqReducer.snackBarVisible);
     const message = useSelector(state => state.faqReducer.snackBarMessage);
     const faqs = useSelector(state => state.faqReducer.faqs);
@@ -61,27 +61,19 @@ export default function FAQScreen({ navigation }) {
                     key={faq.question}
                     onPress={() => { setCurrentIndex(index) }}
                     onLongPress={() => navigation.navigate('ModifyFAQ', faq)}
-                    style={{
-                        width: "100%", alignItems: 'center',
-                    }}
-                >
+                    style={{ width: "100%", alignItems: 'center' }}>
                     <View style={styles.card}>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                        <View style={styles.titleContainer}>
                             <Text style={styles.cardTitle}>{faq.question}</Text>
                             <Icon name={closed ? "chevron-right" : "chevron-down"}
                                 size={20}
                                 color="black" />
                         </View>
-
                         {faq.tag && (
                             <Text style={styles.cardText}>{faq.tag}</Text>
                         )}
-
                         {!closed && (
-                            <View>
-                                <Text style={styles.cardText}>{faq.answer}</Text>
-
-                            </View>
+                            <Text style={styles.cardText}>{faq.answer}</Text>
                         )}
                     </View>
                 </TouchableOpacity>
@@ -151,5 +143,9 @@ const styles = StyleSheet.create({
         fontFamily: theme.fonts.bold,
         fontSize: theme.fontSizes.cardTitle,
         color: "black"
+    },
+    titleContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between'
     }
 });

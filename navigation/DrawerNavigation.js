@@ -1,6 +1,6 @@
 import React from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { FAQStackNavigation, HomeStackNavigation, ForumStackNavigation, CoursesStackNavigation, TipStackNavigation } from './StackNavigation';
+import { FAQStackNavigation, HomeStackNavigation, ForumStackNavigation, CoursesStackNavigation, TipStackNavigation, EventStackNavigation } from './StackNavigation';
 import { DrawerContent } from './DrawerContent';
 import MarketScreen from '../containers/market/MarketScreen';
 import HomeScreen from '../containers/HomeScreen';
@@ -16,6 +16,7 @@ export default function DrawerNavigation() {
             <Drawer.Screen name="Forum" component={ForumStackNavigation} />
             <Drawer.Screen name="Courses" component={CoursesStackNavigation} />
             <Drawer.Screen name="Tips" component={TipStackNavigation} />
+            <Drawer.Screen name="Events" component={EventStackNavigation} />
         </Drawer.Navigator>
     );
 }

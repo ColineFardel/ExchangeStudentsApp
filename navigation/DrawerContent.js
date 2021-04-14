@@ -90,7 +90,7 @@ export function DrawerContent(props) {
                             style={{ backgroundColor: theme.colors.pink }}
                             labelStyle={{ color: 'white', fontFamily: theme.fonts.bold }}
                             label="Events"
-                            onPress={() => { }}
+                            onPress={() => { props.navigation.navigate('Events') }}
                             icon={() => (
                                 <Icon
                                     name="calendar-blank"
