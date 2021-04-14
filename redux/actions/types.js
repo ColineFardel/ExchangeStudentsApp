@@ -31,3 +31,7 @@ export const GET_UNIVERSITIES = 'GET_UNIVERSITIES';
 export const GET_TIPS = 'GET_TIPS';
 export const ADD_TIP = 'ADD_TIP';
 export const DELETE_TIP = 'DELETE_TIP';
+
+export const GET_EVENTS = 'GET_EVENTS';
+export const ADD_EVENT = 'ADD_EVENT';
+export const DELETE_EVENT = 'DELETE_EVENT';

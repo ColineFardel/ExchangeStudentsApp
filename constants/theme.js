@@ -23,7 +23,8 @@ const theme = {
         purple :'#993399',
         lightPurple :'#e6b3e6',
 
-        pink:'#ff00ff'
+        pink:'#ff00ff',
+        lightPink:'#ffccff'
     },
     fontSizes: {
         footText: 14,
