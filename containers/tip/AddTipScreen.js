@@ -8,6 +8,7 @@ import theme from '../../constants/theme';
 import { Button } from 'react-native-elements';
 import * as ImagePicker from 'expo-image-picker';
 import { ScrollView } from 'react-native-gesture-handler';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default function AddTipScreen({ navigation }) {
     //Constants
@@ -35,7 +36,7 @@ export default function AddTipScreen({ navigation }) {
             });
         }
     }
-    
+
     //Save the tip in the database
     const saveTheTip = () => {
         let canBeSaved = true;
@@ -54,6 +55,7 @@ export default function AddTipScreen({ navigation }) {
         }
 
         if (canBeSaved) {
+
             if (photo) {
                 const data = new FormData();
                 data.append('file', { name: photo.name, type: photo.type, uri: photo.uri });
@@ -71,6 +73,15 @@ export default function AddTipScreen({ navigation }) {
             }
             navigation.goBack();
         }
+    }
+
+    const setTag = (value) => {
+        let tag = '';
+        if (value.charAt(0) !== '#') {
+            tag = '#' + value;
+            setTip({ ...tip, tag: tag });
+        }
+        else setTip({ ...tip, tag: value });
     }
 
     return (
@@ -91,7 +102,10 @@ export default function AddTipScreen({ navigation }) {
                     <AppInput
                         placeholder="Type the tag of the tip"
                         color={theme.colors.lightPurple}
-                        action={value => setTip({ ...tip, tag: value })}
+                        action={value => setTag(value)}
+                        icon={<Icon name='hashtag'
+                            size={20}
+                            color={theme.colors.lightPurple} />}
                     />
                     <AppInput
                         placeholder="Type the location of the tip"

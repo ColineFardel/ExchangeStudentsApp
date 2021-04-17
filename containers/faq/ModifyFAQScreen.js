@@ -5,6 +5,7 @@ import { Input, Button } from 'react-native-elements';
 import { deleteFaq, modifyFaq } from '../../redux/actions/faq';
 import { useDispatch } from 'react-redux';
 import theme from '../../constants/theme';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default function ModifyFAQScreen({ navigation, route }) {
 
@@ -33,6 +34,15 @@ export default function ModifyFAQScreen({ navigation, route }) {
         navigation.goBack();
     }
 
+    const updateTag = (value) => {
+        let tag = '';
+        if (value.charAt(0) !== '#') {
+            tag = '#' + value;
+            setTag(tag);
+        }
+        else setTag(value);
+    }
+
     return (
         <View style={styles.container}>
             <View style={{ width: '100%', justifyContent: 'center', alignItems: 'center' }}>
@@ -49,13 +59,16 @@ export default function ModifyFAQScreen({ navigation, route }) {
                 />
                 <Input
                     label="Tag"
-                    placeholder={faq.tag}
+                    placeholder={faq.tag.substring(1)}
                     inputStyle={styles.inputSyle}
                     placeholderTextColor='grey'
                     inputContainerStyle={styles.inputContainer}
-                    onChangeText={value => setTag(value)}
+                    onChangeText={value => updateTag(value)}
                     multiline={true}
                     autoFocus={true}
+                    leftIcon={<Icon name='hashtag'
+                            size={20}
+                            color={theme.colors.lightGreen} />}
                 />
             </View>
 

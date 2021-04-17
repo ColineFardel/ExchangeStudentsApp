@@ -27,8 +27,8 @@ export default function EventScreen({ navigation }) {
     })
 
     //Constants
-    const visible = useSelector(state => state.forumReducer.snackBarVisible);
-    const message = useSelector(state => state.forumReducer.snackBarMessage);
+    const visible = useSelector(state => state.eventReducer.snackBarVisible);
+    const message = useSelector(state => state.eventReducer.snackBarMessage);
     const [search, setSearch] = useState('');
     const [searchOpen, setSearchOpen] = useState(false);
     const [eventsFiltered, setEventsFiltered] = useState([]);

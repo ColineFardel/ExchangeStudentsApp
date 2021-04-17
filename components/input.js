@@ -5,7 +5,7 @@ import { Input } from 'react-native-elements';
 
 export default AppInput = (props) => {
 
-    const { color, placeholder, action, keyboardType } = props
+    const { color, placeholder, action, keyboardType, icon } = props
 
     return (
         <Input
@@ -23,6 +23,7 @@ export default AppInput = (props) => {
             multiline={true}
             autoFocus={true}
             keyboardType={keyboardType}
+            leftIcon={icon}
         />
     )
 }
