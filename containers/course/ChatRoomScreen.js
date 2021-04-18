@@ -8,7 +8,6 @@ import theme from '../../constants/theme';
 import moment from "moment-timezone";
 import Chat from '../../components/chat';
 import * as firebase from 'firebase';
-import * as Localization from 'expo-localization'
 
 export default function ChatRoomScreen({ navigation, route }) {
 

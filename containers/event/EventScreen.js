@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, ScrollView, Text } from 'react-native';
+import { StyleSheet, View, ScrollView, Text, SectionList } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import theme from '../../constants/theme';
 import Foot from '../../components/foot';
@@ -47,34 +47,42 @@ export default function EventScreen({ navigation }) {
     //Search bar function
     const updateSearch = (text) => {
         setSearch(text);
-        setEventsFiltered(events.filter((item) => item.name.toLowerCase().includes(text.toLowerCase())));
-    }
+        let temp = [];
+        events.map((item) => {
+            let data = [];
+            item.data.map((e) => {
+                if (e.name.toLowerCase().includes(text.toLowerCase()))
+                    data = [...data, e];
+            });
+            if (data.length > 0)
+                temp = [...temp, { data: data, date: item.date }];
 
-    //Render list of events
-    const showEvents = () => {
-        return eventsFiltered.map((event, index) => {
-            return (
-                <AppListItem
-                    color={theme.colors.lightPink}
-                    title={event.name}
-                    subtitle={event.location}
-                    secondsubtitle={event.date}
-                    onPressAction={() => { navigation.navigate('EventDetails', event) }}
-                    onLongPressAction={() => { deleteOneEvent(event.id) }}
-                    key={index}
-                />
-            )
-        })
+        });
+        setEventsFiltered(temp);
     }
 
     if (eventLoaded) {
         return (
             <View style={styles.container}>
                 <View style={styles.listContainer}>
-
-                    <ScrollView style={{ width: '100%' }}>
-                        {showEvents()}
-                    </ScrollView>
+                    <SectionList
+                        style={{ width: '100%', marginBottom: 15 }}
+                        sections={eventsFiltered}
+                        keyExtractor={(item, index) => item + index}
+                        renderItem={({ item, index }) =>
+                            <AppListItem
+                                color={theme.colors.lightPink}
+                                title={item.name}
+                                subtitle={item.location}
+                                secondsubtitle={item.time}
+                                onPressAction={() => { navigation.navigate('EventDetails', item) }}
+                                onLongPressAction={() => { deleteOneEvent(item.id) }}
+                                key={index}
+                            />
+                        }
+                        renderSectionHeader={({ section: { date } }) => (
+                            <Text style={styles.header}>{date}</Text>)}
+                    />
                 </View>
                 <AppSnackBar
                     visible={visible}
@@ -113,5 +121,11 @@ const styles = StyleSheet.create({
     listContainer: {
         flex: 1,
         width: '100%',
+    },
+    header: {
+        fontFamily: theme.fonts.bold,
+        fontSize: theme.fontSizes.cardTitle,
+        justifyContent: 'center',
+        alignSelf: 'center',
     },
 });
