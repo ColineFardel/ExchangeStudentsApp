@@ -1,10 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
-import { deleteRequest, getRequests, setVisibleFalse } from '../../redux/actions/market';
+import { deleteRequest, getRequests, getRequestsLoc, setVisibleFalse } from '../../redux/actions/market';
 import { useDispatch, useSelector } from 'react-redux';
 import theme from '../../constants/theme';
 import Loading from '../../components/loading';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import { Button, Slider } from 'react-native-elements';
+import FilterButton from '../../components/filterButton';
 
 export default function RequestScreen({ navigation }) {
 
@@ -27,25 +30,66 @@ export default function RequestScreen({ navigation }) {
   const visible = useSelector(state => state.marketReducer.snackBarVisible);
   const message = useSelector(state => state.marketReducer.snackBarMessage);
   const requests = useSelector(state => state.marketReducer.requests);
+  const requestsLoc = useSelector(state => state.marketReducer.requestsLoc);
   const requestLoaded = useSelector(state => state.marketReducer.requestLoaded);
   const [requestsFiltered, setRequestsFiltered] = useState([]);
   const [search, setSearch] = useState('');
   const [searchOpen, setSearchOpen] = useState(false);
+  const [showFilter, setShowFilter] = useState(false);
+  const [locationsSelected, setLocationsSelected] = useState([]);
   const dispatch = useDispatch();
   const removeSnackBar = () => dispatch(setVisibleFalse());
   const fetchRequests = () => dispatch(getRequests());
+  const fetchRequestsLoc = () => dispatch(getRequestsLoc());
   const removeRequest = (index) => dispatch(deleteRequest(index));
 
   //Search bar function
   const updateSearch = (text) => {
-    setSearch(text);
-    setRequestsFiltered(requests.filter((item) => item.name.toLowerCase().includes(text.toLowerCase())));
+    filterRequests(text, locationsSelected);
   }
 
   useEffect(() => {
     fetchRequests();
+    fetchRequestsLoc();
     setRequestsFiltered(requests);
   }, [!requestLoaded])
+
+  //Filter the list of requests
+  const filterRequests = (name, location) => {
+    setSearch(name);
+    let temp = JSON.parse(JSON.stringify(requests));
+    //Search bar filter
+    temp = temp.filter((item) => item.name.toLowerCase().includes(name.toLowerCase()));
+    //Location filter
+    temp = temp.filter((item) => {
+      console.log(location.length);
+      if (location.length > 0) {
+        let containsAtLeastOneLoc = false;
+        location.map((loc) => {
+          if (item.location.includes(loc))
+            containsAtLeastOneLoc = true;
+        });
+        return containsAtLeastOneLoc;
+      }
+      else return true;
+    });
+    setRequestsFiltered(temp);
+  }
+
+  const locationFiltering = (location) => {
+    let temp = JSON.parse(JSON.stringify(locationsSelected));
+    if (temp.includes(location)) {
+      let index = temp.indexOf(location);
+      temp.splice(index, 1);
+      setLocationsSelected(temp);
+      filterRequests(search, temp);
+    }
+    else {
+      setLocationsSelected([...locationsSelected, location]);
+      filterRequests(search, [...temp, location]);
+    }
+
+  }
 
   //Show the list of requests
   const showRequests = () => {
@@ -69,11 +113,57 @@ export default function RequestScreen({ navigation }) {
   if (requestLoaded) {
     return (
       <View style={styles.container}>
-        <View style={styles.content}>
-          <ScrollView style={{ width: '100%' }}>
-            {showRequests()}
-          </ScrollView>
-        </View>
+        {!showFilter &&
+          <Button
+            raised={true}
+            icon={
+              <Icon
+                name='filter'
+                size={30}
+                color={theme.colors.red}
+              />}
+            title="Filter"
+            titleStyle={{ fontFamily: theme.fonts.bold, color: theme.colors.red }}
+            buttonStyle={{
+              borderColor: theme.colors.red, borderRadius: theme.borderRadius.button, borderWidth: 1
+            }}
+            type='outline'
+            onPress={() => { setShowFilter(true) }}
+          />
+        }
+        {showFilter &&
+          <View style={{ alignItems: 'center', flexDirection: 'row' }}>
+            <View style={{ width: '90%', alignItems: 'center' }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center', width: '90%' }}>
+                <ScrollView
+                  showsHorizontalScrollIndicator={false}
+                  horizontal={true}>
+                  {requestsLoc.map((loc, index) => {
+                    return (
+                      <FilterButton
+                        key={index}
+                        text={loc}
+                        color={theme.colors.red}
+                        action={() => { locationFiltering(loc) }}
+                      />
+                    )
+                  })}
+                </ScrollView>
+              </View>
+            </View>
+            <View>
+              <Icon
+                name='times'
+                size={30}
+                color='red'
+                onPress={() => { setShowFilter(false); setLocationsSelected([]); filterRequests('', []); }}
+              />
+            </View>
+          </View>
+        }
+        <ScrollView style={{ width: '100%' }}>
+          {showRequests()}
+        </ScrollView>
         <AppSnackBar
           visible={visible}
           onDismiss={() => removeSnackBar()}
@@ -104,10 +194,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  content: {
-    flex: 10,
-    width: '100%',
+    paddingTop: 15
   },
   card: {
     backgroundColor: theme.colors.lightRed,

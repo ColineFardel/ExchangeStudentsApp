@@ -1,13 +1,16 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, ScrollView } from 'react-native';
-import { deleteOffer, getOffers, setVisibleFalse } from '../../redux/actions/market';
+import { StyleSheet, View, ScrollView, Text } from 'react-native';
+import { deleteOffer, getOffers, setVisibleFalse, getOffersLoc } from '../../redux/actions/market';
 import { useDispatch, useSelector } from 'react-redux';
 import theme from '../../constants/theme';
 import AppSnackBar from '../../components/snackbar';
 import Loading from '../../components/loading';
 import Search from '../../components/search';
 import AppListItem from '../../components/listItem';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import { Button, Slider } from 'react-native-elements';
+import FilterButton from '../../components/filterButton';
 
 export default function OfferScreen({ navigation }) {
 
@@ -30,6 +33,7 @@ export default function OfferScreen({ navigation }) {
   const visible = useSelector(state => state.marketReducer.snackBarVisible);
   const message = useSelector(state => state.marketReducer.snackBarMessage);
   const offers = useSelector(state => state.marketReducer.offers);
+  const offersLoc = useSelector(state => state.marketReducer.offersLoc);
   const offerLoaded = useSelector(state => state.marketReducer.offerLoaded);
   const [offersFiltered, setOffersFiltered] = useState([]);
   const [search, setSearch] = useState('');
@@ -37,17 +41,71 @@ export default function OfferScreen({ navigation }) {
   const dispatch = useDispatch();
   const removeSnackBar = () => dispatch(setVisibleFalse());
   const fetchOffers = () => dispatch(getOffers());
+  const fetchOffersLoc = () => dispatch(getOffersLoc());
   const deleteAnOffer = (index) => dispatch(deleteOffer(index));
+  const [showFilter, setShowFilter] = useState(false);
+  const [locationsSelected, setLocationsSelected] = useState([]);
+  const [selectedPrice, setSelectedPrice] = useState(0);
+  const [maxPrice, setMaxPrice] = useState(100);
 
   useEffect(() => {
     fetchOffers();
+    fetchOffersLoc();
     setOffersFiltered(offers);
+    getMaxPrice();
   }, [!offerLoaded])
 
+  const getMaxPrice = () => {
+    let max = '0';
+    offers.map((offer) => {
+      if (offer.price > max)
+        max = offer.price;
+    });
+    setMaxPrice(max);
+    setSelectedPrice(max);
+  }
   //Search bar function
   const updateSearch = (text) => {
-    setSearch(text);
-    setOffersFiltered(offers.filter((item) => item.name.toLowerCase().includes(text.toLowerCase())));
+    filterOffers(text, locationsSelected, selectedPrice);
+  }
+
+  //Filter the list of offers
+  const filterOffers = (name, location, price) => {
+    setSearch(name);
+    let temp = JSON.parse(JSON.stringify(offers));
+    //Search bar filter
+    temp = temp.filter((item) => item.name.toLowerCase().includes(name.toLowerCase()));
+    //Location filter
+    temp = temp.filter((item) => {
+      console.log(location.length);
+      if (location.length > 0) {
+        let containsAtLeastOneLoc = false;
+        location.map((loc) => {
+          if (item.location.includes(loc))
+            containsAtLeastOneLoc = true;
+        });
+        return containsAtLeastOneLoc;
+      }
+      else return true;
+    });
+    //Price filter
+    temp = temp.filter((item) => item.price <= price);
+    setOffersFiltered(temp);
+  }
+
+  const locationFiltering = (location) => {
+    let temp = JSON.parse(JSON.stringify(locationsSelected));
+    if (temp.includes(location)) {
+      let index = temp.indexOf(location);
+      temp.splice(index, 1);
+      setLocationsSelected(temp);
+      filterOffers(search, temp, selectedPrice);
+    }
+    else {
+      setLocationsSelected([...locationsSelected, location]);
+      filterOffers(search, [...temp, location], selectedPrice);
+    }
+
   }
 
   //Show the list of offers
@@ -72,11 +130,81 @@ export default function OfferScreen({ navigation }) {
   if (offerLoaded) {
     return (
       <View style={styles.container}>
-        <View style={styles.content}>
-          <ScrollView style={{ width: '100%' }}>
-            {showOffers()}
-          </ScrollView>
-        </View>
+        {!showFilter &&
+          <Button
+            raised={true}
+            icon={
+              <Icon
+                name='filter'
+                size={30}
+                color={theme.colors.red}
+              />}
+            title="Filter"
+            titleStyle={{ fontFamily: theme.fonts.bold, color: theme.colors.red }}
+            buttonStyle={{
+              borderColor: theme.colors.red, borderRadius: theme.borderRadius.button, borderWidth: 1
+            }}
+            type='outline'
+            onPress={() => { setShowFilter(true) }}
+          />
+        }
+
+        {showFilter &&
+          <View style={{ alignItems: 'center', flexDirection: 'row' }}>
+            <View style={{ width: '90%', alignItems: 'center' }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center', width: '90%' }}>
+                <ScrollView
+                  showsHorizontalScrollIndicator={false}
+                  horizontal={true}>
+                  {offersLoc.map((loc, index) => {
+                    return (
+                      <FilterButton
+                        key={index}
+                        text={loc}
+                        color={theme.colors.red}
+                        action={() => { locationFiltering(loc) }}
+                      />
+                    )
+                  })}
+                </ScrollView>
+              </View>
+              <View style={{ width: '90%', }}>
+                <Slider
+                  value={selectedPrice}
+                  onValueChange={(value) => { setSelectedPrice(value); filterOffers(search, locationsSelected, value) }}
+                  maximumValue={maxPrice}
+                  minimumValue={0}
+                  step={1}
+                  trackStyle={{ height: 10, backgroundColor: 'transparent' }}
+                  thumbStyle={{ height: 20, width: 20, backgroundColor: 'transparent' }}
+                  thumbProps={{
+                    children: (
+                      <Icon
+                        name="circle"
+                        size={20}
+                        reverse
+                        containerStyle={{ bottom: 20, right: 20 }}
+                        color={theme.colors.red}
+                      />
+                    ),
+                  }}
+                />
+                <Text>Showing offers from 0€ to {selectedPrice}€</Text>
+              </View>
+            </View>
+            <View>
+              <Icon
+                name='times'
+                size={30}
+                color='red'
+                onPress={() => { setShowFilter(false); setLocationsSelected([]); filterOffers('', [], maxPrice); setSelectedPrice(maxPrice) }}
+              />
+            </View>
+          </View>
+        }
+        <ScrollView style={{ width: '100%' }}>
+          {showOffers()}
+        </ScrollView>
         <AppSnackBar
           visible={visible}
           onDismiss={() => removeSnackBar()}
@@ -103,13 +231,11 @@ export default function OfferScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   container: {
+    paddingTop: 15,
     flex: 1,
     backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  content: {
-    flex: 10,
     width: '100%',
   },
   card: {

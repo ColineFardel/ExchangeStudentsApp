@@ -1,6 +1,5 @@
 import axios from 'axios';
-import { ADD_OFFER, ADD_REQUEST, DELETE_OFFER, DELETE_REQUEST, GET_OFFERS, GET_REQUESTS, SET_VISIBLE_FALSE } from './types';
-
+import { ADD_OFFER, ADD_REQUEST, DELETE_OFFER, DELETE_REQUEST, GET_OFFERS, GET_OFFERS_LOCATION, GET_REQUESTS, GET_REQUESTS_LOCATION, SET_VISIBLE_FALSE } from './types';
 
 export const getRequests = () => {
     try {
@@ -53,6 +52,24 @@ export const deleteRequest = (index) => {
     }
 };
 
+export const getRequestsLoc = () => {
+    try {
+        return async dispatch => {
+            const response = await axios.get('https://exchangestudentsapp-fardel.herokuapp.com/requestsloc');
+            if (response.data) {
+                dispatch({
+                    type: GET_REQUESTS_LOCATION,
+                    payload: response.data
+                });
+            } else {
+                console.log('Unable to fetch data from the API BASE URL!');
+            }
+        };
+    } catch (error) {
+        console.log(error);
+    }
+};
+
 export const getOffers = () => {
     try {
         return async dispatch => {
@@ -98,6 +115,24 @@ export const deleteOffer = (index) => {
                         payload: index
                     });
                 });
+        };
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export const getOffersLoc = () => {
+    try {
+        return async dispatch => {
+            const response = await axios.get('https://exchangestudentsapp-fardel.herokuapp.com/offersloc');
+            if (response.data) {
+                dispatch({
+                    type: GET_OFFERS_LOCATION,
+                    payload: response.data
+                });
+            } else {
+                console.log('Unable to fetch data from the API BASE URL!');
+            }
         };
     } catch (error) {
         console.log(error);

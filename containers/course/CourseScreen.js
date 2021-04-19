@@ -82,6 +82,7 @@ export default function CourseScreen({ navigation }) {
             <View style={styles.container}>
                 {!showFilter &&
                     <Button
+                        raised={true}
                         icon={
                             <Icon
                                 name='filter'
@@ -91,7 +92,7 @@ export default function CourseScreen({ navigation }) {
                         title="Filter by university"
                         titleStyle={{ fontFamily: theme.fonts.bold, color: theme.colors.blue }}
                         buttonStyle={{
-                            borderColor: theme.colors.blue, borderRadius: theme.borderRadius.button, borderWidth: 1, marginTop: 15
+                            borderColor: theme.colors.blue, borderRadius: theme.borderRadius.button, borderWidth: 1
                         }}
                         type='outline'
                         onPress={() => { setShowFilter(true) }}
@@ -153,6 +154,7 @@ export default function CourseScreen({ navigation }) {
 }
 const styles = StyleSheet.create({
     container: {
+        paddingTop:15,
         flex: 1,
         backgroundColor: 'white',
         alignItems: 'center',
