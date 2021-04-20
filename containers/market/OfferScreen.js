@@ -77,7 +77,6 @@ export default function OfferScreen({ navigation }) {
     temp = temp.filter((item) => item.name.toLowerCase().includes(name.toLowerCase()));
     //Location filter
     temp = temp.filter((item) => {
-      console.log(location.length);
       if (location.length > 0) {
         let containsAtLeastOneLoc = false;
         location.map((loc) => {

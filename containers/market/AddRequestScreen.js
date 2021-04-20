@@ -19,7 +19,7 @@ export default function AddRequestScreen({ navigation }) {
     const dispatch = useDispatch();
     const addTheRequest = (request) => dispatch(addRequest(request));
 
-    //Open the user's library to choose an image
+    //Open the user's library to choose a picture
     const selectPicture = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -37,6 +37,34 @@ export default function AddRequestScreen({ navigation }) {
             });
         }
     }
+
+    //Open user's camero to take a picture
+    const takePicture = async () => {
+        let result = await ImagePicker.launchCameraAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+            quality: 1,
+            fileName: true,
+        });
+
+        if (!result.cancelled) {
+            setPhoto({
+                name: result.fileName ||
+                    result.uri.substr(result.uri.lastIndexOf('/') + 1),
+                uri: result.uri,
+                type: 'image/png'
+            });
+        }
+    }
+
+    //Show alert for user to choose how to add a picture
+    const pictureOption = () => {
+        Alert.alert('Add a picture', 'Choose which way you would like to add a picture', [
+            { text: 'Camera roll', onPress: () => { takePicture() } },
+            { text: 'Gallery', onPress: () => { selectPicture() } }
+        ]);
+    }
+
     //Save the request in the database
     const saveRequest = () => {
         let canBeSaved = true;
@@ -102,7 +130,7 @@ export default function AddRequestScreen({ navigation }) {
                         keyboardType={'phone-pad'}
                     />
                     <TouchableOpacity
-                        onPress={() => { selectPicture() }}
+                        onPress={() => { pictureOption() }}
                         style={{
                             width: "100%", alignItems: 'center',
                         }}
