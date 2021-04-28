@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import { StyleSheet, View, Text, Alert } from 'react-native';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import theme from '../../constants/theme';
 import { addEvent } from '../../redux/actions/events';
 import { Button } from 'react-native-elements';
@@ -13,9 +13,10 @@ import { ScrollView } from 'react-native-gesture-handler';
 export default function AddEventScreen({ navigation }) {
 
     //Constants
+    const token = useSelector(state => state.authReducer.token);
     const [newEvent, setEvent] = useState('');
     const dispatch = useDispatch();
-    const saveEvent = (event) => dispatch(addEvent(event));
+    const saveEvent = (event, token) => dispatch(addEvent(event, token));
     const [date, setDate] = useState(new Date(moment()));
     const [time, setTime] = useState(new Date(moment()));
     const [showDatePicker, setShowDatePicker] = useState(false);
@@ -50,7 +51,7 @@ export default function AddEventScreen({ navigation }) {
         }
 
         if (canBeSaved) {
-            saveEvent(newEvent);
+            saveEvent(newEvent, token);
             navigation.goBack();
         }
     }
@@ -72,7 +73,7 @@ export default function AddEventScreen({ navigation }) {
         <View style={styles.container}>
             <View style={styles.inputContainer}>
                 <Text style={styles.title}>Create your own event</Text>
-                <ScrollView style={{ width: '100%'}} contentContainerStyle={{alignItems:'center'}}>
+                <ScrollView style={{ width: '100%' }} contentContainerStyle={{ alignItems: 'center' }}>
                     <AppInput
                         placeholder="Type the event's name"
                         color={theme.colors.lightPink}
@@ -176,6 +177,6 @@ const styles = StyleSheet.create({
     },
     inputContainer: {
         width: '100%',
-        marginBottom:35
+        marginBottom: 35
     }
 });

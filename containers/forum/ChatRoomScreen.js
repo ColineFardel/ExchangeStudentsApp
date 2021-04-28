@@ -19,17 +19,18 @@ export default function ChatRoomScreen({ navigation, route }) {
     })
 
     //Constants
+    const token = useSelector(state => state.authReducer.token);
     const chats = useSelector(state => state.forumReducer.chats);
     const userChats = useSelector(state => state.forumReducer.userChats);
     const chatLoaded = useSelector(state => state.forumReducer.chatLoaded);
     const topic = route.params;
     const [message, setMessage] = useState('');
     const dispatch = useDispatch();
-    const fetchChats = (topicId) => dispatch(getChats(topicId));
-    const newChat = (chat) => dispatch(addChat(chat));
+    const fetchChats = (topicId, token) => dispatch(getChats(topicId, token));
+    const newChat = (chat, token) => dispatch(addChat(chat, token));
 
     useEffect(() => {
-        fetchChats(topic.id);
+        fetchChats(topic.id, token);
         firebaseChats();
     }, [!chatLoaded])
 
@@ -39,7 +40,7 @@ export default function ChatRoomScreen({ navigation, route }) {
             const time = moment().tz("Europe/Helsinki").format('LT');
             const date = moment().tz("Europe/Helsinki").format('LL');
             let chat = { text: message, date: date, time: time, topic: topic }
-            newChat(chat);
+            newChat(chat, token);
             addChatFirebase(chat);
             setMessage('');
         }
@@ -49,7 +50,7 @@ export default function ChatRoomScreen({ navigation, route }) {
     const firebaseChats = () => {
         const ref = topic.name + topic.id;
         firebase.database().ref(ref).on('value', snapshot => {
-            fetchChats(topic.id);
+            fetchChats(topic.id, token);
         });
     }
 

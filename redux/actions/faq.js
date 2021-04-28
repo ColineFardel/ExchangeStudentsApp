@@ -1,10 +1,10 @@
 import axios from 'axios';
 import { ADD_FAQ, DELETE_FAQ, GET_FAQS, MODIFY_FAQ, SET_VISIBLE_FALSE } from './types';
 
-export const addFaq = (faq) => {
+export const addFaq = (faq, token) => {
     try {
         return async dispatch => {
-            await axios.post('https://exchangestudentsapp-fardel.herokuapp.com/addfaq', faq)
+            await axios.post('https://exchangestudentsapp-fardel.herokuapp.com/addfaq', faq, { headers: { 'Authorization': `Bearer ${token}` } })
                 .then(response => {
                     dispatch({
                         type: ADD_FAQ,
@@ -17,10 +17,10 @@ export const addFaq = (faq) => {
     }
 };
 
-export const getFAQs = () => {
+export const getFAQs = (token) => {
     try {
         return async dispatch => {
-            const response = await axios.get('https://exchangestudentsapp-fardel.herokuapp.com/faqs');
+            const response = await axios.get('https://exchangestudentsapp-fardel.herokuapp.com/faqs', { headers: { 'Authorization': `Bearer ${token}` } });
             if (response.data) {
                 response.data.sort((a, b) => {
                     if (a.tag < b.tag)
@@ -46,11 +46,11 @@ export const getFAQs = () => {
     }
 };
 
-export const modifyFaq = (faq) => {
+export const modifyFaq = (faq, token) => {
     let url = 'https://exchangestudentsapp-fardel.herokuapp.com/faq/' + faq.id;
     try {
         return async dispatch => {
-            await axios.put(url, faq)
+            await axios.put(url, faq, { headers: { 'Authorization': `Bearer ${token}` } })
                 .then(response => {
                     dispatch({
                         type: MODIFY_FAQ,
@@ -63,11 +63,11 @@ export const modifyFaq = (faq) => {
     }
 };
 
-export const deleteFaq = (index) => {
+export const deleteFaq = (index, token) => {
     let url = 'https://exchangestudentsapp-fardel.herokuapp.com/faq/' + index;
     try {
         return async dispatch => {
-            await axios.delete(url)
+            await axios.delete(url, { headers: { 'Authorization': `Bearer ${token}` } })
                 .then(response => {
                     dispatch({
                         type: DELETE_FAQ,

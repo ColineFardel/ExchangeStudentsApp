@@ -30,6 +30,7 @@ export default function OfferScreen({ navigation }) {
   })
 
   //Constants
+  const token = useSelector(state => state.authReducer.token);
   const visible = useSelector(state => state.marketReducer.snackBarVisible);
   const message = useSelector(state => state.marketReducer.snackBarMessage);
   const offers = useSelector(state => state.marketReducer.offers);
@@ -40,17 +41,17 @@ export default function OfferScreen({ navigation }) {
   const [searchOpen, setSearchOpen] = useState(false);
   const dispatch = useDispatch();
   const removeSnackBar = () => dispatch(setVisibleFalse());
-  const fetchOffers = () => dispatch(getOffers());
-  const fetchOffersLoc = () => dispatch(getOffersLoc());
-  const deleteAnOffer = (index) => dispatch(deleteOffer(index));
+  const fetchOffers = (token) => dispatch(getOffers(token));
+  const fetchOffersLoc = (token) => dispatch(getOffersLoc(token));
+  const deleteAnOffer = (index, token) => dispatch(deleteOffer(index, token));
   const [showFilter, setShowFilter] = useState(false);
   const [locationsSelected, setLocationsSelected] = useState([]);
   const [selectedPrice, setSelectedPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(100);
 
   useEffect(() => {
-    fetchOffers();
-    fetchOffersLoc();
+    fetchOffers(token);
+    fetchOffersLoc(token);
     setOffersFiltered(offers);
     getMaxPrice();
   }, [!offerLoaded])
@@ -115,7 +116,7 @@ export default function OfferScreen({ navigation }) {
         <AppListItem
           key={index}
           onPressAction={() => navigation.navigate("OfferDetails", offer)}
-          onLongPressAction={() => deleteAnOffer(offer.id)}
+          onLongPressAction={() => deleteAnOffer(offer.id, token)}
           title={offer.name}
           subtitle={offer.price + '€'}
           secondsubtitle={offer.location}

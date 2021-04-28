@@ -2,10 +2,10 @@ import axios from 'axios';
 import { GET_TOPICS, ADD_TOPIC, ADD_CHAT, GET_CHATS, DELETE_TOPIC, SET_VISIBLE_FALSE } from './types';
 import moment from "moment";
 
-export const getTopics = () => {
+export const getTopics = (token) => {
     try {
         return async dispatch => {
-            const response = await axios.get('https://exchangestudentsapp-fardel.herokuapp.com/topics');
+            const response = await axios.get('https://exchangestudentsapp-fardel.herokuapp.com/topics', { headers: { 'Authorization': `Bearer ${token}` } });
             if (response.data) {
                 dispatch({
                     type: GET_TOPICS,
@@ -20,11 +20,11 @@ export const getTopics = () => {
     }
 };
 
-export const deleteTopic = (index) => {
+export const deleteTopic = (index, token) => {
     let url = 'https://exchangestudentsapp-fardel.herokuapp.com/topic/' + index;
     try {
         return async dispatch => {
-            await axios.delete(url)
+            await axios.delete(url, { headers: { 'Authorization': `Bearer ${token}` } })
                 .then(response => {
                     dispatch({
                         type: DELETE_TOPIC,
@@ -37,10 +37,10 @@ export const deleteTopic = (index) => {
     }
 };
 
-export const addTopic = (topic) => {
+export const addTopic = (topic, token) => {
     try {
         return async dispatch => {
-            await axios.post('https://exchangestudentsapp-fardel.herokuapp.com/addtopic', topic)
+            await axios.post('https://exchangestudentsapp-fardel.herokuapp.com/addtopic', topic, { headers: { 'Authorization': `Bearer ${token}` } })
                 .then(response => {
                     dispatch({
                         type: ADD_TOPIC,
@@ -53,10 +53,10 @@ export const addTopic = (topic) => {
     }
 };
 
-export const getChats = (topicId) => {
+export const getChats = (topicId, token) => {
     try {
         return async dispatch => {
-            const response = await axios.get('https://exchangestudentsapp-fardel.herokuapp.com/chatByDate/topic/' + topicId);
+            const response = await axios.get('https://exchangestudentsapp-fardel.herokuapp.com/chatByDate/topic/' + topicId, { headers: { 'Authorization': `Bearer ${token}` } });
             if (response.data) {
                 const chats = response.data;
                 chats.map((obj) => {
@@ -82,10 +82,10 @@ export const getChats = (topicId) => {
     }
 };
 
-export const addChat = (chat) => {
+export const addChat = (chat, token) => {
     try {
         return async dispatch => {
-            await axios.post('https://exchangestudentsapp-fardel.herokuapp.com/addchat', chat)
+            await axios.post('https://exchangestudentsapp-fardel.herokuapp.com/addchat', chat, { headers: { 'Authorization': `Bearer ${token}` } })
                 .then(response => {
                     console.log(response.data);
                     dispatch({

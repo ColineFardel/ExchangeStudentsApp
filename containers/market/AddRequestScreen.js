@@ -6,18 +6,19 @@ import * as ImagePicker from 'expo-image-picker';
 import theme from '../../constants/theme';
 import AppInput from '../../components/input';
 import { addRequest } from '../../redux/actions/market';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function AddRequestScreen({ navigation }) {
 
     //Constants
+    const token = useSelector(state => state.authReducer.token);
     const [photo, setPhoto] = useState(null);
     const [name, setName] = useState('');
     const [desc, setDesc] = useState('');
     const [location, setLocation] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
     const dispatch = useDispatch();
-    const addTheRequest = (request) => dispatch(addRequest(request));
+    const addTheRequest = (request, token) => dispatch(addRequest(request, token));
 
     //Open the user's library to choose a picture
     const selectPicture = async () => {
@@ -98,7 +99,7 @@ export default function AddRequestScreen({ navigation }) {
             data.append('location', location);
             data.append('phoneNumber', phoneNumber);
 
-            addTheRequest(data);
+            addTheRequest(data, token);
             navigation.goBack();
         }
     }

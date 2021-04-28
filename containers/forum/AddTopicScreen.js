@@ -4,20 +4,21 @@ import { StyleSheet, Text, View, Alert } from 'react-native';
 import { Button } from 'react-native-elements';
 import AppInput from '../../components/input';
 import { addTopic } from '../../redux/actions/forum';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import theme from '../../constants/theme';
 
 export default function AddTopicScreen({ route, navigation }) {
 
     //Constants
+    const token = useSelector(state => state.authReducer.token);
     const [topic, setTopic] = useState('');
     const dispatch = useDispatch();
-    const saveTopic = (topic) => dispatch(addTopic(topic));
+    const saveTopic = (topic, token) => dispatch(addTopic(topic, token));
 
     //Save the topic in the database
     const saveTheTopic = () => {
         if (topic.trim()) {
-            saveTopic({ name: topic });
+            saveTopic({ name: topic }, token);
             navigation.goBack();
         }
         else {

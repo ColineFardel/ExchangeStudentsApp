@@ -2,10 +2,10 @@ import axios from 'axios';
 import { GET_EVENTS, ADD_EVENT, DELETE_EVENT, SET_VISIBLE_FALSE } from './types';
 import moment from "moment-timezone";
 
-export const getEvents = () => {
+export const getEvents = (token) => {
     try {
         return async dispatch => {
-            const response = await axios.get('https://exchangestudentsapp-fardel.herokuapp.com/eventsByDate');
+            const response = await axios.get('https://exchangestudentsapp-fardel.herokuapp.com/eventsByDate', { headers: { 'Authorization': `Bearer ${token}` } });
             if (response.data) {
                 response.data.sort((a, b) => {
                     a.data.sort((c, d) => {
@@ -30,11 +30,11 @@ export const getEvents = () => {
     }
 };
 
-export const deleteEvent = (index) => {
+export const deleteEvent = (index, token) => {
     let url = 'https://exchangestudentsapp-fardel.herokuapp.com/event/' + index;
     try {
         return async dispatch => {
-            await axios.delete(url)
+            await axios.delete(url, { headers: { 'Authorization': `Bearer ${token}` } })
                 .then(response => {
                     dispatch({
                         type: DELETE_EVENT,
@@ -47,10 +47,10 @@ export const deleteEvent = (index) => {
     }
 };
 
-export const addEvent = (event) => {
+export const addEvent = (event, token) => {
     try {
         return async dispatch => {
-            await axios.post('https://exchangestudentsapp-fardel.herokuapp.com/addevent', event)
+            await axios.post('https://exchangestudentsapp-fardel.herokuapp.com/addevent', event, { headers: { 'Authorization': `Bearer ${token}` } })
                 .then(response => {
                     dispatch({
                         type: ADD_EVENT,

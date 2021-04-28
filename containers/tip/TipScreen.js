@@ -27,6 +27,7 @@ export default function TipScreen({ navigation }) {
     })
 
     //Constants
+    const token = useSelector(state => state.authReducer.token);
     const [search, setSearch] = useState('');
     const [searchOpen, setSearchOpen] = useState(false);
     const [tipsFiltered, setTipsFiltered] = useState([]);
@@ -35,8 +36,8 @@ export default function TipScreen({ navigation }) {
     const tips = useSelector(state => state.tipReducer.tips);
     const tipLoaded = useSelector(state => state.tipReducer.tipLoaded);
     const dispatch = useDispatch();
-    const fetchTips = () => dispatch(getTips());
-    const deleteOneTip = (index) => dispatch(deleteTip(index));
+    const fetchTips = (token) => dispatch(getTips(token));
+    const deleteOneTip = (index, token) => dispatch(deleteTip(index, token));
     const removeSnackBar = () => dispatch(setVisibleFalse());
 
     //Search bar function
@@ -46,7 +47,7 @@ export default function TipScreen({ navigation }) {
     }
 
     useEffect(() => {
-        fetchTips();
+        fetchTips(token);
         setTipsFiltered(tips);
     }, [!tipLoaded])
 
@@ -60,7 +61,7 @@ export default function TipScreen({ navigation }) {
                     <AppListItem
                         key={index}
                         onPressAction={() => { navigation.navigate('TipDetails', tip) }}
-                        onLongPressAction={() => { deleteOneTip(tip.id) }}
+                        onLongPressAction={() => { deleteOneTip(tip.id, token) }}
                         title={tip.name}
                         color={theme.colors.lightPurple}
                         subtitle={tip.tag}
@@ -73,7 +74,7 @@ export default function TipScreen({ navigation }) {
                     <AppListItem
                         key={index}
                         onPressAction={() => { navigation.navigate('TipDetails', tip) }}
-                        onLongPressAction={() => { deleteOneTip(tip.id) }}
+                        onLongPressAction={() => { deleteOneTip(tip.id, token) }}
                         title={tip.name}
                         color={theme.colors.lightPurple}
                         subtitle={tip.tag}

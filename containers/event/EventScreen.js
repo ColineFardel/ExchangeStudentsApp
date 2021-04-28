@@ -27,6 +27,7 @@ export default function EventScreen({ navigation }) {
     })
 
     //Constants
+    const token = useSelector(state => state.authReducer.token);
     const visible = useSelector(state => state.eventReducer.snackBarVisible);
     const message = useSelector(state => state.eventReducer.snackBarMessage);
     const [search, setSearch] = useState('');
@@ -35,12 +36,12 @@ export default function EventScreen({ navigation }) {
     const events = useSelector(state => state.eventReducer.events);
     const eventLoaded = useSelector(state => state.eventReducer.eventLoaded);
     const dispatch = useDispatch();
-    const fetchEvents = () => dispatch(getEvents());
-    const deleteOneEvent = (index) => dispatch(deleteEvent(index));
+    const fetchEvents = (token) => dispatch(getEvents(token));
+    const deleteOneEvent = (index, token) => dispatch(deleteEvent(index, token));
     const removeSnackBar = () => dispatch(setVisibleFalse());
 
     useEffect(() => {
-        fetchEvents();
+        fetchEvents(token);
         setEventsFiltered(events);
     }, [!eventLoaded])
 
@@ -76,7 +77,7 @@ export default function EventScreen({ navigation }) {
                                 subtitle={item.location}
                                 secondsubtitle={item.time}
                                 onPressAction={() => { navigation.navigate('EventDetails', item) }}
-                                onLongPressAction={() => { deleteOneEvent(item.id) }}
+                                onLongPressAction={() => { deleteOneEvent(item.id, token) }}
                                 key={index}
                             />
                         }

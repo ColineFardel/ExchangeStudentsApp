@@ -27,6 +27,7 @@ export default function ForumScreen({ navigation }) {
     })
 
     //Constants
+    const token = useSelector(state => state.authReducer.token);
     const visible = useSelector(state => state.forumReducer.snackBarVisible);
     const message = useSelector(state => state.forumReducer.snackBarMessage);
     const [search, setSearch] = useState('');
@@ -35,12 +36,12 @@ export default function ForumScreen({ navigation }) {
     const topics = useSelector(state => state.forumReducer.topics);
     const topicLoaded = useSelector(state => state.forumReducer.topicLoaded);
     const dispatch = useDispatch();
-    const fetchTopics = () => dispatch(getTopics());
-    const deleteOneTopic = (index) => dispatch(deleteTopic(index));
+    const fetchTopics = (token) => dispatch(getTopics(token));
+    const deleteOneTopic = (index, token) => dispatch(deleteTopic(index, token));
     const removeSnackBar = () => dispatch(setVisibleFalse());
 
     useEffect(() => {
-        fetchTopics();
+        fetchTopics(token);
         setTopicsFiltered(topics);
     }, [!topicLoaded])
 
@@ -58,7 +59,7 @@ export default function ForumScreen({ navigation }) {
                     color={theme.colors.lightOrange}
                     title={topic.name}
                     onPressAction={() => { navigation.navigate('ChatRoom', topic) }}
-                    onLongPressAction={() => { deleteOneTopic(topic.id) }}
+                    onLongPressAction={() => { deleteOneTopic(topic.id, token) }}
                     key={index}
                 />
             )

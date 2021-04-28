@@ -3,23 +3,24 @@ import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Input, Button } from 'react-native-elements';
 import { deleteCourse, modifyCourse } from '../../redux/actions/courses';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import theme from '../../constants/theme';
 
 export default function ModifyCourseScreen({ navigation, route }) {
 
     //Constants
+    const token = useSelector(state => state.authReducer.token);
     const course = route.params;
     const dispatch = useDispatch();
-    const modifyOneCourse = (course) => dispatch(modifyCourse(course));
-    const deleteOneCourse = (index) => dispatch(deleteCourse(index));
+    const modifyOneCourse = (course, token) => dispatch(modifyCourse(course, token));
+    const deleteOneCourse = (index, token) => dispatch(deleteCourse(index, token));
     const [name, setName] = useState(course.name);
     const [teacher, setTeacher] = useState(course.teacher);
     const [uni, setUni] = useState(course.university);
 
     //Delete a course
     const handleDelete = () => {
-        deleteOneCourse(course.id);
+        deleteOneCourse(course.id, token);
         navigation.goBack();
     }
 
@@ -31,7 +32,7 @@ export default function ModifyCourseScreen({ navigation, route }) {
             university: uni.trim() ? uni : course.university,
             id: course.id
         }
-        modifyOneCourse(newCourse);
+        modifyOneCourse(newCourse, token);
         navigation.goBack();
     }
 

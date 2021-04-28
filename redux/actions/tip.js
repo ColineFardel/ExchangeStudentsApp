@@ -1,10 +1,10 @@
 import axios from 'axios';
 import { ADD_TIP, GET_TIPS, DELETE_TIP, SET_VISIBLE_FALSE } from './types';
 
-export const getTips = () => {
+export const getTips = (token) => {
     try {
         return async dispatch => {
-            const response = await axios.get('https://exchangestudentsapp-fardel.herokuapp.com/tips');
+            const response = await axios.get('https://exchangestudentsapp-fardel.herokuapp.com/tips', { headers: { 'Authorization': `Bearer ${token}` } });
             if (response.data) {
                 response.data.sort((a, b) => {
                     if (a.tag < b.tag)
@@ -30,10 +30,10 @@ export const getTips = () => {
     }
 };
 
-export const addTip = (tip) => {
+export const addTip = (tip, token) => {
     try {
         return async dispatch => {
-            await axios.post('https://exchangestudentsapp-fardel.herokuapp.com/addtip', tip)
+            await axios.post('https://exchangestudentsapp-fardel.herokuapp.com/addtip', tip, { headers: { 'Authorization': `Bearer ${token}` } })
                 .then(response => {
                     dispatch({
                         type: ADD_TIP,
@@ -46,10 +46,10 @@ export const addTip = (tip) => {
     }
 };
 
-export const addTipWithImg = (tip) => {
+export const addTipWithImg = (tip, token) => {
     try {
         return async dispatch => {
-            await axios.post('https://exchangestudentsapp-fardel.herokuapp.com/addtipwithimg', tip)
+            await axios.post('https://exchangestudentsapp-fardel.herokuapp.com/addtipwithimg', tip, { headers: { 'Authorization': `Bearer ${token}` } })
                 .then(response => {
                     dispatch({
                         type: ADD_TIP,
@@ -62,11 +62,11 @@ export const addTipWithImg = (tip) => {
     }
 };
 
-export const deleteTip = (index) => {
+export const deleteTip = (index, token) => {
     let url = 'https://exchangestudentsapp-fardel.herokuapp.com/tip/' + index;
     try {
         return async dispatch => {
-            await axios.delete(url)
+            await axios.delete(url, { headers: { 'Authorization': `Bearer ${token}` } })
                 .then(response => {
                     dispatch({
                         type: DELETE_TIP,

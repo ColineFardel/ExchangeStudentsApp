@@ -3,23 +3,27 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Input, Button } from 'react-native-elements';
 import { deleteFaq, modifyFaq } from '../../redux/actions/faq';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import theme from '../../constants/theme';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default function ModifyFAQScreen({ navigation, route }) {
 
     //Constants
+    const token = useSelector(state => state.authReducer.token);
     const faq = route.params;
     const dispatch = useDispatch();
-    const modifyFAQ = (faq) => dispatch(modifyFaq(faq));
-    const deleteFAQ = (index) => dispatch(deleteFaq(index));
+    const modifyFAQ = (faq, token) => dispatch(modifyFaq(faq, token));
+    const deleteFAQ = (index, token) => dispatch(deleteFaq(index, token));
     const [answer, setAnswer] = useState(faq.answer);
     const [tag, setTag] = useState(faq.tag);
+    let tagPlaceholder = '';
+    if (faq.tag)
+        tagPlaceholder = faq.tag.substring(1);
 
     //Delete an FAQ
     const handleDelete = () => {
-        deleteFAQ(faq.id);
+        deleteFAQ(faq.id, token);
         navigation.goBack();
     }
 
@@ -30,7 +34,7 @@ export default function ModifyFAQScreen({ navigation, route }) {
             tag: tag.trim() ? tag : faq.tag,
             id: faq.id
         }
-        modifyFAQ(newFaq);
+        modifyFAQ(newFaq, token);
         navigation.goBack();
     }
 
@@ -59,7 +63,7 @@ export default function ModifyFAQScreen({ navigation, route }) {
                 />
                 <Input
                     label="Tag"
-                    placeholder={faq.tag.substring(1)}
+                    placeholder={tagPlaceholder}
                     inputStyle={styles.inputSyle}
                     placeholderTextColor='grey'
                     inputContainerStyle={styles.inputContainer}
@@ -67,8 +71,8 @@ export default function ModifyFAQScreen({ navigation, route }) {
                     multiline={true}
                     autoFocus={true}
                     leftIcon={<Icon name='hashtag'
-                            size={20}
-                            color={theme.colors.lightGreen} />}
+                        size={20}
+                        color={theme.colors.lightGreen} />}
                 />
             </View>
 

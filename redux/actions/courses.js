@@ -2,10 +2,10 @@ import axios from 'axios';
 import { GET_COURSES, ADD_COURSE, GET_CHATS, ADD_CHAT, SET_VISIBLE_FALSE, DELETE_COURSE, GET_UNIVERSITIES, MODIFY_COURSE } from './types';
 import moment from "moment";
 
-export const getCourses = () => {
+export const getCourses = (token) => {
     try {
         return async dispatch => {
-            const response = await axios.get('https://exchangestudentsapp-fardel.herokuapp.com/courses');
+            const response = await axios.get('https://exchangestudentsapp-fardel.herokuapp.com/courses', { headers: { 'Authorization': `Bearer ${token}` } });
             if (response.data) {
                 dispatch({
                     type: GET_COURSES,
@@ -20,10 +20,10 @@ export const getCourses = () => {
     }
 };
 
-export const addCourse = (course) => {
+export const addCourse = (course, token) => {
     try {
         return async dispatch => {
-            await axios.post('https://exchangestudentsapp-fardel.herokuapp.com/addcourse', course)
+            await axios.post('https://exchangestudentsapp-fardel.herokuapp.com/addcourse', course, { headers: { 'Authorization': `Bearer ${token}` } })
                 .then(response => {
                     dispatch({
                         type: ADD_COURSE,
@@ -36,10 +36,10 @@ export const addCourse = (course) => {
     }
 };
 
-export const getChats = (courseId) => {
+export const getChats = (courseId, token) => {
     try {
         return async dispatch => {
-            const response = await axios.get('https://exchangestudentsapp-fardel.herokuapp.com/chatByDate/course/' + courseId);
+            const response = await axios.get('https://exchangestudentsapp-fardel.herokuapp.com/chatByDate/course/' + courseId, { headers: { 'Authorization': `Bearer ${token}` } });
             if (response.data) {
                 const chats = response.data;
                 chats.map((obj) => {
@@ -65,10 +65,10 @@ export const getChats = (courseId) => {
     }
 };
 
-export const addChat = (chat) => {
+export const addChat = (chat, token) => {
     try {
         return async dispatch => {
-            await axios.post('https://exchangestudentsapp-fardel.herokuapp.com/addchat', chat)
+            await axios.post('https://exchangestudentsapp-fardel.herokuapp.com/addchat', chat, { headers: { 'Authorization': `Bearer ${token}` } })
                 .then(response => {
                     console.log(response.data);
                     dispatch({
@@ -82,11 +82,11 @@ export const addChat = (chat) => {
     }
 };
 
-export const deleteCourse = (index) => {
+export const deleteCourse = (index, token) => {
     let url = 'https://exchangestudentsapp-fardel.herokuapp.com/course/' + index;
     try {
         return async dispatch => {
-            await axios.delete(url)
+            await axios.delete(url, { headers: { 'Authorization': `Bearer ${token}` } })
                 .then(response => {
                     dispatch({
                         type: DELETE_COURSE,
@@ -99,11 +99,11 @@ export const deleteCourse = (index) => {
     }
 };
 
-export const modifyCourse = (course) => {
+export const modifyCourse = (course, token) => {
     let url = 'https://exchangestudentsapp-fardel.herokuapp.com/course/' + course.id;
     try {
         return async dispatch => {
-            await axios.put(url, course)
+            await axios.put(url, course, { headers: { 'Authorization': `Bearer ${token}` } })
                 .then(response => {
                     dispatch({
                         type: MODIFY_COURSE,
@@ -116,10 +116,10 @@ export const modifyCourse = (course) => {
     }
 };
 
-export const getUniversities = () => {
+export const getUniversities = (token) => {
     try {
         return async dispatch => {
-            const response = await axios.get('https://exchangestudentsapp-fardel.herokuapp.com/universities');
+            const response = await axios.get('https://exchangestudentsapp-fardel.herokuapp.com/universities', { headers: { 'Authorization': `Bearer ${token}` } });
             if (response.data) {
                 dispatch({
                     type: GET_UNIVERSITIES,

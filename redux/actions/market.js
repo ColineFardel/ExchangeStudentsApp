@@ -1,10 +1,10 @@
 import axios from 'axios';
 import { ADD_OFFER, ADD_REQUEST, DELETE_OFFER, DELETE_REQUEST, GET_OFFERS, GET_OFFERS_LOCATION, GET_REQUESTS, GET_REQUESTS_LOCATION, SET_VISIBLE_FALSE } from './types';
 
-export const getRequests = () => {
+export const getRequests = (token) => {
     try {
         return async dispatch => {
-            const response = await axios.get('https://exchangestudentsapp-fardel.herokuapp.com/requests');
+            const response = await axios.get('https://exchangestudentsapp-fardel.herokuapp.com/requests', { headers: { 'Authorization': `Bearer ${token}` } });
             if (response.data) {
                 dispatch({
                     type: GET_REQUESTS,
@@ -19,10 +19,10 @@ export const getRequests = () => {
     }
 };
 
-export const addRequest = (request) => {
+export const addRequest = (request, token) => {
     try {
         return async dispatch => {
-            await axios.post('https://exchangestudentsapp-fardel.herokuapp.com/addrequest', request)
+            await axios.post('https://exchangestudentsapp-fardel.herokuapp.com/addrequest', request, { headers: { 'Authorization': `Bearer ${token}` } })
                 .then(response => {
                     dispatch({
                         type: ADD_REQUEST,
@@ -35,11 +35,11 @@ export const addRequest = (request) => {
     }
 };
 
-export const deleteRequest = (index) => {
+export const deleteRequest = (index, token) => {
     let url = 'https://exchangestudentsapp-fardel.herokuapp.com/request/' + index;
     try {
         return async dispatch => {
-            await axios.delete(url)
+            await axios.delete(url, { headers: { 'Authorization': `Bearer ${token}` } })
                 .then(response => {
                     dispatch({
                         type: DELETE_REQUEST,
@@ -52,10 +52,10 @@ export const deleteRequest = (index) => {
     }
 };
 
-export const getRequestsLoc = () => {
+export const getRequestsLoc = (token) => {
     try {
         return async dispatch => {
-            const response = await axios.get('https://exchangestudentsapp-fardel.herokuapp.com/requestsloc');
+            const response = await axios.get('https://exchangestudentsapp-fardel.herokuapp.com/requestsloc', { headers: { 'Authorization': `Bearer ${token}` } });
             if (response.data) {
                 dispatch({
                     type: GET_REQUESTS_LOCATION,
@@ -70,10 +70,10 @@ export const getRequestsLoc = () => {
     }
 };
 
-export const getOffers = () => {
+export const getOffers = (token) => {
     try {
         return async dispatch => {
-            const response = await axios.get('https://exchangestudentsapp-fardel.herokuapp.com/offers');
+            const response = await axios.get('https://exchangestudentsapp-fardel.herokuapp.com/offers', { headers: { 'Authorization': `Bearer ${token}` } });
             if (response.data) {
                 dispatch({
                     type: GET_OFFERS,
@@ -88,10 +88,10 @@ export const getOffers = () => {
     }
 };
 
-export const addOffer = (offer) => {
+export const addOffer = (offer, token) => {
     try {
         return async dispatch => {
-            await axios.post('https://exchangestudentsapp-fardel.herokuapp.com/addoffer', offer)
+            await axios.post('https://exchangestudentsapp-fardel.herokuapp.com/addoffer', offer, { headers: { 'Authorization': `Bearer ${token}` } })
                 .then(response => {
                     dispatch({
                         type: ADD_OFFER,
@@ -104,11 +104,11 @@ export const addOffer = (offer) => {
     }
 };
 
-export const deleteOffer = (index) => {
+export const deleteOffer = (index, token) => {
     let url = 'https://exchangestudentsapp-fardel.herokuapp.com/offer/' + index;
     try {
         return async dispatch => {
-            await axios.delete(url)
+            await axios.delete(url, { headers: { 'Authorization': `Bearer ${token}` } })
                 .then(response => {
                     dispatch({
                         type: DELETE_OFFER,
@@ -121,10 +121,10 @@ export const deleteOffer = (index) => {
     }
 };
 
-export const getOffersLoc = () => {
+export const getOffersLoc = (token) => {
     try {
         return async dispatch => {
-            const response = await axios.get('https://exchangestudentsapp-fardel.herokuapp.com/offersloc');
+            const response = await axios.get('https://exchangestudentsapp-fardel.herokuapp.com/offersloc', { headers: { 'Authorization': `Bearer ${token}` } });
             if (response.data) {
                 dispatch({
                     type: GET_OFFERS_LOCATION,

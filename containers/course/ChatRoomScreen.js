@@ -19,17 +19,18 @@ export default function ChatRoomScreen({ navigation, route }) {
     })
 
     //Constants
+    const token = useSelector(state => state.authReducer.token);
     const chats = useSelector(state => state.courseReducer.chats);
     const userChats = useSelector(state => state.courseReducer.userChats);
     const chatLoaded = useSelector(state => state.courseReducer.chatLoaded);
     const course = route.params;
     const [message, setMessage] = useState('');
     const dispatch = useDispatch();
-    const fetchChats = (courseId) => dispatch(getChats(courseId));
-    const newChat = (chat) => dispatch(addChat(chat));
+    const fetchChats = (courseId, token) => dispatch(getChats(courseId, token));
+    const newChat = (chat, token) => dispatch(addChat(chat, token));
 
     useEffect(() => {
-        fetchChats(course.id);
+        fetchChats(course.id, token);
         firebaseChats();
     }, [!chatLoaded])
 
@@ -38,7 +39,7 @@ export default function ChatRoomScreen({ navigation, route }) {
             const time = moment().tz("Europe/Helsinki").format('LT');
             const date = moment().tz("Europe/Helsinki").format('LL');
             let chat = { text: message, date: date, time: time, course: course }
-            newChat(chat);
+            newChat(chat, token);
             addChatFirebase(chat);
             setMessage('');
         }
@@ -47,7 +48,7 @@ export default function ChatRoomScreen({ navigation, route }) {
     const firebaseChats = () => {
         const ref = course.name + course.id;
         firebase.database().ref(ref).on('value', snapshot => {
-            fetchChats(course.id);
+            fetchChats(course.id, token);
         });
     }
 

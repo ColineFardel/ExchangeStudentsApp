@@ -4,21 +4,22 @@ import { StyleSheet, Text, View, Alert } from 'react-native';
 import { Button } from 'react-native-elements';
 import AppInput from '../../components/input';
 import { addFaq } from '../../redux/actions/faq';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import theme from '../../constants/theme';
 
 export default function AddFAQScreen({ route, navigation }) {
 
     //Constants
+    const token = useSelector(state => state.authReducer.token);
     const [question, setQuestion] = useState('');
     const dispatch = useDispatch();
-    const addFAQ = (faq) => dispatch(addFaq(faq));
+    const addFAQ = (faq, token) => dispatch(addFaq(faq, token));
 
     //Save the question in the database
     const saveQuestion = () => {
         if (question) {
             const newQuestion = { question: question, status: 'sent', answer: 'Not answered yet' };
-            addFAQ(newQuestion);
+            addFAQ(newQuestion, token);
             navigation.goBack();
         }
         else {

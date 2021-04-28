@@ -27,6 +27,7 @@ export default function FAQScreen({ navigation }) {
     })
 
     //Constants
+    const token = useSelector(state => state.authReducer.token);
     const [search, setSearch] = useState('');
     const [searchOpen, setSearchOpen] = useState(false);
     const [faqsFiltered, setFaqsFiltered] = useState([]);
@@ -36,7 +37,7 @@ export default function FAQScreen({ navigation }) {
     const faqs = useSelector(state => state.faqReducer.faqs);
     const faqLoaded = useSelector(state => state.faqReducer.faqLoaded);
     const dispatch = useDispatch();
-    const fetchFaqs = () => dispatch(getFAQs());
+    const fetchFaqs = (token) => dispatch(getFAQs(token));
     const removeSnackBar = () => dispatch(setVisibleFalse());
 
     //Search bar function
@@ -46,7 +47,7 @@ export default function FAQScreen({ navigation }) {
     }
 
     useEffect(() => {
-        fetchFaqs();
+        fetchFaqs(token);
         setFaqsFiltered(faqs);
     }, [!faqLoaded])
 

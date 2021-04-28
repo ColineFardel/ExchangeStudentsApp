@@ -4,15 +4,16 @@ import { StyleSheet, View, Text, TouchableOpacity, ScrollView, Alert } from 'rea
 import { Button } from 'react-native-elements';
 import AppInput from '../../components/input';
 import { addCourse } from '../../redux/actions/courses';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import theme from '../../constants/theme';
 
 export default function AddCourseScreen({ navigation }) {
 
     //Constants
+    const token = useSelector(state => state.authReducer.token);
     const [course, setCourse] = useState('');
     const dispatch = useDispatch();
-    const addNewCourse = (course) => dispatch(addCourse(course));
+    const addNewCourse = (course, token) => dispatch(addCourse(course, token));
 
     const saveCourse = () => {
         let canBeSaved = true;
@@ -30,7 +31,7 @@ export default function AddCourseScreen({ navigation }) {
         }
 
         if (canBeSaved) {
-            addNewCourse(course);
+            addNewCourse(course, token);
             navigation.goBack();
         }
 

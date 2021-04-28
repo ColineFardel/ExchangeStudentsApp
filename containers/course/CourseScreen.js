@@ -30,6 +30,7 @@ export default function CourseScreen({ navigation }) {
     })
 
     //Constants
+    const token = useSelector(state => state.authReducer.token);
     const visible = useSelector(state => state.courseReducer.snackBarVisible);
     const message = useSelector(state => state.courseReducer.snackBarMessage);
     const [search, setSearch] = useState('');
@@ -40,15 +41,15 @@ export default function CourseScreen({ navigation }) {
     const courses = useSelector(state => state.courseReducer.courses);
     const courseLoaded = useSelector(state => state.courseReducer.courseLoaded);
     const dispatch = useDispatch();
-    const fetchCourses = () => dispatch(getCourses());
-    const fetchUni = () => dispatch(getUniversities());
+    const fetchCourses = (token) => dispatch(getCourses(token));
+    const fetchUni = (token) => dispatch(getUniversities(token));
     const removeSnackBar = () => dispatch(setVisibleFalse());
     const universities = useSelector(state => state.courseReducer.universities);
 
     useEffect(() => {
-        fetchCourses();
+        fetchCourses(token);
         setCoursesFiltered(courses);
-        fetchUni();
+        fetchUni(token);
     }, [!courseLoaded])
 
     const fitlerCourses = (title, uni) => {
@@ -154,7 +155,7 @@ export default function CourseScreen({ navigation }) {
 }
 const styles = StyleSheet.create({
     container: {
-        paddingTop:15,
+        paddingTop: 15,
         flex: 1,
         backgroundColor: 'white',
         alignItems: 'center',

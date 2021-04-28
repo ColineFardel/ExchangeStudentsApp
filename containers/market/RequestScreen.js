@@ -27,6 +27,7 @@ export default function RequestScreen({ navigation }) {
   })
 
   //Constants
+  const token = useSelector(state => state.authReducer.token);
   const visible = useSelector(state => state.marketReducer.snackBarVisible);
   const message = useSelector(state => state.marketReducer.snackBarMessage);
   const requests = useSelector(state => state.marketReducer.requests);
@@ -39,9 +40,9 @@ export default function RequestScreen({ navigation }) {
   const [locationsSelected, setLocationsSelected] = useState([]);
   const dispatch = useDispatch();
   const removeSnackBar = () => dispatch(setVisibleFalse());
-  const fetchRequests = () => dispatch(getRequests());
-  const fetchRequestsLoc = () => dispatch(getRequestsLoc());
-  const removeRequest = (index) => dispatch(deleteRequest(index));
+  const fetchRequests = (token) => dispatch(getRequests(token));
+  const fetchRequestsLoc = (token) => dispatch(getRequestsLoc(token));
+  const removeRequest = (index, token) => dispatch(deleteRequest(index, token));
 
   //Search bar function
   const updateSearch = (text) => {
@@ -49,8 +50,8 @@ export default function RequestScreen({ navigation }) {
   }
 
   useEffect(() => {
-    fetchRequests();
-    fetchRequestsLoc();
+    fetchRequests(token);
+    fetchRequestsLoc(token);
     setRequestsFiltered(requests);
   }, [!requestLoaded])
 
@@ -99,7 +100,7 @@ export default function RequestScreen({ navigation }) {
           key={index}
           color={theme.colors.lightRed}
           onPressAction={() => navigation.navigate("RequestDetails", request)}
-          onLongPressAction={() => removeRequest(request.id)}
+          onLongPressAction={() => removeRequest(request.id, token)}
           title={request.name}
           subtitle={request.description}
           secondsubtitle={request.location}

@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { StyleSheet, View, Text, Alert, Image } from 'react-native';
 import AppInput from '../../components/input';
 import { addTip, addTipWithImg } from '../../redux/actions/tip';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import theme from '../../constants/theme';
 import { Button } from 'react-native-elements';
 import * as ImagePicker from 'expo-image-picker';
@@ -12,11 +12,12 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default function AddTipScreen({ navigation }) {
     //Constants
+    const token = useSelector(state => state.authReducer.token);
     const [tip, setTip] = useState('');
     const [photo, setPhoto] = useState(null);
     const dispatch = useDispatch();
-    const saveTip = (tip) => dispatch(addTip(tip));
-    const saveTipWithImg = (tip) => dispatch(addTipWithImg(tip));
+    const saveTip = (tip, token) => dispatch(addTip(tip, token));
+    const saveTipWithImg = (tip, token) => dispatch(addTipWithImg(tip, token));
 
     //Open the user's library to choose a picture
     const selectPicture = async () => {
@@ -93,10 +94,10 @@ export default function AddTipScreen({ navigation }) {
                     data.append('location', "");
                 else
                     data.append('location', tip.location);
-                saveTipWithImg(data);
+                saveTipWithImg(data, token);
             }
             else {
-                saveTip(tip);
+                saveTip(tip, token);
             }
             navigation.goBack();
         }

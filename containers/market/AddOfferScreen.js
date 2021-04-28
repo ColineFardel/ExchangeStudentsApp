@@ -6,11 +6,12 @@ import * as ImagePicker from 'expo-image-picker';
 import theme from '../../constants/theme';
 import AppInput from '../../components/input';
 import { addOffer } from '../../redux/actions/market';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function AddOfferScreen({ navigation }) {
 
     //Constants
+    const token = useSelector(state => state.authReducer.token);
     const [photo, setPhoto] = useState(null);
     const [name, setName] = useState('');
     const [desc, setDesc] = useState('');
@@ -18,7 +19,7 @@ export default function AddOfferScreen({ navigation }) {
     const [phoneNumber, setPhoneNumber] = useState('');
     const [price, setPrice] = useState('');
     const dispatch = useDispatch();
-    const addTheOffer = (offer) => dispatch(addOffer(offer));
+    const addTheOffer = (offer, token) => dispatch(addOffer(offer, token));
 
     //Open the user's library to choose a picture
     const selectPicture = async () => {
@@ -104,7 +105,7 @@ export default function AddOfferScreen({ navigation }) {
             data.append('phoneNumber', phoneNumber);
             data.append('price', price);
 
-            addTheOffer(data);
+            addTheOffer(data, token);
             navigation.goBack();
         }
     }
