@@ -18,7 +18,7 @@ export default function AddTipScreen({ navigation }) {
     const saveTip = (tip) => dispatch(addTip(tip));
     const saveTipWithImg = (tip) => dispatch(addTipWithImg(tip));
 
-    //Open the user's library to choose an image
+    //Open the user's library to choose a picture
     const selectPicture = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -35,6 +35,33 @@ export default function AddTipScreen({ navigation }) {
                 type: 'image/png'
             });
         }
+    }
+
+    //Open user's camero to take a picture
+    const takePicture = async () => {
+        let result = await ImagePicker.launchCameraAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+            quality: 1,
+            fileName: true,
+        });
+
+        if (!result.cancelled) {
+            setPhoto({
+                name: result.fileName ||
+                    result.uri.substr(result.uri.lastIndexOf('/') + 1),
+                uri: result.uri,
+                type: 'image/png'
+            });
+        }
+    }
+
+    //Show alert for user to choose how to add a picture
+    const pictureOption = () => {
+        Alert.alert('Add a picture', 'Choose which way you would like to add a picture', [
+            { text: 'Camera roll', onPress: () => { takePicture() } },
+            { text: 'Gallery', onPress: () => { selectPicture() } }
+        ]);
     }
 
     //Save the tip in the database
@@ -115,7 +142,7 @@ export default function AddTipScreen({ navigation }) {
                     <Button
                         buttonStyle={styles.addImgButton}
                         titleStyle={styles.addImgButtonText}
-                        onPress={() => { selectPicture() }}
+                        onPress={() => { pictureOption() }}
                         title="Add a picture"
                     />
                     {photo && (

@@ -2,9 +2,9 @@
   "expo": {
     "name": "ExchangeStudentsApp",
     "slug": "ExchangeStudentsApp",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "orientation": "portrait",
-    "icon": "./assets/school-bag.png",
+    "icon": "./assets/logo.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -18,12 +18,12 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "icon": "./assets/school-bag_ios.png",
+      "icon": "./assets/logo.png",
       "bundleIdentifier": "com.colinefardel.ExchangeStudentsApp"
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/school-bag.png"
+        "foregroundImage": "./assets/logo.png"
       },
       "package": "com.colinefardel.ExchangeStudentsApp"
     },

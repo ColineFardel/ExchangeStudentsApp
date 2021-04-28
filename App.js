@@ -6,6 +6,8 @@ import { Provider } from 'react-redux';
 import { useFonts } from 'expo-font';
 import configureStore from './redux/store';
 import * as firebase from 'firebase';
+import { AuthStackNavigation } from './navigation/StackNavigation';
+import ConditionRender from './containers/ConditionRender';
 
 const store = configureStore();
 
@@ -47,9 +49,7 @@ export default function App() {
   else {
     return (
       <Provider store={store}>
-        <NavigationContainer>
-          <DrawerNavigation />
-        </NavigationContainer>
+        <ConditionRender />
       </Provider>
     )
   }

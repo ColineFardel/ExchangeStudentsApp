@@ -25,6 +25,8 @@ import TipDetails from '../containers/tip/TipDetailsScreen';
 import Events from '../containers/event/EventScreen';
 import AddEvent from '../containers/event/AddEventScreen';
 import EventDetails from '../containers/event/EventDetailsScreen';
+import Login from '../containers/authentication/LoginScreen';
+import Signup from '../containers/authentication/SignupScreen';
 
 const Stack = createStackNavigator();
 
@@ -285,4 +287,13 @@ const EventStackNavigation = ({ navigation }) => {
     )
 }
 
-export { FAQStackNavigation, RequestStackNavigation, OfferStackNavigation, HomeStackNavigation, ForumStackNavigation, CoursesStackNavigation, TipStackNavigation, EventStackNavigation };
+const AuthStackNavigation = ()=>{
+    return (
+        <Stack.Navigator>
+            <Stack.Screen name="Login" component={Login} options={{ headerShown: false }}/>
+            <Stack.Screen name="Signup" component={Signup} options={{ headerShown: false }}/>
+        </Stack.Navigator>
+    )
+}
+
+export { FAQStackNavigation, RequestStackNavigation, OfferStackNavigation, HomeStackNavigation, ForumStackNavigation, CoursesStackNavigation, TipStackNavigation, EventStackNavigation, AuthStackNavigation };

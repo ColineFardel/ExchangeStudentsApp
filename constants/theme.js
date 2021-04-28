@@ -43,7 +43,8 @@ const theme = {
         card: 10,
         button: 10,
         chat: 30,
-        chatButton: 30
+        chatButton: 30,
+        screen:30
     }
 };
 
