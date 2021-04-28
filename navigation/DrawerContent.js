@@ -4,10 +4,16 @@ import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
 import { Title, Drawer, Text } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import theme from '../constants/theme';
+import { useSelector, useDispatch } from 'react-redux';
+import { logoff } from '../redux/actions/authentication';
 
 export function DrawerContent(props) {
+    const dispatch = useDispatch();
+    const userLogoff = () => dispatch(logoff());
 
-    const logoff = () => {
+    const logoffUser = () => {
+        userLogoff();
+        console.log('logging off');
         /*
         firebase.auth()
             .signOut()
@@ -125,7 +131,7 @@ export function DrawerContent(props) {
             <Drawer.Section style={styles.bottomDrawerSection}>
                 <DrawerItem
                     label="Sign out"
-                    onPress={() => logoff()}
+                    onPress={() => logoffUser()}
                     icon={() => (
                         <Icon
                             name="exit-to-app"

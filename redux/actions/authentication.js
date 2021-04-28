@@ -2,7 +2,7 @@ import axios from 'axios';
 import { LOGIN, SIGNUP, LOGOFF } from './types';
 
 export const login = (username, password) => {
-    let user = {'username':username, 'password':password};
+    let user = { 'username': username, 'password': password };
     try {
         return async dispatch => {
             await axios.post('https://exchangestudentsapp-fardel.herokuapp.com/auth/login', user)
@@ -36,18 +36,9 @@ export const signup = (user) => {
     }
 };
 
-export const logoff = () => {
-    // try {
-    //     return async dispatch => {
-    //         await axios.post('https://exchangestudentsapp-fardel.herokuapp.com/addtipwithimg', tip)
-    //             .then(response => {
-    //                 dispatch({
-    //                     type: ADD_TIP,
-    //                     payload: tip
-    //                 });
-    //             });
-    //     };
-    // } catch (error) {
-    //     console.log(error);
-    // }
+export const logoff = () => dispatch => {
+    dispatch({
+        type: LOGOFF,
+        payload: ''
+    });
 };

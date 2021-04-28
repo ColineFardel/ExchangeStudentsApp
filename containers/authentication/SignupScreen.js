@@ -7,7 +7,7 @@ import { Input, Button } from 'react-native-elements';
 import { useSelector, useDispatch } from 'react-redux';
 import { login, signup } from '../../redux/actions/authentication';
 
-export default function SignupScreen({navigation}) {
+export default function SignupScreen({ navigation }) {
 
     const [newUser, setNewUser] = useState('');
     const token = useSelector(state => state.authReducer.token);
@@ -16,7 +16,7 @@ export default function SignupScreen({navigation}) {
     const userSignup = (u) => dispatch(signup(u));
 
     const authWithSignup = () => {
-        userSignup(newUser);
+        userSignup({ ...newUser, 'role': "USER" });
         console.log(user);
     }
 
@@ -39,7 +39,7 @@ export default function SignupScreen({navigation}) {
                         inputStyle={styles.inputStyle}
                         placeholderTextColor={theme.colors.lightGrey}
                         inputContainerStyle={{ borderBottomWidth: 0 }}
-                        onChangeText={value => setNewUser({...newUser, 'email':value})}
+                        onChangeText={value => setNewUser({ ...newUser, 'email': value })}
                         multiline={true}
                         autoFocus={true}
                         keyboardType='email-address'
@@ -55,7 +55,7 @@ export default function SignupScreen({navigation}) {
                         inputStyle={styles.inputStyle}
                         placeholderTextColor={theme.colors.lightGrey}
                         inputContainerStyle={{ borderBottomWidth: 0 }}
-                        onChangeText={value => setNewUser({...newUser, 'username':value})}
+                        onChangeText={value => setNewUser({ ...newUser, 'username': value })}
                         multiline={true}
                         autoFocus={true}
                     />
@@ -70,7 +70,7 @@ export default function SignupScreen({navigation}) {
                         inputStyle={styles.inputStyle}
                         placeholderTextColor={theme.colors.lightGrey}
                         inputContainerStyle={{ borderBottomWidth: 0 }}
-                        onChangeText={value => setNewUser({...newUser,'password':value})}
+                        onChangeText={value => setNewUser({ ...newUser, 'passwordHash': value })}
                         autoFocus={true}
                         secureTextEntry={true}
                     />
@@ -85,7 +85,7 @@ export default function SignupScreen({navigation}) {
                         inputStyle={styles.inputStyle}
                         placeholderTextColor={theme.colors.lightGrey}
                         inputContainerStyle={{ borderBottomWidth: 0 }}
-                        onChangeText={value => setNewUser({...newUser, 'phoneNumber':value})}
+                        onChangeText={value => setNewUser({ ...newUser, 'phoneNumber': value })}
                         multiline={true}
                         autoFocus={true}
                         keyboardType='phone-pad'
