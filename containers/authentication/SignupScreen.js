@@ -1,23 +1,33 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, Linking } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, View, Text, Switch } from 'react-native';
 import theme from '../../constants/theme';
-import AppInput from '../../components/input';
 import { Input, Button } from 'react-native-elements';
 import { useSelector, useDispatch } from 'react-redux';
-import { login, signup } from '../../redux/actions/authentication';
+import { signup, setVisibleFalse } from '../../redux/actions/authentication';
+import AppSnackBar from '../../components/snackbar';
 
 export default function SignupScreen({ navigation }) {
 
+    //Constants for snack bar
+    const visible = useSelector(state => state.authReducer.snackBarVisible);
+    const message = useSelector(state => state.authReducer.snackBarMessage);
+    const removeSnackBar = () => dispatch(setVisibleFalse());
+
+    //Constants to signup
     const [newUser, setNewUser] = useState('');
-    const token = useSelector(state => state.authReducer.token);
+    const [isAdmin, setIsAdmin] = useState(false);
     const user = useSelector(state => state.authReducer.user);
     const dispatch = useDispatch();
     const userSignup = (u) => dispatch(signup(u));
 
     const authWithSignup = () => {
-        userSignup({ ...newUser, 'role': "USER" });
-        console.log(user);
+        let role = "USER";
+        if (isAdmin)
+            role = "ADMIN";
+        userSignup({ ...newUser, 'role': role });
+        if (message !== "The email or username is already used")
+            navigation.goBack();
     }
 
 
@@ -90,6 +100,16 @@ export default function SignupScreen({ navigation }) {
                         autoFocus={true}
                         keyboardType='phone-pad'
                     />
+                    <View style={{ flexDirection: 'row', marginTop: -5, marginBottom: 15 }}>
+                        <Text style={styles.text}>Tutor</Text>
+                        <Switch
+                            trackColor={{ false: theme.colors.lightGrey, true: theme.colors.lightBlue }}
+                            thumbColor={isAdmin ? theme.colors.blue : theme.colors.grey}
+                            ios_backgroundColor="#3e3e3e"
+                            onValueChange={() => setIsAdmin(!isAdmin)}
+                            value={isAdmin} />
+                    </View>
+
                     <Button
                         raised={true}
                         buttonStyle={styles.loginButton}
@@ -110,6 +130,12 @@ export default function SignupScreen({ navigation }) {
                         title="LOGIN" />
                 </View>
             </View>
+            <AppSnackBar
+                visible={visible}
+                onDismiss={() => removeSnackBar()}
+                message={message}
+                color={theme.colors.blue}
+            />
             <StatusBar style="auto" />
         </View>
     )
@@ -133,7 +159,8 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         marginTop: 10,
         fontSize: theme.fontSizes.buttonText,
-        fontFamily: theme.fonts.regular
+        fontFamily: theme.fonts.regular,
+        color: 'white'
     },
     inputStyle: {
         color: 'black',

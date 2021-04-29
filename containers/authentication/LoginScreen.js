@@ -5,10 +5,17 @@ import theme from '../../constants/theme';
 import AppInput from '../../components/input';
 import { Input, Button } from 'react-native-elements';
 import { useSelector, useDispatch } from 'react-redux';
-import { login, signup } from '../../redux/actions/authentication';
+import { login, signup, setVisibleFalse } from '../../redux/actions/authentication';
+import { Alert } from 'react-native';
 
-export default function LoginScreen({navigation}) {
+export default function LoginScreen({ navigation }) {
 
+    //Constants for snack bar
+    const visible = useSelector(state => state.authReducer.snackBarVisible);
+    const message = useSelector(state => state.authReducer.snackBarMessage);
+    const removeSnackBar = () => dispatch(setVisibleFalse());
+
+    //Constants to login
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const token = useSelector(state => state.authReducer.token);
@@ -17,10 +24,11 @@ export default function LoginScreen({navigation}) {
     const userLogin = (username, password) => dispatch(login(username, password));
 
     const authWithLogin = () => {
-        userLogin(username, password);
-        console.log(token);
+        if (username && password)
+            userLogin(username, password);
+        else
+            Alert.alert('You forgot a field', 'Please enter your username and your password');
     }
-
 
     return (
         <View style={styles.container}>
@@ -79,6 +87,12 @@ export default function LoginScreen({navigation}) {
                         title="SIGNUP" />
                 </View>
             </View>
+            <AppSnackBar
+                visible={visible}
+                onDismiss={() => removeSnackBar()}
+                message={message}
+                color={theme.colors.blue}
+            />
             <StatusBar style="auto" />
         </View>
     )

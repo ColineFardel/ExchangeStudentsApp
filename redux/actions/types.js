@@ -41,3 +41,4 @@ export const DELETE_EVENT = 'DELETE_EVENT';
 export const LOGIN = 'LOGIN';
 export const SIGNUP = 'SIGNUP';
 export const LOGOFF = 'LOGOFF';
+export const GET_USER = 'GET_USER';
