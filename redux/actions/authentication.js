@@ -1,5 +1,16 @@
 import axios from 'axios';
 import { LOGIN, SIGNUP, LOGOFF, GET_USER, SET_VISIBLE_FALSE } from './types';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+const storeData = async (user) => {
+    try {
+        const jsonValue = JSON.stringify(user);
+        await AsyncStorage.setItem('user', jsonValue);
+        console.log('storing user', user);
+    } catch (e) {
+        console.log(e);
+    }
+}
 
 export const login = (username, password) => {
     let user = { 'username': username, 'password': password };
@@ -7,11 +18,12 @@ export const login = (username, password) => {
         return async dispatch => {
             await axios.post('https://exchangestudentsapp-fardel.herokuapp.com/auth/login', user)
                 .then(response => {
-                    //getUser(username, response.data.token);
+                    storeData(user);
+                    getUser(username, response.data.token);
                     dispatch({
                         type: LOGIN,
                         payload: response.data.token,
-                        message:'Welcome!'
+                        message: 'Welcome!'
                     });
                 })
                 .catch(error => {
@@ -59,7 +71,19 @@ export const signup = (user) => {
     }
 };
 
+const removeValue = async () => {
+    try {
+        console.log('Removing user from storage');
+        await AsyncStorage.removeItem('user');
+    } catch (e) {
+        console.log(e);
+    }
+
+    console.log('Done.')
+}
+
 export const logoff = () => dispatch => {
+    removeValue();
     dispatch({
         type: LOGOFF,
         payload: ''
@@ -67,10 +91,17 @@ export const logoff = () => dispatch => {
 };
 
 export const getUser = (username, token) => {
+    console.log('tes la ?');
+    console.log(username);
     try {
         return async dispatch => {
-            const response = await axios.get('https://exchangestudentsapp-fardel.herokuapp.com/user', username, { headers: { 'Authorization': `Bearer ${token}` } });
+            console.log('allo?');
+            //const response = await axios.get('https://exchangestudentsapp-fardel.herokuapp.com/user', { params: { "username": username } }, { headers: { 'Authorization': `Bearer ${token}` } });
+            const response = await axios.get(`https://exchangestudentsapp-fardel.herokuapp.com/user?username=${username}`, { headers: { 'Authorization': `Bearer ${token}` } });
+            console.log(response);
             if (response.data) {
+                console.log(response.data);
+                console.log('wesh???');
                 dispatch({
                     type: GET_USER,
                     payload: response.data

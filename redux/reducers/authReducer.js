@@ -12,9 +12,9 @@ const authReducer = (state = initialState, action) => {
         case LOGIN:
             return { ...state, token: action.payload, snackBarMessage: action.message, snackBarVisible: true };
         case LOGOFF:
-            return { ...state, token: action.payload, snackBarMessage: action.message, snackBarVisible: true };
+            return { ...state, token: action.payload, snackBarMessage: 'You have successfully logged off', snackBarVisible: true };
         case SIGNUP:
-            return { ...state, snackBarMessage: 'You have successfully logged off', snackBarVisible: true };
+            return { ...state, snackBarMessage: action.message, snackBarVisible: true };
         case GET_USER:
             return { ...state, user: action.payload }
         case SET_VISIBLE_FALSE:

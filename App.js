@@ -1,18 +1,14 @@
 import React from 'react';
 import { StyleSheet, Text } from 'react-native';
-import DrawerNavigation from './navigation/DrawerNavigation';
-import { NavigationContainer } from '@react-navigation/native';
 import { Provider } from 'react-redux';
 import { useFonts } from 'expo-font';
 import configureStore from './redux/store';
 import * as firebase from 'firebase';
-import { AuthStackNavigation } from './navigation/StackNavigation';
 import ConditionRender from './containers/ConditionRender';
 
 const store = configureStore();
 
 export default function App() {
-
   /**
    * Firebase configuration
    */
@@ -26,8 +22,6 @@ export default function App() {
     appId: "1:485986349293:web:10ab319e0c231f69e81ce4"
 
   };
-
-
 
   if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
@@ -53,8 +47,6 @@ export default function App() {
       </Provider>
     )
   }
-
-
 }
 
 const styles = StyleSheet.create({

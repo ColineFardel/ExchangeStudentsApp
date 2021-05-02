@@ -73,7 +73,6 @@ export default function CourseScreen({ navigation }) {
                     secondsubtitle={course.teacher}
                 />
             )
-
         })
     }
 

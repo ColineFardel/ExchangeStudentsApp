@@ -70,19 +70,19 @@ export default function AddRequestScreen({ navigation }) {
     const saveRequest = () => {
         let canBeSaved = true;
 
-        if (!name.trim()) {
+        if (!name) {
             Alert.alert('Fill every fields', 'You must enter the name of your request');
             canBeSaved = false;
         }
-        if (!desc.trim()) {
+        if (!desc) {
             Alert.alert('Fill every fields', 'You must enter a description for your request');
             canBeSaved = false;
         }
-        if (!phoneNumber.trim()) {
+        if (!phoneNumber) {
             Alert.alert('Fill every fields', 'You must enter your phone number');
             canBeSaved = false;
         }
-        if (!location.trim()) {
+        if (!location) {
             Alert.alert('Fill every fields', 'You must enter your location');
             canBeSaved = false;
         }

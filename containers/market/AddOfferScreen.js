@@ -20,6 +20,7 @@ export default function AddOfferScreen({ navigation }) {
     const [price, setPrice] = useState('');
     const dispatch = useDispatch();
     const addTheOffer = (offer, token) => dispatch(addOffer(offer, token));
+    const alertTitle = 'Fill every fields';
 
     //Open the user's library to choose a picture
     const selectPicture = async () => {
@@ -71,28 +72,28 @@ export default function AddOfferScreen({ navigation }) {
     const saveOffer = () => {
         let canBeSaved = true;
 
-        if (!name.trim()) {
-            Alert.alert('Fill every fields', 'You must enter the name of your offer');
+        if (!name) {
+            Alert.alert(alertTitle, 'You must enter the name of your offer');
             canBeSaved = false;
         }
-        if (!desc.trim()) {
-            Alert.alert('Fill every fields', 'You must enter a description for your offer');
+        if (!desc) {
+            Alert.alert(alertTitle, 'You must enter a description for your offer');
             canBeSaved = false;
         }
-        if (!phoneNumber.trim()) {
-            Alert.alert('Fill every fields', 'You must enter your phone number');
+        if (!phoneNumber) {
+            Alert.alert(alertTitle, 'You must enter your phone number');
             canBeSaved = false;
         }
-        if (!location.trim()) {
-            Alert.alert('Fill every fields', 'You must enter your location');
+        if (!location) {
+            Alert.alert(alertTitle, 'You must enter your location');
+            canBeSaved = false;
+        }
+        if (!price) {
+            Alert.alert(alertTitle, 'You must enter a price even if it is 0');
             canBeSaved = false;
         }
         if (!photo) {
-            Alert.alert('Fill every fields', 'You must upload an image of your offer');
-            canBeSaved = false;
-        }
-        if (!price.trim()) {
-            Alert.alert('Fill every fields', 'You must enter a price event if it is 0');
+            Alert.alert(alertTitle, 'You must upload an image of your offer');
             canBeSaved = false;
         }
 
