@@ -26,23 +26,30 @@ export default function RequestScreen({ navigation }) {
     })
   })
 
-  //Constants
-  const token = useSelector(state => state.authReducer.token);
-  const visible = useSelector(state => state.marketReducer.snackBarVisible);
-  const message = useSelector(state => state.marketReducer.snackBarMessage);
+  //Constants for Request
+  const dispatch = useDispatch();
   const requests = useSelector(state => state.marketReducer.requests);
   const requestsLoc = useSelector(state => state.marketReducer.requestsLoc);
   const requestLoaded = useSelector(state => state.marketReducer.requestLoaded);
+  const fetchRequests = (token) => dispatch(getRequests(token));
+  const fetchRequestsLoc = (token) => dispatch(getRequestsLoc(token));
+  const removeRequest = (index, token) => dispatch(deleteRequest(index, token));
+
+  //Constants for filtering
   const [requestsFiltered, setRequestsFiltered] = useState([]);
   const [search, setSearch] = useState('');
   const [searchOpen, setSearchOpen] = useState(false);
   const [showFilter, setShowFilter] = useState(false);
   const [locationsSelected, setLocationsSelected] = useState([]);
-  const dispatch = useDispatch();
+
+  //Constants for snack bar
+  const visible = useSelector(state => state.marketReducer.snackBarVisible);
+  const message = useSelector(state => state.marketReducer.snackBarMessage);
   const removeSnackBar = () => dispatch(setVisibleFalse());
-  const fetchRequests = (token) => dispatch(getRequests(token));
-  const fetchRequestsLoc = (token) => dispatch(getRequestsLoc(token));
-  const removeRequest = (index, token) => dispatch(deleteRequest(index, token));
+
+  //Constants for user
+  const token = useSelector(state => state.authReducer.token);
+  const user = useSelector(state => state.authReducer.user);
 
   //Search bar function
   const updateSearch = (text) => {
@@ -95,12 +102,13 @@ export default function RequestScreen({ navigation }) {
   const showRequests = () => {
     return requestsFiltered.map((request, index) => {
       let uri = 'https://exchangestudentsapp-fardel.herokuapp.com/img/' + request.imgId;
+      console.log(request);
       return (
         <AppListItem
           key={index}
           color={theme.colors.lightRed}
           onPressAction={() => navigation.navigate("RequestDetails", request)}
-          onLongPressAction={() => removeRequest(request.id, token)}
+          onLongPressAction={request.user.id === user.id || user.role === "ADMIN" ? () => deleteAnOffer(request.id, token) : () => { }}
           title={request.name}
           subtitle={request.description}
           secondsubtitle={request.location}

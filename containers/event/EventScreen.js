@@ -26,22 +26,30 @@ export default function EventScreen({ navigation }) {
         })
     })
 
-    //Constants
-    const token = useSelector(state => state.authReducer.token);
+    //Constants for Events
+    const dispatch = useDispatch();
+    const events = useSelector(state => state.eventReducer.events);
+    const eventLoaded = useSelector(state => state.eventReducer.eventLoaded);
+    const fetchEvents = (token) => dispatch(getEvents(token));
+    const deleteOneEvent = (index, token) => dispatch(deleteEvent(index, token));
+
+    //Constants for filtering
     const visible = useSelector(state => state.eventReducer.snackBarVisible);
     const message = useSelector(state => state.eventReducer.snackBarMessage);
+    const removeSnackBar = () => dispatch(setVisibleFalse());
+
+    //Constants for snack bar
     const [search, setSearch] = useState('');
     const [searchOpen, setSearchOpen] = useState(false);
     const [eventsFiltered, setEventsFiltered] = useState([]);
-    const events = useSelector(state => state.eventReducer.events);
-    const eventLoaded = useSelector(state => state.eventReducer.eventLoaded);
-    const dispatch = useDispatch();
-    const fetchEvents = (token) => dispatch(getEvents(token));
-    const deleteOneEvent = (index, token) => dispatch(deleteEvent(index, token));
-    const removeSnackBar = () => dispatch(setVisibleFalse());
+
+    //Constants for user
+    const token = useSelector(state => state.authReducer.token);
+    const user = useSelector(state => state.authReducer.user);
 
     useEffect(() => {
         fetchEvents(token);
+        console.log(events[0]);
         setEventsFiltered(events);
     }, [!eventLoaded])
 
@@ -77,7 +85,7 @@ export default function EventScreen({ navigation }) {
                                 subtitle={item.location}
                                 secondsubtitle={item.time}
                                 onPressAction={() => { navigation.navigate('EventDetails', item) }}
-                                onLongPressAction={() => { deleteOneEvent(item.id, token) }}
+                                onLongPressAction={user.id === item.user.id || user.role === "ADMIN" ? () => { deleteOneEvent(item.id, token) } : () => { }}
                                 key={index}
                             />
                         }

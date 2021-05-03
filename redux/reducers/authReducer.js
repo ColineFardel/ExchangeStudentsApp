@@ -5,12 +5,13 @@ const initialState = {
     token: '',
     snackBarVisible: false,
     snackBarMessage: '',
+    userCredentials: {}
 }
 
 const authReducer = (state = initialState, action) => {
     switch (action.type) {
         case LOGIN:
-            return { ...state, token: action.payload, snackBarMessage: action.message, snackBarVisible: true, user: action.user };
+            return { ...state, token: action.payload, snackBarMessage: action.message, snackBarVisible: true, userCredentials: action.user };
         case LOGOFF:
             return { ...state, token: action.payload, snackBarMessage: 'You have successfully logged off', snackBarVisible: true };
         case SIGNUP:

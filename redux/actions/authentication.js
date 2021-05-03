@@ -25,7 +25,6 @@ export const login = (username, password) => {
                         message: 'Welcome!',
                         user: user
                     });
-                    //prout(username, response.data.token);
                 })
                 .catch(error => {
                     console.log(error);
@@ -91,11 +90,12 @@ export const logoff = () => dispatch => {
 };
 
 export const getUser = (username, token) => {
+    console.log(token);
     try {
         return async dispatch => {
-            console.log('cacca');
             await axios.post('https://exchangestudentsapp-fardel.herokuapp.com/user', { "username": username }, { headers: { 'Authorization': `Bearer ${token}` } })
                 .then(response => {
+                    console.log('user getten',response.data);
                     dispatch({
                         type: GET_USER,
                         payload: response.data

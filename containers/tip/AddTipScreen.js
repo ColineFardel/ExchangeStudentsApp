@@ -13,6 +13,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 export default function AddTipScreen({ navigation }) {
     //Constants
     const token = useSelector(state => state.authReducer.token);
+    const user = useSelector(state => state.authReducer.user);
     const [tip, setTip] = useState('');
     const [photo, setPhoto] = useState(null);
     const dispatch = useDispatch();
@@ -94,10 +95,12 @@ export default function AddTipScreen({ navigation }) {
                     data.append('location', "");
                 else
                     data.append('location', tip.location);
+
+                data.append('user',user);
                 saveTipWithImg(data, token);
             }
             else {
-                saveTip(tip, token);
+                saveTip({...tip,user:user}, token);
             }
             navigation.goBack();
         }

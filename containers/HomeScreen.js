@@ -7,7 +7,7 @@ import { login, signup, setVisibleFalse, getUser } from '../redux/actions/authen
 
 export default function HomeScreen() {
 
-    const user = useSelector(state => state.authReducer.user);
+    const user = useSelector(state => state.authReducer.userCredentials);
     const token = useSelector(state => state.authReducer.token);
     const dispatch = useDispatch();
     const getCurrentUser = (username, token) => dispatch(getUser(username, token));

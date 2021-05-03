@@ -10,6 +10,7 @@ import { logoff } from '../redux/actions/authentication';
 export function DrawerContent(props) {
     const dispatch = useDispatch();
     const userLogoff = () => dispatch(logoff());
+    const user = useSelector(state => state.authReducer.user);
 
     const logoffUser = () => {
         userLogoff();
@@ -43,8 +44,8 @@ export function DrawerContent(props) {
                 <View style={styles.drawerContent}>
                     <View style={styles.userInfoSection}>
                         <View style={{ marginLeft: 15 }}>
-                            <Title style={styles.title}>Your name</Title>
-                            <Text>Email</Text>
+                            <Title style={styles.title}>{user.username}</Title>
+                            <Text>{user.email}</Text>
                         </View>
                     </View>
                     <Drawer.Section style={styles.drawerSection}>

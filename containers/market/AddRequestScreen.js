@@ -19,6 +19,7 @@ export default function AddRequestScreen({ navigation }) {
     const [phoneNumber, setPhoneNumber] = useState('');
     const dispatch = useDispatch();
     const addTheRequest = (request, token) => dispatch(addRequest(request, token));
+    const user = useSelector(state => state.authReducer.user);
 
     //Open the user's library to choose a picture
     const selectPicture = async () => {
@@ -78,10 +79,6 @@ export default function AddRequestScreen({ navigation }) {
             Alert.alert('Fill every fields', 'You must enter a description for your request');
             canBeSaved = false;
         }
-        if (!phoneNumber) {
-            Alert.alert('Fill every fields', 'You must enter your phone number');
-            canBeSaved = false;
-        }
         if (!location) {
             Alert.alert('Fill every fields', 'You must enter your location');
             canBeSaved = false;
@@ -90,6 +87,7 @@ export default function AddRequestScreen({ navigation }) {
             Alert.alert('Fill every fields', 'You must upload an image of your request');
             canBeSaved = false;
         }
+        console.log(user);
 
         if (canBeSaved) {
             const data = new FormData();
@@ -97,7 +95,7 @@ export default function AddRequestScreen({ navigation }) {
             data.append('name', name);
             data.append('desc', desc);
             data.append('location', location);
-            data.append('phoneNumber', phoneNumber);
+            data.append('user', user);
 
             addTheRequest(data, token);
             navigation.goBack();
@@ -123,12 +121,6 @@ export default function AddRequestScreen({ navigation }) {
                         placeholder="Type your location"
                         color={theme.colors.lightRed}
                         action={value => setLocation(value)}
-                    />
-                    <AppInput
-                        placeholder="Type your phone number"
-                        color={theme.colors.lightRed}
-                        action={value => setPhoneNumber(value)}
-                        keyboardType={'phone-pad'}
                     />
                     <TouchableOpacity
                         onPress={() => { pictureOption() }}

@@ -21,6 +21,7 @@ export default function AddOfferScreen({ navigation }) {
     const dispatch = useDispatch();
     const addTheOffer = (offer, token) => dispatch(addOffer(offer, token));
     const alertTitle = 'Fill every fields';
+    const user = useSelector(state => state.authReducer.user);
 
     //Open the user's library to choose a picture
     const selectPicture = async () => {
@@ -103,7 +104,7 @@ export default function AddOfferScreen({ navigation }) {
             data.append('name', name);
             data.append('desc', desc);
             data.append('location', location);
-            data.append('phoneNumber', phoneNumber);
+            data.append('user', user);
             data.append('price', price);
 
             addTheOffer(data, token);

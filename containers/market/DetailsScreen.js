@@ -11,7 +11,7 @@ export default function DetailsScreen({ navigation, route }) {
 
     //Open What's App with user's number
     const openWhatsApp = () => {
-        Linking.openURL('whatsapp://send?text=' + 'Hello, I have seen your post on the exchange students app and I am interested! :)' + '&phone=' + item.phoneNumber)
+        Linking.openURL('whatsapp://send?text=' + 'Hello, I have seen your post on the exchange students app and I am interested! :)' + '&phone=' + item.user.phoneNumber)
     }
 
     return (
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
         backgroundColor: theme.colors.red,
         borderRadius: theme.borderRadius.button
     },
-    buttonText:{
+    buttonText: {
         color: 'white',
         fontFamily: theme.fonts.bold,
         fontSize: theme.fontSizes.buttonText,

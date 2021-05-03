@@ -26,19 +26,26 @@ export default function TipScreen({ navigation }) {
         })
     })
 
-    //Constants
-    const token = useSelector(state => state.authReducer.token);
+    //Constants for Tip
+    const dispatch = useDispatch();
+    const tips = useSelector(state => state.tipReducer.tips);
+    const tipLoaded = useSelector(state => state.tipReducer.tipLoaded);
+    const fetchTips = (token) => dispatch(getTips(token));
+    const deleteOneTip = (index, token) => dispatch(deleteTip(index, token));
+
+    //Constants for filtering
     const [search, setSearch] = useState('');
     const [searchOpen, setSearchOpen] = useState(false);
     const [tipsFiltered, setTipsFiltered] = useState([]);
+
+    //Constants for snack bar
     const visible = useSelector(state => state.tipReducer.snackBarVisible);
     const message = useSelector(state => state.tipReducer.snackBarMessage);
-    const tips = useSelector(state => state.tipReducer.tips);
-    const tipLoaded = useSelector(state => state.tipReducer.tipLoaded);
-    const dispatch = useDispatch();
-    const fetchTips = (token) => dispatch(getTips(token));
-    const deleteOneTip = (index, token) => dispatch(deleteTip(index, token));
     const removeSnackBar = () => dispatch(setVisibleFalse());
+
+    //Constants for user
+    const token = useSelector(state => state.authReducer.token);
+    const user = useSelector(state => state.authReducer.user);
 
     //Search bar function
     const updateSearch = (text) => {
@@ -55,13 +62,12 @@ export default function TipScreen({ navigation }) {
     const showTips = () => {
         return tipsFiltered.map((tip, index) => {
             const uri = 'https://exchangestudentsapp-fardel.herokuapp.com/img/' + tip.img;
-
             if (tip.img > 0) {
                 return (
                     <AppListItem
                         key={index}
                         onPressAction={() => { navigation.navigate('TipDetails', tip) }}
-                        onLongPressAction={() => { deleteOneTip(tip.id, token) }}
+                        onLongPressAction={user.id === tip.user.id || user.role === "ADMIN" ? () => { deleteOneTip(tip.id, token) } : () => { }}
                         title={tip.name}
                         color={theme.colors.lightPurple}
                         subtitle={tip.tag}
@@ -74,7 +80,7 @@ export default function TipScreen({ navigation }) {
                     <AppListItem
                         key={index}
                         onPressAction={() => { navigation.navigate('TipDetails', tip) }}
-                        onLongPressAction={() => { deleteOneTip(tip.id, token) }}
+                        onLongPressAction={user.id === tip.user.id || user.role === "ADMIN" ? () => { deleteOneTip(tip.id, token) } : () => { }}
                         title={tip.name}
                         color={theme.colors.lightPurple}
                         subtitle={tip.tag}

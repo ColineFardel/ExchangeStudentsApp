@@ -14,6 +14,7 @@ export default function AddEventScreen({ navigation }) {
 
     //Constants
     const token = useSelector(state => state.authReducer.token);
+    const user = useSelector(state => state.authReducer.user);
     const [newEvent, setEvent] = useState('');
     const dispatch = useDispatch();
     const saveEvent = (event, token) => dispatch(addEvent(event, token));
@@ -37,10 +38,6 @@ export default function AddEventScreen({ navigation }) {
             Alert.alert('Fill every fields', "You must enter an event's location");
             canBeSaved = false;
         }
-        if (!newEvent.userName) {
-            Alert.alert('Fill every fields', "You must enter the organizer's name");
-            canBeSaved = false;
-        }
         if (!newEvent.date) {
             Alert.alert('Fill every fields', "You must enter a date");
             canBeSaved = false;
@@ -51,7 +48,7 @@ export default function AddEventScreen({ navigation }) {
         }
 
         if (canBeSaved) {
-            saveEvent(newEvent, token);
+            saveEvent({ ...newEvent, user: user }, token);
             navigation.goBack();
         }
     }
@@ -88,11 +85,6 @@ export default function AddEventScreen({ navigation }) {
                         placeholder="Type the event's location"
                         color={theme.colors.lightPink}
                         action={value => setEvent({ ...newEvent, location: value })}
-                    />
-                    <AppInput
-                        placeholder="Type the organizer's name"
-                        color={theme.colors.lightPink}
-                        action={value => setEvent({ ...newEvent, userName: value })}
                     />
                     <InputButton
                         color={theme.colors.lightPink}

@@ -34,11 +34,10 @@ export default function EventDetailsScreen({ navigation, route }) {
                 <Text style={styles.title}>Date</Text>
                 <Text style={styles.text}>{event.date}</Text>
                 <Text style={styles.title}>Organizer</Text>
-                <Text style={styles.text}>{event.userName}</Text>
+                <Text style={styles.text}>{event.user.username}</Text>
             </View>
         </View>
     )
-
 }
 
 const styles = StyleSheet.create({
@@ -54,7 +53,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         margin: 25,
-        marginBottom:0
+        marginBottom: 0
     },
     detailsContainer: {
         flex: 8,

@@ -29,25 +29,32 @@ export default function OfferScreen({ navigation }) {
     })
   })
 
-  //Constants
-  const token = useSelector(state => state.authReducer.token);
-  const visible = useSelector(state => state.marketReducer.snackBarVisible);
-  const message = useSelector(state => state.marketReducer.snackBarMessage);
+  //Constants for Offer
+  const dispatch = useDispatch();
   const offers = useSelector(state => state.marketReducer.offers);
   const offersLoc = useSelector(state => state.marketReducer.offersLoc);
   const offerLoaded = useSelector(state => state.marketReducer.offerLoaded);
-  const [offersFiltered, setOffersFiltered] = useState([]);
-  const [search, setSearch] = useState('');
-  const [searchOpen, setSearchOpen] = useState(false);
-  const dispatch = useDispatch();
-  const removeSnackBar = () => dispatch(setVisibleFalse());
   const fetchOffers = (token) => dispatch(getOffers(token));
   const fetchOffersLoc = (token) => dispatch(getOffersLoc(token));
   const deleteAnOffer = (index, token) => dispatch(deleteOffer(index, token));
+
+  //Constants for filtering
+  const [offersFiltered, setOffersFiltered] = useState([]);
+  const [search, setSearch] = useState('');
+  const [searchOpen, setSearchOpen] = useState(false);
   const [showFilter, setShowFilter] = useState(false);
   const [locationsSelected, setLocationsSelected] = useState([]);
   const [selectedPrice, setSelectedPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(100);
+
+  //Constants for snack bar
+  const visible = useSelector(state => state.marketReducer.snackBarVisible);
+  const message = useSelector(state => state.marketReducer.snackBarMessage);
+  const removeSnackBar = () => dispatch(setVisibleFalse());
+
+  //Constants for user
+  const token = useSelector(state => state.authReducer.token);
+  const user = useSelector(state => state.authReducer.user);
 
   useEffect(() => {
     fetchOffers(token);
@@ -116,7 +123,7 @@ export default function OfferScreen({ navigation }) {
         <AppListItem
           key={index}
           onPressAction={() => navigation.navigate("OfferDetails", offer)}
-          onLongPressAction={() => deleteAnOffer(offer.id, token)}
+          onLongPressAction={offer.user.id === user.id || user.role === "ADMIN" ? () => deleteAnOffer(offer.id, token) : () => { }}
           title={offer.name}
           subtitle={offer.price + '€'}
           secondsubtitle={offer.location}
