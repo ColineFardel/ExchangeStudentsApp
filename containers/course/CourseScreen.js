@@ -29,22 +29,29 @@ export default function CourseScreen({ navigation }) {
         })
     })
 
-    //Constants
-    const token = useSelector(state => state.authReducer.token);
-    const visible = useSelector(state => state.courseReducer.snackBarVisible);
-    const message = useSelector(state => state.courseReducer.snackBarMessage);
+    //Constants for Courses
+    const dispatch = useDispatch();
+    const courses = useSelector(state => state.courseReducer.courses);
+    const courseLoaded = useSelector(state => state.courseReducer.courseLoaded);
+    const universities = useSelector(state => state.courseReducer.universities);
+    const fetchCourses = (token) => dispatch(getCourses(token));
+    const fetchUni = (token) => dispatch(getUniversities(token));
+
+    //Constants for filtering
     const [search, setSearch] = useState('');
     const [searchOpen, setSearchOpen] = useState(false);
     const [coursesFiltered, setCoursesFiltered] = useState([]);
     const [selectedUni, setSelectedUni] = useState('');
     const [showFilter, setShowFilter] = useState(false);
-    const courses = useSelector(state => state.courseReducer.courses);
-    const courseLoaded = useSelector(state => state.courseReducer.courseLoaded);
-    const dispatch = useDispatch();
-    const fetchCourses = (token) => dispatch(getCourses(token));
-    const fetchUni = (token) => dispatch(getUniversities(token));
+
+    //Constants for snack bar
+    const visible = useSelector(state => state.courseReducer.snackBarVisible);
+    const message = useSelector(state => state.courseReducer.snackBarMessage);
     const removeSnackBar = () => dispatch(setVisibleFalse());
-    const universities = useSelector(state => state.courseReducer.universities);
+
+    //Constants for user
+    const token = useSelector(state => state.authReducer.token);
+    const user = useSelector(state => state.authReducer.user);
 
     useEffect(() => {
         fetchCourses(token);
@@ -66,7 +73,7 @@ export default function CourseScreen({ navigation }) {
                 <AppListItem
                     key={index}
                     onPressAction={() => { navigation.navigate('ChatRoom', course) }}
-                    onLongPressAction={() => { navigation.navigate('ModifyCourse', course) }}
+                    onLongPressAction={user.role === "ADMIN" ? () => { navigation.navigate('ModifyCourse', course) } : () => { }}
                     color={theme.colors.lightBlue}
                     title={course.name}
                     subtitle={course.university}

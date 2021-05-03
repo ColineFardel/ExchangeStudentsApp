@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { getFAQs, setVisibleFalse } from '../../redux/actions/faq';
+import { getAnsweredFAQs, getFAQs, setVisibleFalse } from '../../redux/actions/faq';
 import { useDispatch, useSelector } from 'react-redux';
 import theme from '../../constants/theme';
 import Foot from '../../components/foot';
@@ -26,18 +26,26 @@ export default function FAQScreen({ navigation }) {
         })
     })
 
-    //Constants
-    const token = useSelector(state => state.authReducer.token);
+    //Constants for filtering
     const [search, setSearch] = useState('');
     const [searchOpen, setSearchOpen] = useState(false);
     const [faqsFiltered, setFaqsFiltered] = useState([]);
+
+    //Constants for FAQ
+    const dispatch = useDispatch();
     const [currentIndex, setCurrentIndex] = useState(null);
-    const visible = useSelector(state => state.faqReducer.snackBarVisible);
-    const message = useSelector(state => state.faqReducer.snackBarMessage);
     const faqs = useSelector(state => state.faqReducer.faqs);
     const faqLoaded = useSelector(state => state.faqReducer.faqLoaded);
-    const dispatch = useDispatch();
     const fetchFaqs = (token) => dispatch(getFAQs(token));
+    const fetchAnsweredFaqs = (token) => dispatch(getAnsweredFAQs(token));
+
+    //Constants for user
+    const token = useSelector(state => state.authReducer.token);
+    const user = useSelector(state => state.authReducer.user);
+
+    //Constants for snack bar
+    const visible = useSelector(state => state.faqReducer.snackBarVisible);
+    const message = useSelector(state => state.faqReducer.snackBarMessage);
     const removeSnackBar = () => dispatch(setVisibleFalse());
 
     //Search bar function
@@ -47,7 +55,15 @@ export default function FAQScreen({ navigation }) {
     }
 
     useEffect(() => {
-        fetchFaqs(token);
+        console.log(user);
+        if (user.role === 'ADMIN') {
+            fetchFaqs(token);
+            console.log("admin");
+        }
+        else {
+            fetchAnsweredFaqs(token);
+            console.log("user");
+        }
         setFaqsFiltered(faqs);
     }, [!faqLoaded])
 
@@ -61,7 +77,7 @@ export default function FAQScreen({ navigation }) {
                 <TouchableOpacity
                     key={faq.question}
                     onPress={() => { setCurrentIndex(index) }}
-                    onLongPress={() => navigation.navigate('ModifyFAQ', faq)}
+                    onLongPress={user.role === "ADMIN" ? () => navigation.navigate('ModifyFAQ', faq) : () => { }}
                     style={{ width: "100%", alignItems: 'center' }}>
                     <View style={styles.card}>
                         <View style={styles.titleContainer}>

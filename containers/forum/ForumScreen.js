@@ -26,19 +26,26 @@ export default function ForumScreen({ navigation }) {
         })
     })
 
-    //Constants
-    const token = useSelector(state => state.authReducer.token);
+    //Constants for Forum
+    const dispatch = useDispatch();
+    const topics = useSelector(state => state.forumReducer.topics);
+    const topicLoaded = useSelector(state => state.forumReducer.topicLoaded);
+    const fetchTopics = (token) => dispatch(getTopics(token));
+    const deleteOneTopic = (index, token) => dispatch(deleteTopic(index, token));
+
+    //Constants for snack bar
     const visible = useSelector(state => state.forumReducer.snackBarVisible);
     const message = useSelector(state => state.forumReducer.snackBarMessage);
+    const removeSnackBar = () => dispatch(setVisibleFalse());
+
+    //Constants for filtering
     const [search, setSearch] = useState('');
     const [searchOpen, setSearchOpen] = useState(false);
     const [topicsFiltered, setTopicsFiltered] = useState([]);
-    const topics = useSelector(state => state.forumReducer.topics);
-    const topicLoaded = useSelector(state => state.forumReducer.topicLoaded);
-    const dispatch = useDispatch();
-    const fetchTopics = (token) => dispatch(getTopics(token));
-    const deleteOneTopic = (index, token) => dispatch(deleteTopic(index, token));
-    const removeSnackBar = () => dispatch(setVisibleFalse());
+
+    //Constants for user
+    const token = useSelector(state => state.authReducer.token);
+    const user = useSelector(state => state.authReducer.user);
 
     useEffect(() => {
         fetchTopics(token);
@@ -59,7 +66,7 @@ export default function ForumScreen({ navigation }) {
                     color={theme.colors.lightOrange}
                     title={topic.name}
                     onPressAction={() => { navigation.navigate('ChatRoom', topic) }}
-                    onLongPressAction={() => { deleteOneTopic(topic.id, token) }}
+                    onLongPressAction={user.role === "ADMIN" ? () => { deleteOneTopic(topic.id, token) } : () => { }}
                     key={index}
                 />
             )

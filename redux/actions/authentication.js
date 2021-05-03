@@ -19,7 +19,6 @@ export const login = (username, password) => {
             await axios.post('https://exchangestudentsapp-fardel.herokuapp.com/auth/login', user)
                 .then(response => {
                     storeData(user);
-
                     dispatch({
                         type: LOGIN,
                         payload: response.data.token,
@@ -97,7 +96,6 @@ export const getUser = (username, token) => {
             console.log('cacca');
             await axios.post('https://exchangestudentsapp-fardel.herokuapp.com/user', { "username": username }, { headers: { 'Authorization': `Bearer ${token}` } })
                 .then(response => {
-                    console.log(response.data);
                     dispatch({
                         type: GET_USER,
                         payload: response.data

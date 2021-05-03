@@ -46,6 +46,35 @@ export const getFAQs = (token) => {
     }
 };
 
+export const getAnsweredFAQs = (token) => {
+    try {
+        return async dispatch => {
+            const response = await axios.get('https://exchangestudentsapp-fardel.herokuapp.com/answeredfaqs', { headers: { 'Authorization': `Bearer ${token}` } });
+            if (response.data) {
+                response.data.sort((a, b) => {
+                    if (a.tag < b.tag)
+                        return -1;
+                    if (a.tag > b.tag)
+                        return 1;
+                    if (a.tag === null)
+                        return 1;
+                    if (b.tag === null)
+                        return -1;
+                    return 0;
+                });
+                dispatch({
+                    type: GET_FAQS,
+                    payload: response.data
+                });
+            } else {
+                console.log('Unable to fetch data from the API BASE URL!');
+            }
+        };
+    } catch (error) {
+        console.log(error);
+    }
+};
+
 export const modifyFaq = (faq, token) => {
     let url = 'https://exchangestudentsapp-fardel.herokuapp.com/faq/' + faq.id;
     try {
