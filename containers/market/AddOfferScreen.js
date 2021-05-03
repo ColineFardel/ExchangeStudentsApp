@@ -10,17 +10,18 @@ import { useDispatch, useSelector } from 'react-redux';
 
 export default function AddOfferScreen({ navigation }) {
 
-    //Constants
-    const token = useSelector(state => state.authReducer.token);
+    //Constants for Offer
+    const dispatch = useDispatch();
+    const addTheOffer = (offer, token) => dispatch(addOffer(offer, token));
     const [photo, setPhoto] = useState(null);
     const [name, setName] = useState('');
     const [desc, setDesc] = useState('');
     const [location, setLocation] = useState('');
-    const [phoneNumber, setPhoneNumber] = useState('');
     const [price, setPrice] = useState('');
-    const dispatch = useDispatch();
-    const addTheOffer = (offer, token) => dispatch(addOffer(offer, token));
     const alertTitle = 'Fill every fields';
+
+    //Constants for user
+    const token = useSelector(state => state.authReducer.token);
     const user = useSelector(state => state.authReducer.user);
 
     //Open the user's library to choose a picture
@@ -81,10 +82,6 @@ export default function AddOfferScreen({ navigation }) {
             Alert.alert(alertTitle, 'You must enter a description for your offer');
             canBeSaved = false;
         }
-        if (!phoneNumber) {
-            Alert.alert(alertTitle, 'You must enter your phone number');
-            canBeSaved = false;
-        }
         if (!location) {
             Alert.alert(alertTitle, 'You must enter your location');
             canBeSaved = false;
@@ -104,7 +101,7 @@ export default function AddOfferScreen({ navigation }) {
             data.append('name', name);
             data.append('desc', desc);
             data.append('location', location);
-            data.append('user', user);
+            data.append('userId', user.id);
             data.append('price', price);
 
             addTheOffer(data, token);
@@ -131,12 +128,6 @@ export default function AddOfferScreen({ navigation }) {
                         placeholder="Type your location"
                         color={theme.colors.lightRed}
                         action={value => setLocation(value)}
-                    />
-                    <AppInput
-                        placeholder="Type your phone number"
-                        color={theme.colors.lightRed}
-                        action={value => setPhoneNumber(value)}
-                        keyboardType={'phone-pad'}
                     />
                     <AppInput
                         placeholder="Type the price of your offer"

@@ -10,15 +10,16 @@ import { useDispatch, useSelector } from 'react-redux';
 
 export default function AddRequestScreen({ navigation }) {
 
-    //Constants
-    const token = useSelector(state => state.authReducer.token);
+    //Constants for Request
+    const dispatch = useDispatch();
+    const addTheRequest = (request, token) => dispatch(addRequest(request, token));
     const [photo, setPhoto] = useState(null);
     const [name, setName] = useState('');
     const [desc, setDesc] = useState('');
     const [location, setLocation] = useState('');
-    const [phoneNumber, setPhoneNumber] = useState('');
-    const dispatch = useDispatch();
-    const addTheRequest = (request, token) => dispatch(addRequest(request, token));
+
+    //Constants for user
+    const token = useSelector(state => state.authReducer.token);
     const user = useSelector(state => state.authReducer.user);
 
     //Open the user's library to choose a picture
@@ -95,7 +96,7 @@ export default function AddRequestScreen({ navigation }) {
             data.append('name', name);
             data.append('desc', desc);
             data.append('location', location);
-            data.append('user', user);
+            data.append('userId', user.id);
 
             addTheRequest(data, token);
             navigation.goBack();

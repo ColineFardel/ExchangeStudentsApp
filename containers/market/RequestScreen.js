@@ -102,7 +102,6 @@ export default function RequestScreen({ navigation }) {
   const showRequests = () => {
     return requestsFiltered.map((request, index) => {
       let uri = 'https://exchangestudentsapp-fardel.herokuapp.com/img/' + request.imgId;
-      console.log(request);
       return (
         <AppListItem
           key={index}
