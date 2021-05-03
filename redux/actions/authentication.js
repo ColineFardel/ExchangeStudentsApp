@@ -19,12 +19,14 @@ export const login = (username, password) => {
             await axios.post('https://exchangestudentsapp-fardel.herokuapp.com/auth/login', user)
                 .then(response => {
                     storeData(user);
-                    getUser(username, response.data.token);
+
                     dispatch({
                         type: LOGIN,
                         payload: response.data.token,
-                        message: 'Welcome!'
+                        message: 'Welcome!',
+                        user: user
                     });
+                    //prout(username, response.data.token);
                 })
                 .catch(error => {
                     console.log(error);
@@ -48,7 +50,6 @@ export const signup = (user) => {
         return async dispatch => {
             await axios.post('https://exchangestudentsapp-fardel.herokuapp.com/auth/signup', user)
                 .then(response => {
-                    console.log(response);
                     dispatch({
                         type: SIGNUP,
                         payload: user,
@@ -91,24 +92,17 @@ export const logoff = () => dispatch => {
 };
 
 export const getUser = (username, token) => {
-    console.log('tes la ?');
-    console.log(username);
     try {
         return async dispatch => {
-            console.log('allo?');
-            //const response = await axios.get('https://exchangestudentsapp-fardel.herokuapp.com/user', { params: { "username": username } }, { headers: { 'Authorization': `Bearer ${token}` } });
-            const response = await axios.get(`https://exchangestudentsapp-fardel.herokuapp.com/user?username=${username}`, { headers: { 'Authorization': `Bearer ${token}` } });
-            console.log(response);
-            if (response.data) {
-                console.log(response.data);
-                console.log('wesh???');
-                dispatch({
-                    type: GET_USER,
-                    payload: response.data
-                });
-            } else {
-                console.log('Unable to fetch data from the API BASE URL!');
-            }
+            console.log('cacca');
+            await axios.post('https://exchangestudentsapp-fardel.herokuapp.com/user', { "username": username }, { headers: { 'Authorization': `Bearer ${token}` } })
+                .then(response => {
+                    console.log(response.data);
+                    dispatch({
+                        type: GET_USER,
+                        payload: response.data
+                    })
+                })
         };
     } catch (error) {
         console.log(error);

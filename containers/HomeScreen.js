@@ -1,9 +1,20 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, Linking } from 'react-native';
-import theme from '../constants/theme'
+import theme from '../constants/theme';
+import { useSelector, useDispatch } from 'react-redux';
+import { login, signup, setVisibleFalse, getUser } from '../redux/actions/authentication';
 
 export default function HomeScreen() {
+
+    const user = useSelector(state => state.authReducer.user);
+    const token = useSelector(state => state.authReducer.token);
+    const dispatch = useDispatch();
+    const getCurrentUser = (username, token) => dispatch(getUser(username, token));
+
+    useEffect(() => {
+        getCurrentUser(user.username, token);
+    }, [])
 
     return (
         <View style={styles.container}>

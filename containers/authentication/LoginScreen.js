@@ -5,7 +5,7 @@ import theme from '../../constants/theme';
 import AppInput from '../../components/input';
 import { Input, Button } from 'react-native-elements';
 import { useSelector, useDispatch } from 'react-redux';
-import { login, signup, setVisibleFalse } from '../../redux/actions/authentication';
+import { login, signup, setVisibleFalse, getUser } from '../../redux/actions/authentication';
 import { Alert } from 'react-native';
 
 export default function LoginScreen({ navigation }) {
@@ -22,10 +22,19 @@ export default function LoginScreen({ navigation }) {
     const user = useSelector(state => state.authReducer.user);
     const dispatch = useDispatch();
     const userLogin = (username, password) => dispatch(login(username, password));
+    const getCurrentUser = (username, token) => dispatch(getUser(username, token));
+
+    useEffect(() => {
+        if (token && username)
+            getCurrentUser(username, token);
+    }, [token])
 
     const authWithLogin = () => {
-        if (username && password)
+        if (username && password) {
             userLogin(username, password);
+            //getCurrentUser(username, token);
+        }
+
         else
             Alert.alert('You forgot a field', 'Please enter your username and your password');
     }
