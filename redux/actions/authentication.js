@@ -95,7 +95,6 @@ export const getUser = (username, token) => {
         return async dispatch => {
             await axios.post('https://exchangestudentsapp-fardel.herokuapp.com/user', { "username": username }, { headers: { 'Authorization': `Bearer ${token}` } })
                 .then(response => {
-                    console.log('user getten',response.data);
                     dispatch({
                         type: GET_USER,
                         payload: response.data

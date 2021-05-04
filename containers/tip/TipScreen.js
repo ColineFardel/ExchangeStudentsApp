@@ -62,7 +62,6 @@ export default function TipScreen({ navigation }) {
     const showTips = () => {
         return tipsFiltered.map((tip, index) => {
             const uri = 'https://exchangestudentsapp-fardel.herokuapp.com/img/' + tip.imgId;
-            console.log(tip.imgId);
             if (tip.imgId > 0) {
                 return (
                     <AppListItem

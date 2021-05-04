@@ -1,4 +1,4 @@
-import { GET_COURSES, ADD_COURSE, GET_CHATS, ADD_CHAT, SET_VISIBLE_FALSE, DELETE_COURSE, GET_UNIVERSITIES, MODIFY_COURSE } from '../actions/types';
+import { GET_COURSES, ADD_COURSE, GET_CHATS, ADD_CHAT, SET_VISIBLE_FALSE, DELETE_COURSE, GET_UNIVERSITIES, MODIFY_COURSE, GET_USER_CHATS } from '../actions/types';
 
 const initialState = {
     courses: [],
@@ -25,7 +25,9 @@ const courseReducer = (state = initialState, action) => {
         case GET_CHATS:
             return { ...state, chats: action.payload, chatLoaded: true };
         case ADD_CHAT:
-            return { ...state, chatLoaded: false, userChats: [...state.userChats, action.payload] };
+            return { ...state, chatLoaded: false };
+        case GET_USER_CHATS:
+            return { ...state, userChats: action.payload };
 
         case GET_UNIVERSITIES:
             return { ...state, universities: action.payload };

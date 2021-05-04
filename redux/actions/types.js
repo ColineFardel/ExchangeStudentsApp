@@ -42,3 +42,4 @@ export const LOGIN = 'LOGIN';
 export const SIGNUP = 'SIGNUP';
 export const LOGOFF = 'LOGOFF';
 export const GET_USER = 'GET_USER';
+export const GET_USER_CHATS = 'GET_USER_CHATS';

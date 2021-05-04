@@ -1,4 +1,4 @@
-import { GET_TOPICS, ADD_TOPIC, GET_CHATS, ADD_CHAT, DELETE_TOPIC, SET_VISIBLE_FALSE } from '../actions/types';
+import { GET_TOPICS, ADD_TOPIC, GET_CHATS, ADD_CHAT, DELETE_TOPIC, SET_VISIBLE_FALSE, GET_USER_CHATS } from '../actions/types';
 
 const initialState = {
     topics: [],
@@ -21,8 +21,10 @@ const forumReducer = (state = initialState, action) => {
 
         case GET_CHATS:
             return { ...state, chats: action.payload, chatLoaded: true };
+        case GET_USER_CHATS:
+            return { ...state, userChats: action.payload };
         case ADD_CHAT:
-            return { ...state, chatLoaded: false, userChats: [...state.userChats, action.payload] };
+            return { ...state, chatLoaded: false };
 
         case SET_VISIBLE_FALSE:
             return { ...state, snackBarVisible: false }

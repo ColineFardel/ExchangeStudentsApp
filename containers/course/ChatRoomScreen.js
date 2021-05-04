@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, TextInput, SectionList } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { addChat, getChats } from '../../redux/actions/courses';
+import { addChat, getChats, getUserChats } from '../../redux/actions/courses';
 import { useDispatch, useSelector } from 'react-redux';
 import theme from '../../constants/theme';
 import moment from "moment-timezone";
@@ -18,8 +18,7 @@ export default function ChatRoomScreen({ navigation, route }) {
         })
     })
 
-    //Constants
-    const token = useSelector(state => state.authReducer.token);
+    //Constants for Chat
     const chats = useSelector(state => state.courseReducer.chats);
     const userChats = useSelector(state => state.courseReducer.userChats);
     const chatLoaded = useSelector(state => state.courseReducer.chatLoaded);
@@ -27,24 +26,33 @@ export default function ChatRoomScreen({ navigation, route }) {
     const [message, setMessage] = useState('');
     const dispatch = useDispatch();
     const fetchChats = (courseId, token) => dispatch(getChats(courseId, token));
+    const fetchUserChats = (user, token) => dispatch(getUserChats(user, token));
     const newChat = (chat, token) => dispatch(addChat(chat, token));
+
+    //Constants for user
+    const token = useSelector(state => state.authReducer.token);
+    const user = useSelector(state => state.authReducer.user);
+
 
     useEffect(() => {
         fetchChats(course.id, token);
+        fetchUserChats(user, token);
         firebaseChats();
     }, [!chatLoaded])
 
+    //Save a chat in the database
     const saveNewChat = () => {
         if (message.trim()) {
             const time = moment().tz("Europe/Helsinki").format('LT');
             const date = moment().tz("Europe/Helsinki").format('LL');
-            let chat = { text: message, date: date, time: time, course: course }
+            let chat = { text: message, date: date, time: time, course: course, user: user }
             newChat(chat, token);
             addChatFirebase(chat);
             setMessage('');
         }
     }
 
+    //Fetch the chats if the firebase database has been changed
     const firebaseChats = () => {
         const ref = course.name + course.id;
         firebase.database().ref(ref).on('value', snapshot => {
@@ -52,6 +60,7 @@ export default function ChatRoomScreen({ navigation, route }) {
         });
     }
 
+    //Save a chat in the firebase database
     const addChatFirebase = (chat) => {
         const ref = course.name + course.id;
         firebase.database().ref(ref).set(chat).then(() => {
@@ -73,6 +82,7 @@ export default function ChatRoomScreen({ navigation, route }) {
                             color={theme.colors.grey}
                             userColor={theme.colors.blue}
                             isUser={userChats.some((userChat) => userChat.id === item.id)}
+                            username={item.user.username}
                         />
                     }
                     renderSectionFooter={({ section: { date } }) => (

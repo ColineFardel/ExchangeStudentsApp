@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, TextInput, SectionList } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { addChat, getChats } from '../../redux/actions/forum';
+import { addChat, getChats, getUserChats } from '../../redux/actions/forum';
 import { useDispatch, useSelector } from 'react-redux';
 import theme from '../../constants/theme';
 import moment from "moment-timezone";
@@ -18,8 +18,7 @@ export default function ChatRoomScreen({ navigation, route }) {
         })
     })
 
-    //Constants
-    const token = useSelector(state => state.authReducer.token);
+    //Constants for Chat
     const chats = useSelector(state => state.forumReducer.chats);
     const userChats = useSelector(state => state.forumReducer.userChats);
     const chatLoaded = useSelector(state => state.forumReducer.chatLoaded);
@@ -27,10 +26,17 @@ export default function ChatRoomScreen({ navigation, route }) {
     const [message, setMessage] = useState('');
     const dispatch = useDispatch();
     const fetchChats = (topicId, token) => dispatch(getChats(topicId, token));
+    const fetchUserChats = (user, token) => dispatch(getUserChats(user, token));
     const newChat = (chat, token) => dispatch(addChat(chat, token));
+
+    //Constants for user
+    const token = useSelector(state => state.authReducer.token);
+    const user = useSelector(state => state.authReducer.user);
+
 
     useEffect(() => {
         fetchChats(topic.id, token);
+        fetchUserChats(user, token);
         firebaseChats();
     }, [!chatLoaded])
 
@@ -39,7 +45,7 @@ export default function ChatRoomScreen({ navigation, route }) {
         if (message.trim()) {
             const time = moment().tz("Europe/Helsinki").format('LT');
             const date = moment().tz("Europe/Helsinki").format('LL');
-            let chat = { text: message, date: date, time: time, topic: topic }
+            let chat = { text: message, date: date, time: time, topic: topic, user: user }
             newChat(chat, token);
             addChatFirebase(chat);
             setMessage('');
@@ -76,6 +82,7 @@ export default function ChatRoomScreen({ navigation, route }) {
                             color={theme.colors.grey}
                             userColor={theme.colors.orange}
                             isUser={userChats.some((userChat) => userChat.id === item.id)}
+                            username={item.user.username}
                         />
                     }
                     renderSectionFooter={({ section: { date } }) => (

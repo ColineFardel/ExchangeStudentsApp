@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default Chat = (props) => {
 
-    const { chat, color, isUser, userColor } = props;
+    const { chat, color, isUser, userColor, username } = props;
 
     return (
         <View style={{
@@ -19,7 +19,7 @@ export default Chat = (props) => {
                     <Text style={{
                         color: userColor,
                         fontFamily: theme.fonts.bold
-                    }}>Someone</Text>
+                    }}>{username}</Text>
                 )}
                 <Text style={styles.chatText}>{chat.text}</Text>
             </View>

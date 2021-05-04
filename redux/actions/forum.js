@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GET_TOPICS, ADD_TOPIC, ADD_CHAT, GET_CHATS, DELETE_TOPIC, SET_VISIBLE_FALSE } from './types';
+import { GET_TOPICS, ADD_TOPIC, ADD_CHAT, GET_CHATS, DELETE_TOPIC, SET_VISIBLE_FALSE, GET_USER_CHATS } from './types';
 import moment from "moment";
 
 export const getTopics = (token) => {
@@ -47,6 +47,24 @@ export const addTopic = (topic, token) => {
                         payload: topic
                     });
                 });
+        };
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export const getUserChats = (user, token) => {
+    try {
+        return async dispatch => {
+            const response = await axios.post('https://exchangestudentsapp-fardel.herokuapp.com/userChats', user, { headers: { 'Authorization': `Bearer ${token}` } });
+            if (response.data) {
+                dispatch({
+                    type: GET_USER_CHATS,
+                    payload: response.data
+                });
+            } else {
+                console.log('Unable to fetch data from the API BASE URL!');
+            }
         };
     } catch (error) {
         console.log(error);
