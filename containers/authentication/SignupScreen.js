@@ -17,7 +17,6 @@ export default function SignupScreen({ navigation }) {
     //Constants to signup
     const [newUser, setNewUser] = useState('');
     const [isAdmin, setIsAdmin] = useState(false);
-    const user = useSelector(state => state.authReducer.user);
     const dispatch = useDispatch();
     const userSignup = (u) => dispatch(signup(u));
 
@@ -29,7 +28,6 @@ export default function SignupScreen({ navigation }) {
         if (message !== "The email or username is already used")
             navigation.goBack();
     }
-
 
     return (
         <View style={styles.container}>
@@ -109,22 +107,19 @@ export default function SignupScreen({ navigation }) {
                             onValueChange={() => setIsAdmin(!isAdmin)}
                             value={isAdmin} />
                     </View>
-
-                    <Button
-                        raised={true}
-                        buttonStyle={styles.loginButton}
-                        titleStyle={styles.loginButtonText}
-                        onPress={() => authWithSignup()}
-                        containerStyle={{ width: '50%' }}
-                        title="SIGNUP" />
-                </View>
-
-
-                <View style={{ alignItems: 'center' }}>
                     <Button
                         raised={true}
                         buttonStyle={styles.signupButton}
                         titleStyle={styles.signupButtonText}
+                        onPress={() => authWithSignup()}
+                        containerStyle={{ width: '50%' }}
+                        title="SIGNUP" />
+                </View>
+                <View style={{ alignItems: 'center' }}>
+                    <Button
+                        raised={true}
+                        buttonStyle={styles.loginButton}
+                        titleStyle={styles.loginButtonText}
                         onPress={() => navigation.navigate('Login')}
                         containerStyle={{ width: '50%' }}
                         title="LOGIN" />
@@ -169,22 +164,22 @@ const styles = StyleSheet.create({
         margin: 10,
         fontSize: theme.fontSizes.cardTitle,
     },
-    loginButton: {
+    signupButton: {
         backgroundColor: 'white',
         borderRadius: theme.borderRadius.button,
     },
-    loginButtonText: {
+    signupButtonText: {
         color: theme.colors.cyan,
         fontFamily: theme.fonts.bold,
         fontSize: theme.fontSizes.buttonText
     },
-    signupButton: {
+    loginButton: {
         backgroundColor: theme.colors.cyan,
         borderRadius: theme.borderRadius.button,
         borderWidth: 1,
         borderColor: 'white'
     },
-    signupButtonText: {
+    loginButtonText: {
         color: 'white',
         fontFamily: theme.fonts.bold,
         fontSize: theme.fontSizes.buttonText,

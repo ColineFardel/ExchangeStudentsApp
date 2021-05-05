@@ -2,7 +2,6 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, Linking } from 'react-native';
 import theme from '../../constants/theme';
-import AppInput from '../../components/input';
 import { Input, Button } from 'react-native-elements';
 import { useSelector, useDispatch } from 'react-redux';
 import { login, signup, setVisibleFalse, getUser } from '../../redux/actions/authentication';
@@ -19,7 +18,6 @@ export default function LoginScreen({ navigation }) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const token = useSelector(state => state.authReducer.token);
-    const user = useSelector(state => state.authReducer.user);
     const dispatch = useDispatch();
     const userLogin = (username, password) => dispatch(login(username, password));
     const getCurrentUser = (username, token) => dispatch(getUser(username, token));
@@ -30,11 +28,8 @@ export default function LoginScreen({ navigation }) {
     }, [token])
 
     const authWithLogin = () => {
-        if (username && password) {
+        if (username && password)
             userLogin(username, password);
-            //getCurrentUser(username, token);
-        }
-
         else
             Alert.alert('You forgot a field', 'Please enter your username and your password');
     }
@@ -84,8 +79,6 @@ export default function LoginScreen({ navigation }) {
                         containerStyle={{ width: '50%' }}
                         title="LOGIN" />
                 </View>
-
-
                 <View style={{ alignItems: 'center' }}>
                     <Button
                         raised={true}

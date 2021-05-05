@@ -15,28 +15,7 @@ export function DrawerContent(props) {
     const logoffUser = () => {
         userLogoff();
         console.log('logging off');
-        /*
-        firebase.auth()
-            .signOut()
-            .then(() => {
-                console.log('User signed out!');
-            })
-        */
     }
-
-    //const [user, setUser] = useState('');
-
-    // useEffect(() => {
-    //     firebase.auth().onAuthStateChanged(user => {
-    //         setUser(user);
-    //     });
-    // }, [])
-
-    //Icons
-    //For forum -> forum
-    //For event -> calendar-blank
-    //For courses -> book
-    //For tip -> lightbulb outline
 
     return (
         <View style={{ flex: 1 }}>

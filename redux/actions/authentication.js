@@ -6,10 +6,20 @@ const storeData = async (user) => {
     try {
         const jsonValue = JSON.stringify(user);
         await AsyncStorage.setItem('user', jsonValue);
-        console.log('storing user', user);
+        console.log('Storing user', user);
     } catch (e) {
         console.log(e);
     }
+}
+
+const removeValue = async () => {
+    try {
+        console.log('Removing user from storage');
+        await AsyncStorage.removeItem('user');
+    } catch (e) {
+        console.log(e);
+    }
+    console.log('Done.')
 }
 
 export const login = (username, password) => {
@@ -42,7 +52,6 @@ export const login = (username, password) => {
     }
 };
 
-
 export const signup = (user) => {
     try {
         return async dispatch => {
@@ -69,17 +78,6 @@ export const signup = (user) => {
         console.log(error);
     }
 };
-
-const removeValue = async () => {
-    try {
-        console.log('Removing user from storage');
-        await AsyncStorage.removeItem('user');
-    } catch (e) {
-        console.log(e);
-    }
-
-    console.log('Done.')
-}
 
 export const logoff = () => dispatch => {
     removeValue();

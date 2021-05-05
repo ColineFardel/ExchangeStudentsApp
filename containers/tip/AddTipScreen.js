@@ -96,11 +96,11 @@ export default function AddTipScreen({ navigation }) {
                 else
                     data.append('location', tip.location);
 
-                data.append('userId',user.id);
+                data.append('userId', user.id);
                 saveTipWithImg(data, token);
             }
             else {
-                saveTip({...tip,user:user}, token);
+                saveTip({ ...tip, user: user }, token);
             }
             navigation.goBack();
         }
