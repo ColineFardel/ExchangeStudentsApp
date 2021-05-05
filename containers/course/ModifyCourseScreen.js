@@ -21,6 +21,7 @@ export default function ModifyCourseScreen({ navigation, route }) {
     //Delete a course
     const handleDelete = () => {
         deleteOneCourse(course.id, token);
+        firebase.database().ref(course.name + course.id).remove();
         navigation.goBack();
     }
 

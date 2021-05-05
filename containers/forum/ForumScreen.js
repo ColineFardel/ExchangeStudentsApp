@@ -8,6 +8,7 @@ import Foot from '../../components/foot';
 import AppSnackBar from '../../components/snackbar';
 import Loading from '../../components/loading';
 import AppListItem from '../../components/listItem';
+import * as firebase from 'firebase';
 
 export default function ForumScreen({ navigation }) {
 
@@ -66,7 +67,7 @@ export default function ForumScreen({ navigation }) {
                     color={theme.colors.lightOrange}
                     title={topic.name}
                     onPressAction={() => { navigation.navigate('ChatRoom', topic) }}
-                    onLongPressAction={user.role === "ADMIN" ? () => { deleteOneTopic(topic.id, token) } : () => { }}
+                    onLongPressAction={user.role === "ADMIN" ? () => { deleteOneTopic(topic.id, token); firebase.database().ref(topic.name + topic.id).remove(); } : () => { }}
                     key={index}
                 />
             )
