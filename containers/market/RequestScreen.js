@@ -107,7 +107,7 @@ export default function RequestScreen({ navigation }) {
           key={index}
           color={theme.colors.lightRed}
           onPressAction={() => navigation.navigate("RequestDetails", request)}
-          onLongPressAction={request.user.id === user.id || user.role === "ADMIN" ? () => deleteAnOffer(request.id, token) : () => { }}
+          onLongPressAction={request.user.id === user.id || user.role === "ADMIN" ? () => removeRequest(request.id, token) : () => { }}
           title={request.name}
           subtitle={request.description}
           secondsubtitle={request.location}

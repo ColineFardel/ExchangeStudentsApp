@@ -1,11 +1,12 @@
-import { LOGIN, LOGOFF, SIGNUP, GET_USER, SET_VISIBLE_FALSE } from '../actions/types';
+import { LOGIN, LOGOFF, SIGNUP, GET_USER, SET_VISIBLE_FALSE, GET_USER_OBJECTS } from '../actions/types';
 
 const initialState = {
     user: {},
     token: '',
     snackBarVisible: false,
     snackBarMessage: '',
-    userCredentials: {}
+    userCredentials: {},
+    userObjects: {}
 }
 
 const authReducer = (state = initialState, action) => {
@@ -18,6 +19,8 @@ const authReducer = (state = initialState, action) => {
             return { ...state, snackBarMessage: action.message, snackBarVisible: true };
         case GET_USER:
             return { ...state, user: action.payload }
+        case GET_USER_OBJECTS:
+            return { ...state, userObjects: action.payload }
         case SET_VISIBLE_FALSE:
             return { ...state, snackBarVisible: false }
         default:

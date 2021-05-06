@@ -48,7 +48,6 @@ export const deleteEvent = (index, token) => {
 };
 
 export const addEvent = (event, token) => {
-    console.log(event);
     try {
         return async dispatch => {
             await axios.post('https://exchangestudentsapp-fardel.herokuapp.com/addevent', event, { headers: { 'Authorization': `Bearer ${token}` } })
