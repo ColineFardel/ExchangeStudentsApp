@@ -44,3 +44,4 @@ export const LOGOFF = 'LOGOFF';
 export const GET_USER = 'GET_USER';
 export const GET_USER_CHATS = 'GET_USER_CHATS';
 export const GET_USER_OBJECTS = 'GET_USER_OBJECTS';
+export const LOADING_LOGIN = 'LOADING_LOGIN';

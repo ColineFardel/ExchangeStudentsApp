@@ -6,6 +6,7 @@ import { Input, Button } from 'react-native-elements';
 import { useSelector, useDispatch } from 'react-redux';
 import { signup, setVisibleFalse } from '../../redux/actions/authentication';
 import AppSnackBar from '../../components/snackbar';
+import { Alert } from 'react-native';
 
 export default function SignupScreen({ navigation }) {
 
@@ -24,9 +25,15 @@ export default function SignupScreen({ navigation }) {
         let role = "USER";
         if (isAdmin)
             role = "ADMIN";
-        userSignup({ ...newUser, 'role': role });
-        if (message !== "The email or username is already used")
-            navigation.goBack();
+        let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+        if (reg.test(newUser.email) === false) {
+            Alert.alert('Email', 'The email must be correct');
+        }
+        else {
+            userSignup({ ...newUser, 'role': role });
+            if (message !== "The email or username is already used")
+                navigation.goBack();
+        }
     }
 
     return (

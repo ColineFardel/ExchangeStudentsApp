@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { LOGIN, SIGNUP, LOGOFF, GET_USER, SET_VISIBLE_FALSE, GET_USER_OBJECTS } from './types';
+import { LOGIN, SIGNUP, LOGOFF, GET_USER, SET_VISIBLE_FALSE, GET_USER_OBJECTS, LOADING_LOGIN } from './types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const storeData = async (user) => {
@@ -23,6 +23,7 @@ const removeValue = async () => {
 }
 
 export const login = (username, password) => {
+    loading();
     let user = { 'username': username, 'password': password };
     try {
         return async dispatch => {
@@ -51,6 +52,12 @@ export const login = (username, password) => {
         console.log(error);
     }
 };
+
+export const loading = () => dispatch => {
+    dispatch({
+        type: LOADING_LOGIN
+    })
+}
 
 export const signup = (user) => {
     try {
@@ -109,7 +116,6 @@ export const getUsersObjects = (user, token) => {
         return async dispatch => {
             await axios.post('https://exchangestudentsapp-fardel.herokuapp.com/userObjects', user, { headers: { 'Authorization': `Bearer ${token}` } })
                 .then(response => {
-                    console.log('users objects',response.data);
                     dispatch({
                         type: GET_USER_OBJECTS,
                         payload: response.data

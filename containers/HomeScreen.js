@@ -3,18 +3,18 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import theme from '../constants/theme';
 import { useSelector, useDispatch } from 'react-redux';
-import { setVisibleFalse, getUser, getUsersObjects } from '../redux/actions/authentication';
+import { getUser, getUsersObjects } from '../redux/actions/authentication';
 import { ScrollView } from 'react-native-gesture-handler';
 import { deleteOffer, deleteRequest } from '../redux/actions/market';
 import { deleteEvent } from '../redux/actions/events';
 import { deleteTip } from '../redux/actions/tip';
+import { useFocusEffect } from '@react-navigation/core';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-export default function HomeScreen() {
+export default function HomeScreen({ navigation }) {
 
     //Constants for user
     const userCredentials = useSelector(state => state.authReducer.userCredentials);
-    const user = useSelector(state => state.authReducer.user);
     const token = useSelector(state => state.authReducer.token);
     const userObjects = useSelector(state => state.authReducer.userObjects);
     const dispatch = useDispatch();
@@ -29,20 +29,23 @@ export default function HomeScreen() {
 
     useEffect(() => {
         getCurrentUser(userCredentials.username, token);
-        getCurrentUserObjects(userCredentials, token);
     }, []);
+
+    useFocusEffect(() => {
+        getCurrentUserObjects(userCredentials, token);
+    });
 
     const showObjects = () => {
         if (userObjects) {
             return (
                 <ScrollView style={{ width: '100%' }}>
-                    <Text>Events</Text>
+                    <Text style={styles.text}>Events</Text>
                     { userObjects.events && showEvents()}
-                    <Text>Tips</Text>
+                    <Text style={styles.text}>Tips</Text>
                     {userObjects.tips && showTips()}
-                    <Text>Offers</Text>
+                    <Text style={styles.text}>Offers</Text>
                     {userObjects.offers && showOffers()}
-                    <Text>Requests</Text>
+                    <Text style={styles.text}>Requests</Text>
                     {userObjects.requests && showRequests()}
                 </ScrollView>
             )
@@ -55,17 +58,22 @@ export default function HomeScreen() {
     }
     const showEvents = () => {
         return userObjects.events.map((item, index) => {
-            console.log(item);
             return (
-                <AppListItem
-                    color={theme.colors.lightPink}
-                    title={item.name}
-                    subtitle={item.location}
-                    secondsubtitle={item.time}
-                    //onPressAction={() => { navigation.navigate('EventDetails', item) }}
-                    onLongPressAction={() => { deleteOneEvent(item.id, token) }}
-                    key={index}
-                />
+                <View style={styles.itemContainer} key={index}>
+                    <AppListItem
+                        color={theme.colors.lightPink}
+                        title={item.name}
+                        subtitle={item.location}
+                        secondsubtitle={item.time}
+                        onPressAction={() => { navigation.navigate('EventDetails', item) }}
+                        key={index}
+                    />
+                    <Icon name={"trash"}
+                        size={20}
+                        color="red"
+                        onPress={() => { deleteOneEvent(item.id, token) }} />
+                </View>
+
             );
         });
     }
@@ -74,29 +82,41 @@ export default function HomeScreen() {
             const uri = 'https://exchangestudentsapp-fardel.herokuapp.com/img/' + tip.imgId;
             if (tip.imgId > 0) {
                 return (
-                    <AppListItem
-                        key={index}
-                        //onPressAction={() => { navigation.navigate('TipDetails', tip) }}
-                        onLongPressAction={() => { deleteOneTip(tip.id, token) }}
-                        title={tip.name}
-                        color={theme.colors.lightPurple}
-                        subtitle={tip.tag}
-                        uri={uri}
-                    />
+                    <View style={styles.itemContainer} key={index}>
+                        <AppListItem
+                            key={index}
+                            onPressAction={() => { navigation.navigate('TipDetails', tip) }}
+                            title={tip.name}
+                            color={theme.colors.lightPurple}
+                            subtitle={tip.tag}
+                            uri={uri}
+                        />
+                        <Icon name={"trash"}
+                            size={20}
+                            color="red"
+                            onPress={() => { deleteOneTip(tip.id, token) }} />
+                    </View>
+
 
 
                 )
             }
             else {
                 return (
-                    <AppListItem
-                        key={index}
-                        //onPressAction={() => { navigation.navigate('TipDetails', tip) }}
-                        onLongPressAction={() => { deleteOneTip(tip.id, token) }}
-                        title={tip.name}
-                        color={theme.colors.lightPurple}
-                        subtitle={tip.tag}
-                    />
+                    <View style={styles.itemContainer} key={index}>
+                        <AppListItem
+                            key={index}
+                            onPressAction={() => { navigation.navigate('TipDetails', tip) }}
+                            title={tip.name}
+                            color={theme.colors.lightPurple}
+                            subtitle={tip.tag}
+                        />
+                        <Icon name={"trash"}
+                            size={20}
+                            color="red"
+                            onPress={() => { deleteOneTip(tip.id, token) }} />
+                    </View>
+
                 )
             }
         });
@@ -105,16 +125,22 @@ export default function HomeScreen() {
         return userObjects.offers.map((offer, index) => {
             let uri = 'https://exchangestudentsapp-fardel.herokuapp.com/img/' + offer.imgId;
             return (
-                <AppListItem
-                    key={index}
-                    //onPressAction={() => navigation.navigate("OfferDetails", offer)}
-                    onLongPressAction={() => deleteAnOffer(offer.id, token)}
-                    title={offer.name}
-                    subtitle={offer.price + '€'}
-                    secondsubtitle={offer.location}
-                    uri={uri}
-                    color={theme.colors.lightRed}
-                />
+                <View style={styles.itemContainer} key={index}>
+                    <AppListItem
+                        key={index}
+                        onPressAction={() => navigation.navigate("OfferDetails", offer)}
+                        title={offer.name}
+                        subtitle={offer.price + '€'}
+                        secondsubtitle={offer.location}
+                        uri={uri}
+                        color={theme.colors.lightRed}
+                    />
+                    <Icon name={"trash"}
+                        size={20}
+                        color="red"
+                        onPress={() => deleteAnOffer(offer.id, token)} />
+                </View>
+
             )
         });
     }
@@ -122,16 +148,22 @@ export default function HomeScreen() {
         return userObjects.requests.map((request, index) => {
             let uri = 'https://exchangestudentsapp-fardel.herokuapp.com/img/' + request.imgId;
             return (
-                <AppListItem
-                    key={index}
-                    color={theme.colors.lightRed}
-                    //onPressAction={() => navigation.navigate("RequestDetails", request)}
-                    onLongPressAction={() => removeRequest(request.id, token)}
-                    title={request.name}
-                    subtitle={request.description}
-                    secondsubtitle={request.location}
-                    uri={uri}
-                />
+                <View style={styles.itemContainer} key={index}>
+                    <AppListItem
+                        key={index}
+                        color={theme.colors.lightRed}
+                        onPressAction={() => navigation.navigate("RequestDetails", request)}
+                        title={request.name}
+                        subtitle={request.description}
+                        secondsubtitle={request.location}
+                        uri={uri}
+                    />
+                    <Icon name={"trash"}
+                        size={20}
+                        color="red"
+                        onPress={() => removeRequest(request.id, token)} />
+                </View>
+
             )
         })
     }
@@ -163,9 +195,15 @@ const styles = StyleSheet.create({
         textAlign: 'center'
     },
     text: {
-        marginBottom: 10,
-        marginTop: 10,
+        margin: 10,
+        marginTop: 0,
         fontSize: theme.fontSizes.buttonText,
         fontFamily: theme.fonts.regular
+    },
+    itemContainer: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginRight: 20
     }
 });

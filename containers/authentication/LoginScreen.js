@@ -6,6 +6,7 @@ import { Input, Button } from 'react-native-elements';
 import { useSelector, useDispatch } from 'react-redux';
 import { login, signup, setVisibleFalse, getUser } from '../../redux/actions/authentication';
 import { Alert } from 'react-native';
+import Loading from '../../components/loading';
 
 export default function LoginScreen({ navigation }) {
 
@@ -18,6 +19,7 @@ export default function LoginScreen({ navigation }) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const token = useSelector(state => state.authReducer.token);
+    const loaded = useSelector(state => state.authReducer.loaded);
     const dispatch = useDispatch();
     const userLogin = (username, password) => dispatch(login(username, password));
     const getCurrentUser = (username, token) => dispatch(getUser(username, token));
@@ -34,70 +36,79 @@ export default function LoginScreen({ navigation }) {
             Alert.alert('You forgot a field', 'Please enter your username and your password');
     }
 
-    return (
-        <View style={styles.container}>
-            <View style={{ flex: 1, margin: 30 }}>
-                <Text style={styles.title}>Welcome to the exchange students app!</Text>
-            </View>
-            <View style={{ flex: 8, paddingBottom: 40, justifyContent: 'space-between', width: '100%', backgroundColor: theme.colors.cyan, borderTopRightRadius: theme.borderRadius.screen, borderTopLeftRadius: theme.borderRadius.screen, paddingTop: 30, padding: 10 }}>
-                <View style={{ alignItems: 'center' }}>
-                    <Input
-                        placeholder="Username"
-                        style={{
-                            borderWidth: 0,
-                            borderRadius: 10,
-                            width: '90%',
-                            backgroundColor: 'white'
-                        }}
-                        inputStyle={styles.inputStyle}
-                        placeholderTextColor={theme.colors.lightGrey}
-                        inputContainerStyle={{ borderBottomWidth: 0 }}
-                        onChangeText={value => setUsername(value)}
-                        multiline={true}
-                        autoFocus={true}
-                    />
-                    <Input
-                        placeholder="Password"
-                        style={{
-                            borderWidth: 0,
-                            borderRadius: 10,
-                            width: '90%',
-                            backgroundColor: 'white'
-                        }}
-                        inputStyle={styles.inputStyle}
-                        placeholderTextColor={theme.colors.lightGrey}
-                        inputContainerStyle={{ borderBottomWidth: 0 }}
-                        onChangeText={value => setPassword(value)}
-                        autoFocus={true}
-                        secureTextEntry={true}
-                    />
-                    <Button
-                        raised={true}
-                        buttonStyle={styles.loginButton}
-                        titleStyle={styles.loginButtonText}
-                        onPress={() => authWithLogin()}
-                        containerStyle={{ width: '50%' }}
-                        title="LOGIN" />
+    if (loaded) {
+        return (
+            <View style={styles.container}>
+                <View style={{ flex: 1, margin: 30 }}>
+                    <Text style={styles.title}>Welcome to the exchange students app!</Text>
                 </View>
-                <View style={{ alignItems: 'center' }}>
-                    <Button
-                        raised={true}
-                        buttonStyle={styles.signupButton}
-                        titleStyle={styles.signupButtonText}
-                        onPress={() => navigation.navigate('Signup')}
-                        containerStyle={{ width: '50%' }}
-                        title="SIGNUP" />
+                <View style={{ flex: 8, paddingBottom: 40, justifyContent: 'space-between', width: '100%', backgroundColor: theme.colors.cyan, borderTopRightRadius: theme.borderRadius.screen, borderTopLeftRadius: theme.borderRadius.screen, paddingTop: 30, padding: 10 }}>
+                    <View style={{ alignItems: 'center' }}>
+                        <Input
+                            placeholder="Username"
+                            style={{
+                                borderWidth: 0,
+                                borderRadius: 10,
+                                width: '90%',
+                                backgroundColor: 'white'
+                            }}
+                            inputStyle={styles.inputStyle}
+                            placeholderTextColor={theme.colors.lightGrey}
+                            inputContainerStyle={{ borderBottomWidth: 0 }}
+                            onChangeText={value => setUsername(value)}
+                            multiline={true}
+                            autoFocus={true}
+                        />
+                        <Input
+                            placeholder="Password"
+                            style={{
+                                borderWidth: 0,
+                                borderRadius: 10,
+                                width: '90%',
+                                backgroundColor: 'white'
+                            }}
+                            inputStyle={styles.inputStyle}
+                            placeholderTextColor={theme.colors.lightGrey}
+                            inputContainerStyle={{ borderBottomWidth: 0 }}
+                            onChangeText={value => setPassword(value)}
+                            autoFocus={true}
+                            secureTextEntry={true}
+                        />
+                        <Button
+                            raised={true}
+                            buttonStyle={styles.loginButton}
+                            titleStyle={styles.loginButtonText}
+                            onPress={() => authWithLogin()}
+                            containerStyle={{ width: '50%' }}
+                            title="LOGIN" />
+                    </View>
+                    <View style={{ alignItems: 'center' }}>
+                        <Button
+                            raised={true}
+                            buttonStyle={styles.signupButton}
+                            titleStyle={styles.signupButtonText}
+                            onPress={() => navigation.navigate('Signup')}
+                            containerStyle={{ width: '50%' }}
+                            title="SIGNUP" />
+                    </View>
                 </View>
+                <AppSnackBar
+                    visible={visible}
+                    onDismiss={() => removeSnackBar()}
+                    message={message}
+                    color={theme.colors.blue}
+                />
+                <StatusBar style="auto" />
             </View>
-            <AppSnackBar
-                visible={visible}
-                onDismiss={() => removeSnackBar()}
-                message={message}
-                color={theme.colors.blue}
-            />
-            <StatusBar style="auto" />
-        </View>
-    )
+        )
+    }
+    else {
+        return (
+            <Loading />
+        )
+    }
+
+
 }
 
 const styles = StyleSheet.create({

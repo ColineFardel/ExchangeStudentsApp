@@ -9,8 +9,8 @@ export default function TipDetailsScreen({ navigation, route }) {
 
     const tip = route.params;
 
-    const uri = 'https://exchangestudentsapp-fardel.herokuapp.com/img/' + tip.img;
-    const hasImg = tip.img !== 0;
+    const uri = 'https://exchangestudentsapp-fardel.herokuapp.com/img/' + tip.imgId;
+    const hasImg = tip.imgId !== 0;
 
     //Render the image
     const img = () => {

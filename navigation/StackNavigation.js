@@ -161,6 +161,12 @@ const HomeStackNavigation = ({ navigation }) => {
                             onPress={() => { navigation.openDrawer() }} />
                     )
                 }} />
+            <Stack.Screen name="OfferDetails" component={Details} options={{ headerShown: false }} />
+            <Stack.Screen name="RequestDetails" component={Details} options={{ headerShown: false }} />
+            <Stack.Screen name="TipDetails" component={TipDetails} options={{ headerShown: false }} />
+            <Stack.Screen name="EventDetails" component={EventDetails} options={{ headerShown: false }} />
+            <Stack.Screen name="MarketImage" component={Images} />
+            <Stack.Screen name="TipImage" component={Images} />
         </Stack.Navigator>
     )
 }
@@ -287,11 +293,11 @@ const EventStackNavigation = ({ navigation }) => {
     )
 }
 
-const AuthStackNavigation = ()=>{
+const AuthStackNavigation = () => {
     return (
         <Stack.Navigator>
-            <Stack.Screen name="Login" component={Login} options={{ headerShown: false }}/>
-            <Stack.Screen name="Signup" component={Signup} options={{ headerShown: false }}/>
+            <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
+            <Stack.Screen name="Signup" component={Signup} options={{ headerShown: false }} />
         </Stack.Navigator>
     )
 }

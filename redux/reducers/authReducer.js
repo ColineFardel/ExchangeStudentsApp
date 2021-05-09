@@ -1,4 +1,4 @@
-import { LOGIN, LOGOFF, SIGNUP, GET_USER, SET_VISIBLE_FALSE, GET_USER_OBJECTS } from '../actions/types';
+import { LOGIN, LOGOFF, SIGNUP, GET_USER, SET_VISIBLE_FALSE, GET_USER_OBJECTS, LOADING_LOGIN } from '../actions/types';
 
 const initialState = {
     user: {},
@@ -6,13 +6,14 @@ const initialState = {
     snackBarVisible: false,
     snackBarMessage: '',
     userCredentials: {},
-    userObjects: {}
+    userObjects: {},
+    loaded: false
 }
 
 const authReducer = (state = initialState, action) => {
     switch (action.type) {
         case LOGIN:
-            return { ...state, token: action.payload, snackBarMessage: action.message, snackBarVisible: true, userCredentials: action.user };
+            return { ...state, token: action.payload, snackBarMessage: action.message, snackBarVisible: true, userCredentials: action.user, loaded: true };
         case LOGOFF:
             return { ...state, token: action.payload, snackBarMessage: 'You have successfully logged off', snackBarVisible: true };
         case SIGNUP:
@@ -23,6 +24,8 @@ const authReducer = (state = initialState, action) => {
             return { ...state, userObjects: action.payload }
         case SET_VISIBLE_FALSE:
             return { ...state, snackBarVisible: false }
+        case LOADING_LOGIN:
+            return { ...state, loaded: false }
         default:
             return state;
     }

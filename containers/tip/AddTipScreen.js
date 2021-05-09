@@ -11,14 +11,17 @@ import { ScrollView } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default function AddTipScreen({ navigation }) {
-    //Constants
-    const token = useSelector(state => state.authReducer.token);
-    const user = useSelector(state => state.authReducer.user);
+
+    //Constants for Tip
     const [tip, setTip] = useState('');
     const [photo, setPhoto] = useState(null);
     const dispatch = useDispatch();
     const saveTip = (tip, token) => dispatch(addTip(tip, token));
     const saveTipWithImg = (tip, token) => dispatch(addTipWithImg(tip, token));
+
+    //Constants for user
+    const token = useSelector(state => state.authReducer.token);
+    const user = useSelector(state => state.authReducer.user);
 
     //Open the user's library to choose a picture
     const selectPicture = async () => {
