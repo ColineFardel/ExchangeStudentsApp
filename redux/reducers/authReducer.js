@@ -7,7 +7,7 @@ const initialState = {
     snackBarMessage: '',
     userCredentials: {},
     userObjects: {},
-    loaded: false
+    loaded: true
 }
 
 const authReducer = (state = initialState, action) => {
